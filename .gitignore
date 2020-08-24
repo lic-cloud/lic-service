@@ -1,0 +1,18 @@
+/starter/config/
+将删除 .idea/.gitignore
+将删除 .idea/checkstyle-idea.xml
+将删除 .idea/compiler.xml
+将删除 .idea/encodings.xml
+将删除 .idea/inspectionProfiles/
+将删除 .idea/jarRepositories.xml
+将删除 .idea/misc.xml
+将删除 .idea/modules.xml
+将删除 .idea/vcs.xml
+将删除 common/
+将删除 file-system/
+将删除 lic-cloud.iml
+将删除 pom.xml
+将删除 starter/pom.xml
+将删除 starter/src/
+将删除 starter/starter.iml
+将删除 starter/target/
