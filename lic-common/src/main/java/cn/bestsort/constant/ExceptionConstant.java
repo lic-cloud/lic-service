@@ -18,5 +18,7 @@ public interface ExceptionConstant {
     LicException TARGET_EXIST = new LicException("目标文件/文件夹已存在", 4001);
 
     LicException VERIFICATION_FAILED = new LicException("字段核验不通过", 4002);
+
     // 5XXX为系统错误
+    LicException NOT_FOUND_FILE_SYS = new LicException("未找到对应的文件系统实现", 5001);
 }

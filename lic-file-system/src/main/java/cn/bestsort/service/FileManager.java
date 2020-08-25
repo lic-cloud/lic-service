@@ -5,6 +5,7 @@ import java.util.List;
 import cn.bestsort.dto.FileDTO;
 import cn.bestsort.exception.LicException;
 import cn.bestsort.model.FileInfoDO;
+import cn.bestsort.model.enums.FileNamespace;
 import lombok.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  * @date 2020-08-24 11:04
  */
-public interface IFileManager {
+public interface FileManager {
     /**
      * 根据 Path 获取实际文件路径.
      * 公共文件的username恒为"share"
@@ -54,4 +55,6 @@ public interface IFileManager {
      * @param curName
      */
     void rename(String path, String oldName, String curName);
+
+    boolean match(FileNamespace namespace);
 }

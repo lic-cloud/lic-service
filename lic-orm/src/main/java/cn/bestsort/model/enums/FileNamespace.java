@@ -18,5 +18,5 @@ public enum  FileNamespace {
     /**
      * 腾讯COS
      */
-    TENCENT_COS;
+    TEN_COS;
 }
