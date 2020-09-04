@@ -4,8 +4,8 @@ import java.util.List;
 
 import cn.bestsort.dto.FileDTO;
 import cn.bestsort.exception.LicException;
-import cn.bestsort.model.FileInfoDO;
-import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.entity.FileInfo;
+import cn.bestsort.enums.FileNamespace;
 import cn.bestsort.service.FileManager;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class EmptyFileManagerImpl implements FileManager {
     @Override
-    public List<FileInfoDO> list(@NonNull FileDTO fileDTO) {
+    public List<FileInfo> list(@NonNull FileDTO fileDTO) {
         return null;
     }
 

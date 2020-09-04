@@ -1,6 +1,6 @@
 package cn.bestsort.dto;
 
-import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.enums.FileNamespace;
 import lombok.Data;
 
 /**

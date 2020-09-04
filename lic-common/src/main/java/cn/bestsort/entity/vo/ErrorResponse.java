@@ -1,4 +1,4 @@
-package cn.bestsort.model.vo;
+package cn.bestsort.entity.vo;
 
 import com.alibaba.fastjson.JSON;
 

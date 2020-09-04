@@ -4,8 +4,8 @@ import java.util.List;
 
 import cn.bestsort.dto.FileDTO;
 import cn.bestsort.exception.LicException;
-import cn.bestsort.model.FileInfoDO;
-import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.entity.FileInfo;
+import cn.bestsort.enums.FileNamespace;
 import lombok.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,11 +19,11 @@ public interface FileManager {
     /**
      * 根据 Path 获取实际文件路径.
      * 公共文件的username恒为"share"
-     * @see cn.bestsort.model.enums.FileNamespace
+     * @see cn.bestsort.enums.FileNamespace
      * @param fileDTO 映射地址
      * @return  文件列表, 当且仅当path为目录时有效，否则返回空
      */
-    List<FileInfoDO> list(@NonNull FileDTO fileDTO);
+    List<FileInfo> list(@NonNull FileDTO fileDTO);
 
     /**
      * 根据映射地址获取真实地址以提供下载、删除等服务

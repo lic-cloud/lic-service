@@ -3,7 +3,7 @@ package cn.bestsort.service.impl;
 import java.util.List;
 
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.enums.FileNamespace;
 import cn.bestsort.service.FileManager;
 import cn.bestsort.service.FileManagerHandler;
 import org.springframework.stereotype.Service;
