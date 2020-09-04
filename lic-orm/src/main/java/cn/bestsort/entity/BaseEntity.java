@@ -42,5 +42,4 @@ public class BaseEntity {
     @LastModifiedDate
     @Column
     private Timestamp updateAt;
-
 }
