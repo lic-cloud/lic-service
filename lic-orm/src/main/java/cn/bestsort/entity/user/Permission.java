@@ -48,7 +48,7 @@ public class Permission extends BaseEntity {
      * 1：url，2：按钮
      */
     @Column
-    private Byte type;
+    private Integer type;
 
     /**
      * 权限的标识

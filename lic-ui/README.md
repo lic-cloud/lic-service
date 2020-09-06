@@ -24,4 +24,5 @@
 2).在main.js中全局引入axios
     import axios from 'axios'
     Vue.prototype.$axios = axios
+
 ```
