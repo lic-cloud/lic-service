@@ -15,10 +15,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @version 1.0
  * @date 2020/9/4 23:39
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @ToString
-@EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
 public class SysRoleUser extends BaseEntity {
 
