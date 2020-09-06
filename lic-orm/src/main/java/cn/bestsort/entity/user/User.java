@@ -5,8 +5,11 @@ import javax.persistence.Entity;
 
 import cn.bestsort.entity.BaseEntity;
 import cn.bestsort.enums.CapacityUnit;
+import cn.bestsort.enums.UserStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * @author GoodTime0313
@@ -38,7 +41,7 @@ public class User extends BaseEntity {
      *  用户状态 正常 1，停用 0
      */
     @Column(nullable = false)
-    private Integer status;
+    private UserStatus status;
 
     /**
      *  用户网盘容量,-1表示无穷，默认为10
@@ -56,5 +59,5 @@ public class User extends BaseEntity {
      * 容量单位,默认为G
      */
     @Column(nullable = false,length = 5)
-    private String capacityUnit;
+    private CapacityUnit capacityUnit;
 }
