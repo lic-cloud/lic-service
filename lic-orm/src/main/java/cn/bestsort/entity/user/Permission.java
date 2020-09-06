@@ -1,12 +1,14 @@
-package cn.bestsort.entity;
+package cn.bestsort.entity.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+
+import cn.bestsort.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
 
 /**
  * @author GoodTime0313
@@ -18,11 +20,7 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
-public class Permission {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id_generator")
-    @GenericGenerator(name = "id_generator", strategy = "cn.bestsort.config.JpnIdGeneratorConfig")
-    private Long permissionId;
+public class Permission extends BaseEntity {
 
     /**
      * 菜单名称
@@ -50,7 +48,7 @@ public class Permission {
      * 1：url，2：按钮
      */
     @Column
-    private Integer type;
+    private Byte type;
 
     /**
      * 权限的标识
@@ -62,7 +60,7 @@ public class Permission {
      * 排序
      */
     @Column
-    private Long sort;
+    private Integer sort;
 
 }
 

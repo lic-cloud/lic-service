@@ -5,5 +5,6 @@ package cn.bestsort.enums;
  * @version 1.0
  * @date 2020-09-06 08:39
  */
-public class CapacityUnit {
+public enum  CapacityUnit {
+    GB,MB,KB;
 }

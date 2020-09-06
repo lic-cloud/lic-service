@@ -1,8 +1,12 @@
-package cn.bestsort.entity;
+package cn.bestsort.entity.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+import cn.bestsort.entity.BaseEntity;
+import cn.bestsort.enums.CapacityUnit;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import javax.persistence.*;
 
 /**
  * @author GoodTime0313
@@ -13,7 +17,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Column(nullable = false,length = 20)
     private String userName;
@@ -21,7 +25,7 @@ public class User extends BaseEntity{
     @Column(nullable = false,length = 50)
     private String userEmail;
 
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false,length = 36)
     private String userPassword;
 
     /**
@@ -52,5 +56,5 @@ public class User extends BaseEntity{
      * 容量单位,默认为G
      */
     @Column(nullable = false,length = 5)
-    private String capacityUnit;
+    private CapacityUnit capacityUnit;
 }

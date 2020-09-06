@@ -1,11 +1,14 @@
 package cn.bestsort.entity.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+
+import cn.bestsort.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
 
 /**
  * @author GoodTime0313
@@ -17,9 +20,9 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode
 @EntityListeners(AuditingEntityListener.class)
-public class SysRoleUser {
+public class SysRoleUser extends BaseEntity {
 
-    @Id
+    @Column
     private Long userId;
 
     @Column

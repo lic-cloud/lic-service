@@ -1,10 +1,11 @@
-package cn.bestsort.entity;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+package cn.bestsort.entity.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import cn.bestsort.entity.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author GoodTime0313
@@ -15,7 +16,7 @@ import javax.persistence.Entity;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Role extends BaseEntity{
+public class Role extends BaseEntity {
 
     @Column(nullable = false,length = 50)
     private String roleName;
