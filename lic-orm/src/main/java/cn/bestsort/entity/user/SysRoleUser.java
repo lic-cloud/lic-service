@@ -1,4 +1,4 @@
-package cn.bestsort.entity;
+package cn.bestsort.entity.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
