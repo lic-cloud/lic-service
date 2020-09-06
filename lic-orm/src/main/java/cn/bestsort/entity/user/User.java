@@ -44,17 +44,17 @@ public class User extends BaseEntity {
      *  用户网盘容量,-1表示无穷，默认为10
      */
     @Column(nullable = false)
-    private Long totalCapacity;
+    private float totalCapacity;
 
     /**
      *  用户已使用的容量，默认为0
      */
     @Column(nullable = false)
-    private Long usedCapacity;
+    private float usedCapacity;
 
     /**
      * 容量单位,默认为G
      */
     @Column(nullable = false,length = 5)
-    private CapacityUnit capacityUnit;
+    private String capacityUnit;
 }
