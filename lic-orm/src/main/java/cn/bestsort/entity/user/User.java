@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 
 import cn.bestsort.entity.BaseEntity;
 import cn.bestsort.enums.CapacityUnit;
-import cn.bestsort.enums.UserStatus;
+import cn.bestsort.enums.Status;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -39,7 +39,7 @@ public class User extends BaseEntity {
      *  用户状态 正常 1，停用 0
      */
     @Column(nullable = false)
-    private UserStatus status;
+    private Status status;
 
     /**
      *  用户网盘容量,-1表示无穷，默认为10

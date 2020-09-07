@@ -9,6 +9,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * 文件分享， 访问地址示例如下：
+ * /share/{randomKey}/rootPath/sonPath1/sonPath2
+ * 针对于rootPath进行权限校验, 以兼容分享文件夹
  * @author bestsort
  * @version 1.0
  * @date 2020-09-04 09:49

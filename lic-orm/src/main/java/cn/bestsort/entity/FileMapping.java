@@ -3,6 +3,7 @@ package cn.bestsort.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import cn.bestsort.enums.Status;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,8 +27,10 @@ public class FileMapping extends BaseEntityWithDeleteAt {
     @Column
     Long infoId;
 
+    Long ownerId;
 
     /**
+     * 文件大小, 统一用KB存储，由前端进行转换
      * 如果为目录则大小为目录下所有文件之和
      */
     @Column
@@ -40,11 +43,14 @@ public class FileMapping extends BaseEntityWithDeleteAt {
     Long pid;
 
     @Column
-    Boolean dir;
+    Boolean isDir;
 
     /**
      * 该文件是否已经被分享
      */
     @Column
     Integer share;
+
+    @Column
+    Status status;
 }

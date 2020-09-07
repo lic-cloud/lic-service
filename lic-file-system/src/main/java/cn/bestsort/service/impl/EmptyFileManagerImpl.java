@@ -30,17 +30,22 @@ public class EmptyFileManagerImpl implements FileManager {
     }
 
     @Override
-    public void move(String oldPath, String curPath) throws LicException {
+    public void move(FileDTO fileDTO, Long targetDirId) throws LicException {
 
     }
 
     @Override
-    public void upload(String path, MultipartFile[] files) {
+    public void upload(FileDTO fileDTO, MultipartFile[] files) {
 
     }
 
     @Override
-    public void rename(String path, String oldName, String curName) {
+    public void rename(FileDTO fileDTO, String targetName) {
+
+    }
+
+    @Override
+    public void del(FileDTO fileDTO) {
 
     }
 

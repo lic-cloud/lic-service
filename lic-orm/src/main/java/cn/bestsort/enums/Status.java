@@ -5,13 +5,13 @@ package cn.bestsort.enums;
  * @version 1.0
  * @date 2020/9/6 20:53
  */
-public enum  UserStatus {
-    /**
-     * 禁用
+public enum Status {
+    /*
+     * 无效
      */
-    DISABLE,
+    INVALID,
     /**
-     * 正常
+     * 有效
      */
-    NORMAL
+    VALID;
 }

@@ -1,5 +1,6 @@
 package cn.bestsort.dto;
 
+import cn.bestsort.entity.FileInfo;
 import cn.bestsort.enums.FileNamespace;
 import lombok.Data;
 
@@ -10,17 +11,22 @@ import lombok.Data;
  */
 @Data
 public class FileDTO {
-    /**
-     * 用户的用户名
-     */
-    private String username;
 
+    private Long userId;
     /**
      * 命名空间，用以确定对应的文件系统
      */
     private FileNamespace namespace;
+
+
     /**
-     * 文件路径
+     * 文件信息
      */
-    private String dir;
+    private FileInfo fileInfo;
+
+    /**
+     * 文件夹信息(部分场景需要)
+     */
+    private FileInfo dirInfo;
+
 }

@@ -3,9 +3,9 @@ package cn.bestsort.service;
 import java.util.List;
 
 import cn.bestsort.dto.FileDTO;
-import cn.bestsort.exception.LicException;
 import cn.bestsort.entity.FileInfo;
 import cn.bestsort.enums.FileNamespace;
+import cn.bestsort.exception.LicException;
 import lombok.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,27 +34,32 @@ public interface FileManager {
 
     /**
      * 当目标路径已存在对应文件的时候抛出{@link cn.bestsort.constant.ExceptionConstant#TARGET_EXIST}异常
-     * @param oldPath   path
-     * @param curPath   path
-     * @throws LicException 文件/文件名冲突
+     * @param fileDTO           文件入参
+     * @param targetDirId       目标路径
+     * @throws LicException     文件/文件名冲突
      */
-    void move(String oldPath, String curPath) throws LicException;
+    void move(FileDTO fileDTO, Long targetDirId) throws LicException;
 
     /**
      * TODO
-     * @param path
-     * @param files
+     * @param fileDTO   入参
+     * @param files     文件
      */
-    void upload(String path, MultipartFile[] files);
+    void upload(FileDTO fileDTO, MultipartFile[] files);
 
     /**
      * 当目标文件名已存在时抛出TargetExistException异常
      * TODO
-     * @param path
-     * @param oldName
-     * @param curName
+     * @param  fileDTO      文件入参
+     * @param targetName    文件出参
      */
-    void rename(String path, String oldName, String curName);
+    void rename(FileDTO fileDTO, String targetName);
+
+    /**
+     * 实体删除文件
+     * @param fileDTO 文件入参
+     */
+    void del(FileDTO fileDTO);
 
     boolean match(FileNamespace namespace);
 }

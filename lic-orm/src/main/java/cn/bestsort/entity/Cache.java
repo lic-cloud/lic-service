@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class CacheEntity extends BaseEntity {
+public class Cache extends BaseEntity {
 
 
     @Column
