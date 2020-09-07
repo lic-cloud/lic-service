@@ -15,13 +15,6 @@
 将删除 starter/src/
 将删除 starter/starter.iml
 将删除 starter/target/
-/lic-common/target/
-/config/application.yml
-/lic-file-system/target/
-/lic-orm/target/
-/lic-starter/target/
-/*/target/
-/.idea/
 将删除 lic-common/src/main/resources/
 将删除 lic-common/src/test/
 将删除 lic-file-system/src/main/resources/
@@ -29,5 +22,6 @@
 将删除 lic-orm/src/main/resources/
 将删除 lic-orm/src/test/
 将删除 lic-starter/src/test/
-/target/
-/lic-authority/target/
+target/
+.idea/
+/config/application.yml
