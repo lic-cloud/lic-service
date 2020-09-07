@@ -19,10 +19,10 @@ public class CacheEntity extends BaseEntity {
 
 
     @Column
-    String key;
+    String cacheKey;
 
     @Column
-    String value;
+    String val;
 
     @Column
     CacheType type;
