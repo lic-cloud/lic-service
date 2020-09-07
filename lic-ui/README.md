@@ -11,7 +11,7 @@
 2.yarn install 或 npm install
 3.npm run serve 
 
-补充：若运行后无法使用anios、element ui则在前端目录安装：
+补充：若运行后无法使用axios、element ui则在前端目录安装：
 1.安装element-ui
 1).cnpm install element-ui --save
 2).项目src目录下的main.js，引入element-ui依赖
