@@ -17,7 +17,7 @@
 将删除 starter/starter.iml
 将删除 starter/target/
 /lic-common/target/
-/config/
+/config/application.yml
 /lic-file-system/target/
 /lic-orm/target/
 /lic-starter/target/
