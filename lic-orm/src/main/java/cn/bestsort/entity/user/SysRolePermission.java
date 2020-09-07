@@ -21,9 +21,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @ToString
-@EqualsAndHashCode
-@EntityListeners(AuditingEntityListener.class)
-public class SysRolePermission implements Serializable{
+public class SysRolePermission extends BaseEntity{
     @Id
     private Long roleId;
 

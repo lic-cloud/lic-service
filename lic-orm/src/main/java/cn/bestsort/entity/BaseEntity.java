@@ -33,7 +33,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "id_generator")
-    @GenericGenerator(name = "id_generator", strategy = "cn.bestsort.config.JpnIdGeneratorConfig")
+    @GenericGenerator(name = "id_generator", strategy = "cn.bestsort.config.JpaIdGeneratorConfig")
     private Long id;
 
     @Column

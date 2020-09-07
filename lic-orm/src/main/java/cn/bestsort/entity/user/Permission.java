@@ -20,8 +20,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @ToString
-@EqualsAndHashCode
-@EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(callSuper = true)
 public class Permission extends BaseEntity{
 
     /**

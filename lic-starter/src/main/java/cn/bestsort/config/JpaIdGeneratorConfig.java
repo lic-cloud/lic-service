@@ -12,7 +12,7 @@ import org.hibernate.id.IdentityGenerator;
  * @version 1.0
  * @date 2020-09-04 09:02
  */
-public class JpnIdGeneratorConfig extends IdentityGenerator {
+public class JpaIdGeneratorConfig extends IdentityGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor s, Object obj) throws HibernateException {
         Serializable id = s.getEntityPersister(null, obj).getClassMetadata().getIdentifier(obj, s);

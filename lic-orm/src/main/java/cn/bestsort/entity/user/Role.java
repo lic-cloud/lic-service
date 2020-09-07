@@ -21,8 +21,6 @@ import java.io.Serializable;
 @Data
 @Entity
 @ToString
-@EqualsAndHashCode
-@EntityListeners(AuditingEntityListener.class)
 public class Role extends BaseEntity  {
 
     @Column(nullable = false,length = 50)
