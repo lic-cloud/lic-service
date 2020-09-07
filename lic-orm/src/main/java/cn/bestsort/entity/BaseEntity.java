@@ -1,6 +1,5 @@
 package cn.bestsort.entity;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -30,7 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EqualsAndHashCode
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity{
+public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "id_generator")
     @GenericGenerator(name = "id_generator", strategy = "cn.bestsort.config.JpaIdGeneratorConfig")

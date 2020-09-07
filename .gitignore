@@ -1,4 +1,3 @@
-/starter/config/
 将删除 .idea/.gitignore
 将删除 .idea/checkstyle-idea.xml
 将删除 .idea/compiler.xml

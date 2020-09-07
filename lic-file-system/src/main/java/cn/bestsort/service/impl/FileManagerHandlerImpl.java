@@ -30,6 +30,8 @@ public class FileManagerHandlerImpl implements FileManagerHandler {
         throw ExceptionConstant.NOT_FOUND_FILE_SYS;
     }
 
-    public FileManagerHandlerImpl(List<FileManager> fileManagers) {this.fileManagers = fileManagers;}
+    public FileManagerHandlerImpl(List<FileManager> fileManagers) {
+        this.fileManagers = fileManagers;
+    }
 
 }

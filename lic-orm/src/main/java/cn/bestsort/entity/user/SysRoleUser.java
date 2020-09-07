@@ -1,12 +1,12 @@
 package cn.bestsort.entity.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import cn.bestsort.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
 
 
 /**
@@ -19,7 +19,7 @@ import javax.persistence.Entity;
 @Entity
 @ToString
 @EqualsAndHashCode
-public class SysRoleUser extends BaseEntity{
+public class SysRoleUser extends BaseEntity {
 
     @Column
     private Long userId;

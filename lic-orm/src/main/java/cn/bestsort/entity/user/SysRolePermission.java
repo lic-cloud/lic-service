@@ -17,7 +17,7 @@ import lombok.ToString;
 @Data
 @Entity
 @ToString
-public class SysRolePermission extends BaseEntity{
+public class SysRolePermission extends BaseEntity {
     @Column
     private Long roleId;
 

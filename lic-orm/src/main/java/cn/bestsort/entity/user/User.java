@@ -9,8 +9,6 @@ import cn.bestsort.enums.UserStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-
 /**
  * @author GoodTime0313
  * @version 1.0
