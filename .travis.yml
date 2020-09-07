@@ -18,7 +18,7 @@ before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS `lic` COLLATE `utf8_unicode_ci`;'
 
 script:
-  - mvn clean package test
+  - mvn clean test
 
 after_success:
   - mvn jacoco:report
