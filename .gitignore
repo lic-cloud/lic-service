@@ -22,6 +22,7 @@
 /lic-starter/target/
 /*/target/
 /.idea/
+.idea/
 将删除 lic-common/src/main/resources/
 将删除 lic-common/src/test/
 将删除 lic-file-system/src/main/resources/
