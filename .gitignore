@@ -20,6 +20,7 @@
 /lic-file-system/target/
 /lic-orm/target/
 /lic-starter/target/
+/*/target/
 /.idea/
 将删除 lic-common/src/main/resources/
 将删除 lic-common/src/test/
@@ -28,3 +29,5 @@
 将删除 lic-orm/src/main/resources/
 将删除 lic-orm/src/test/
 将删除 lic-starter/src/test/
+/target/
+/lic-authority/target/
