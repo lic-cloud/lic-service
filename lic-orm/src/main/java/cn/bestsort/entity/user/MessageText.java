@@ -21,6 +21,4 @@ public class MessageText extends BaseEntity {
     @Column(nullable = false,length = 300)
     private String message;
 
-    @Column(nullable = false)
-    private Timestamp sendtime;
 }

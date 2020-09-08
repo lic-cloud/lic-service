@@ -14,15 +14,15 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Message extends BaseEntity {
     @Column(nullable = false)
-    private int sendID;
+    private int sendId;
 
     @Column(nullable = false)
-    private int recieveID;
+    private int recieveId;
 
     @Column(nullable = false)
-    private int messageID;
+    private int messageId;
 
     @Column(nullable = false)
-    private Boolean statue;
+    private Boolean status;
 
 }
