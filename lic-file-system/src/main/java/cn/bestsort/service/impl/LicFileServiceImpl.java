@@ -10,13 +10,17 @@ import java.util.stream.Collectors;
 import cn.bestsort.dto.FileDTO;
 import cn.bestsort.entity.FileInfo;
 import cn.bestsort.entity.FileMapping;
+import cn.bestsort.entity.FileShare;
 import cn.bestsort.entity.user.User;
 import cn.bestsort.enums.FileNamespace;
 import cn.bestsort.enums.Status;
+import cn.bestsort.param.ShareParam;
 import cn.bestsort.repository.FileInfoRepository;
 import cn.bestsort.repository.FileMappingRepository;
+import cn.bestsort.repository.FileShareRepository;
 import cn.bestsort.service.FileManager;
 import cn.bestsort.service.FileManagerHandler;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,7 +34,7 @@ public class LicFileServiceImpl implements cn.bestsort.service.LicFileService {
     final FileManagerHandler manager;
     final FileInfoRepository fileInfoRepo;
     final FileMappingRepository fileMappingRepo;
-
+    final FileShareRepository fileShareRepo;
     @Override
     public List<FileMapping> listFiles(Long dirId, User user) {
         return fileMappingRepo.findAllByPidAndOwnerIdAndStatus(dirId, user.getId(), Status.VALID);
@@ -48,6 +52,19 @@ public class LicFileServiceImpl implements cn.bestsort.service.LicFileService {
                 pir.getValue().stream().map(FileDTO::getFileInfo).collect(Collectors.toList())
             );
         }
+    }
+
+    @Override
+    public String createShareLink(ShareParam param, User user) {
+        String url;
+        do {
+            // 防止生成的url产生碰撞
+            url = RandomStringUtils.randomAlphanumeric(16);
+        } while (fileShareRepo.existsByUrl(url));
+
+        fileShareRepo.saveAndFlush(new FileShare(param.getFileId(), user.getUserName(),
+            user.getId(), param.getPassword(), url, param.getExpire()));
+        return url;
     }
 
     /**
@@ -94,9 +111,11 @@ public class LicFileServiceImpl implements cn.bestsort.service.LicFileService {
     }
 
     public LicFileServiceImpl(FileManagerHandler manager,
-        FileInfoRepository fileInfoRepo, FileMappingRepository fileMappingRepo) {
+        FileInfoRepository fileInfoRepo, FileMappingRepository fileMappingRepo,
+        FileShareRepository fileShareRepo) {
         this.manager = manager;
         this.fileInfoRepo = fileInfoRepo;
         this.fileMappingRepo = fileMappingRepo;
+        this.fileShareRepo = fileShareRepo;
     }
 }

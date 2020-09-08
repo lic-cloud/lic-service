@@ -19,6 +19,9 @@ public interface ExceptionConstant {
 
     LicException VERIFICATION_FAILED = new LicException("字段核验不通过", 4002);
 
-    // 5XXX为系统错误
+    /**
+     * 5XXX为系统错误
+     */
     LicException NOT_FOUND_FILE_SYS = new LicException("未找到对应的文件系统实现", 5001);
+    LicException NOT_FOUND_ITEM = new LicException("目标未找到", 4004);
 }

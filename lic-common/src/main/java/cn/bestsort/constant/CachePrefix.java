@@ -6,4 +6,6 @@ package cn.bestsort.constant;
  * @date 2020-09-04 09:09
  */
 public interface CachePrefix {
+    String ENTITY = "entity";
+    String UNDEFINED = "undefined";
 }

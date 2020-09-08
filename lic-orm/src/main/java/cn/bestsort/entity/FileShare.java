@@ -5,8 +5,10 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 文件分享， 访问地址示例如下：
@@ -21,6 +23,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileShare extends BaseEntity {
 
     @Column
@@ -35,10 +39,14 @@ public class FileShare extends BaseEntity {
     @Column(length = 32)
     String password;
 
-    @Column
+    /**
+     * 此处的URL只存储中间的随机字段, 如:
+     * https://{host}/share/{randomKey}/{path} 中的{randomKey}
+     */
+    @Column(length = 16)
     String url;
 
     @Column
-    Timestamp endTime;
+    Timestamp expire;
 
 }

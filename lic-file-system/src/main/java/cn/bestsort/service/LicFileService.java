@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.bestsort.entity.FileMapping;
 import cn.bestsort.entity.user.User;
+import cn.bestsort.param.ShareParam;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -24,4 +25,13 @@ public interface LicFileService {
      */
     @Transactional(rollbackFor = Exception.class)
     void deleteFile(Long fileId, User user, boolean remove);
+
+    /**
+     * 创建分享链接, 返回结果为链接地址, 类似如下:
+     * https://{host}/share/{randomKey}/{path}
+     * @param param 参数
+     * @param user  创建者
+     * @return      如上
+     */
+    String  createShareLink(ShareParam param, User user);
 }
