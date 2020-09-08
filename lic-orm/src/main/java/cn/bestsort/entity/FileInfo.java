@@ -52,7 +52,7 @@ public class FileInfo extends BaseEntity {
      * false    否
      */
     @Column
-    Boolean dir;
+    Boolean isDir;
 
     /**
      * 对应的文件系统实现

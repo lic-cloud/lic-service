@@ -2,7 +2,9 @@ package cn.bestsort.dto;
 
 import cn.bestsort.entity.FileInfo;
 import cn.bestsort.enums.FileNamespace;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author bestsort
@@ -10,6 +12,8 @@ import lombok.Data;
  * @date 2020-08-24 16:29
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileDTO {
 
     private Long userId;

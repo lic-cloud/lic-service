@@ -1,13 +1,18 @@
 package cn.bestsort.entity.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+
 import cn.bestsort.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import java.sql.Timestamp;
+/**
+ * @author bestsort
+ */
+
 
 @Data
 @Entity
@@ -18,9 +23,8 @@ public class MessageText extends BaseEntity {
     @Column(nullable = false,length = 50)
     private String title;
 
-    @Column(nullable = false,length = 300)
+    @Lob
+    @Column(nullable = false)
     private String message;
 
-    @Column(nullable = false)
-    private Timestamp sendtime;
 }

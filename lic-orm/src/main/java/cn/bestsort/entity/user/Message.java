@@ -1,12 +1,12 @@
 package cn.bestsort.entity.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import cn.bestsort.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
 
 @Data
 @Entity
@@ -14,15 +14,16 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Message extends BaseEntity {
     @Column(nullable = false)
-    private int sendID;
+    private int sendId;
 
     @Column(nullable = false)
-    private int recieveID;
+    private int reciverId;
 
     @Column(nullable = false)
-    private int messageID;
+    private int messageId;
+
 
     @Column(nullable = false)
-    private Boolean statue;
+    private Boolean status;
 
 }

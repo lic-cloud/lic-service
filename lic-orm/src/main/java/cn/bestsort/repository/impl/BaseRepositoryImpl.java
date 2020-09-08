@@ -124,7 +124,7 @@ public class BaseRepositoryImpl<DOMAIN, ID> extends SimpleJpaRepository<DOMAIN, 
      * @return number of rows affected
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public long deleteByIdIn(Collection<ID> ids) {
 
         log.debug("Customized deleteByIdIn method was invoked");
