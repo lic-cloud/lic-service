@@ -17,8 +17,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="lic-common" />
+    <orderEntry type="module" module-name="lic-orm" />
     <orderEntry type="library" name="Maven: org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven:maven-artifact:3.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven:maven-core:3.0" level="project" />
