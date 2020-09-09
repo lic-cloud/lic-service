@@ -7,7 +7,6 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import java.sql.Timestamp;
 
 @Data
 @Entity
