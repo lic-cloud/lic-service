@@ -3,7 +3,7 @@ package cn.bestsort.service;
 import java.util.List;
 
 import cn.bestsort.dto.FileDTO;
-import cn.bestsort.entity.FileInfo;
+import cn.bestsort.model.FileInfo;
 import cn.bestsort.enums.FileNamespace;
 import cn.bestsort.exception.LicException;
 import org.springframework.web.multipart.MultipartFile;

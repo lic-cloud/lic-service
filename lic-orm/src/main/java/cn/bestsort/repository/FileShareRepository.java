@@ -1,6 +1,6 @@
 package cn.bestsort.repository;
 
-import cn.bestsort.entity.FileShare;
+import cn.bestsort.model.FileShare;
 
 /**
  * @author bestsort

@@ -7,7 +7,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.entity.vo.ErrorResponse;
+import cn.bestsort.model.vo.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

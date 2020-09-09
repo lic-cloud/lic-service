@@ -2,7 +2,7 @@ package cn.bestsort.repository;
 
 import java.util.Optional;
 
-import cn.bestsort.entity.MetaInfo;
+import cn.bestsort.model.MetaInfo;
 
 /**
  * @author bestsort

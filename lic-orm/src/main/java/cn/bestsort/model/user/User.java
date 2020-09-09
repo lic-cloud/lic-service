@@ -1,11 +1,13 @@
-package cn.bestsort.entity.user;
+package cn.bestsort.model.user;
+
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
 
-import cn.bestsort.entity.BaseEntity;
-import cn.bestsort.enums.CapacityUnit;
 import cn.bestsort.enums.Status;
+import cn.bestsort.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -54,8 +56,20 @@ public class User extends BaseEntity {
     private float usedCapacity;
 
     /**
-     * 容量单位,默认为G
+     * 容量单位,默认为G, 容量一律换算为KB, -1表示无穷
      */
-    @Column(nullable = false,length = 5)
-    private CapacityUnit capacityUnit;
+    @Column(nullable = false)
+    private Long capacityUnit;
+
+    /**
+     * used UUID
+     */
+    @Column(length = 36)
+    String rememberToken;
+
+
+    @PrePersist
+    protected void prePersist() {
+        rememberToken = UUID.randomUUID().toString();
+    }
 }

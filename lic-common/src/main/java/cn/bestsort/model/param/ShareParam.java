@@ -1,4 +1,4 @@
-package cn.bestsort.param;
+package cn.bestsort.model.param;
 
 import java.sql.Timestamp;
 

@@ -3,7 +3,7 @@ package cn.bestsort.listener;
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.cache.CacheStoreType;
 import cn.bestsort.constant.MetaEnum;
-import cn.bestsort.service.MetaInfoService;
+import cn.bestsort.service.impl.MetaInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ansi.AnsiColor;

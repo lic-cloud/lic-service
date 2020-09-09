@@ -3,7 +3,7 @@ package cn.bestsort.service;
 import java.util.Collection;
 import java.util.List;
 
-import cn.bestsort.entity.BaseEntity;
+import cn.bestsort.model.BaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

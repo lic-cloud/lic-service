@@ -67,7 +67,8 @@ public class DefaultCacheStoreImpl extends AbstractCacheStore<String, String>
         int right = Math.min(lst.size(), (pageable.getPageNumber() + 1) * pageable.getPageSize());
         lst = lst.subList(left, right);
 
-        return new LinkedHashSet<>(lst.stream().map(i -> new Tuple(i.getKey(), i.getValue())).collect(Collectors.toList()));
+        return lst.stream().map(i -> new Tuple(i.getKey(), i.getValue())).collect(
+            Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
@@ -93,7 +94,7 @@ public class DefaultCacheStoreImpl extends AbstractCacheStore<String, String>
     }
 
     @Override
-    public void delete(String key) {
+    public void delete(@NonNull String key) {
         KV_CACHE_POOL.remove(key);
         SORTED_CACHE_POOL.remove(key);
     }
@@ -105,7 +106,7 @@ public class DefaultCacheStoreImpl extends AbstractCacheStore<String, String>
 
     @Override
     public Map<String, String> fetchAll(String prefix) {
-        Map<String, String> res = new HashMap<>();
+        Map<String, String> res = new HashMap<>(16);
         KV_CACHE_POOL.forEach((f, r) -> {
             if (f.startsWith(prefix)) {
                 res.put(f, r);
@@ -146,7 +147,7 @@ public class DefaultCacheStoreImpl extends AbstractCacheStore<String, String>
 
     @Override
     public void init() {
-        KV_CACHE_POOL = new ConcurrentHashMap<>();
+        KV_CACHE_POOL = new ConcurrentHashMap<>(128);
         SORTED_CACHE_POOL = new ConcurrentSkipListMap<>();
     }
 

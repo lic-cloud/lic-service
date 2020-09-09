@@ -1,4 +1,4 @@
-package cn.bestsort.service;
+package cn.bestsort.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.bestsort.entity.MetaInfo;
+import cn.bestsort.model.MetaInfo;
 import cn.bestsort.constant.MetaEnum;
 import cn.bestsort.repository.MetaInfoRepository;
+import cn.bestsort.service.AbstractBaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,9 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         return getMeta(metaKey.getVal(), metaKey.getDefaultVal().toString());
     }
 
+    /**
+     * 刷新内存中的 meta 信息
+     */
     public void refresh() {
         List<MetaInfo> metaInfos = listAll();
         metaMap.clear();

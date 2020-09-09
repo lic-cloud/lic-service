@@ -44,8 +44,14 @@ public enum  MetaEnum {
      */
     CACHE_NULL_EXPIRE(5),
 
-    CACHE_UNIT(TimeUnit.MINUTES);
 
+
+    CACHE_UNIT(TimeUnit.MINUTES),
+
+    // web 相关
+    USER_SESSION(null),
+    USER_IP(null),
+    REQUEST_START_STAMP(null);
     private final String val;
     private final Object defaultVal;
     MetaEnum(Object defaultVal) {
