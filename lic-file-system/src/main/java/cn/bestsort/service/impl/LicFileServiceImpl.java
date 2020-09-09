@@ -8,12 +8,12 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import cn.bestsort.dto.FileDTO;
-import cn.bestsort.model.FileInfo;
-import cn.bestsort.model.FileMapping;
-import cn.bestsort.model.FileShare;
-import cn.bestsort.model.user.User;
-import cn.bestsort.enums.FileNamespace;
-import cn.bestsort.enums.Status;
+import cn.bestsort.model.entity.FileInfo;
+import cn.bestsort.model.entity.FileMapping;
+import cn.bestsort.model.entity.FileShare;
+import cn.bestsort.model.entity.user.User;
+import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.model.enums.Status;
 import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.repository.FileInfoRepository;
 import cn.bestsort.repository.FileMappingRepository;

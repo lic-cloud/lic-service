@@ -1,4 +1,4 @@
-package cn.bestsort.enums;
+package cn.bestsort.model.enums;
 
 /**
  * 文件系统相关类别

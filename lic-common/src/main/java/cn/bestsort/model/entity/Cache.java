@@ -1,9 +1,9 @@
-package cn.bestsort.model;
+package cn.bestsort.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import cn.bestsort.enums.CacheType;
+import cn.bestsort.model.enums.CacheType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

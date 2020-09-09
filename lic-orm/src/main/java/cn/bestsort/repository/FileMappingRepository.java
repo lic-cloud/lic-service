@@ -2,8 +2,8 @@ package cn.bestsort.repository;
 
 import java.util.List;
 
-import cn.bestsort.model.FileMapping;
-import cn.bestsort.enums.Status;
+import cn.bestsort.model.entity.FileMapping;
+import cn.bestsort.model.enums.Status;
 
 /**
  * @author bestsort

@@ -1,4 +1,4 @@
-package cn.bestsort.model;
+package cn.bestsort.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

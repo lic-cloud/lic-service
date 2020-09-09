@@ -23,6 +23,7 @@ public class InstallController {
             throw ExceptionConstant.LIC_INSTALLED;
         }
         // TODO install
+        metaInfoService.updateMeta(MetaEnum.INSTALLED, Boolean.TRUE);
         return ResponseEntity.ok(true);
     }
 }

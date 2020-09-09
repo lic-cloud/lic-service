@@ -1,6 +1,6 @@
 package cn.bestsort.service;
 
-import cn.bestsort.model.user.User;
+import cn.bestsort.model.entity.user.User;
 
 /**
  * @author bestsort

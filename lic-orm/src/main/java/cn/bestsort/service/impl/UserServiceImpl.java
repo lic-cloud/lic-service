@@ -3,8 +3,8 @@ package cn.bestsort.service.impl;
 import java.util.Optional;
 
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.enums.Status;
-import cn.bestsort.model.user.User;
+import cn.bestsort.model.enums.Status;
+import cn.bestsort.model.entity.user.User;
 import cn.bestsort.repository.UserRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.UserService;

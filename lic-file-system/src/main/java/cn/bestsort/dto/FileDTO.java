@@ -1,7 +1,7 @@
 package cn.bestsort.dto;
 
-import cn.bestsort.model.FileInfo;
-import cn.bestsort.enums.FileNamespace;
+import cn.bestsort.model.entity.FileInfo;
+import cn.bestsort.model.enums.FileNamespace;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

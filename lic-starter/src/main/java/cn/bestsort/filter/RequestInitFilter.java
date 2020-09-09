@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.bestsort.constant.MetaEnum;
-import cn.bestsort.model.user.User;
+import cn.bestsort.model.entity.user.User;
 import cn.bestsort.service.UserService;
 import cn.bestsort.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;

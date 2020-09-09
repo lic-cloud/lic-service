@@ -9,9 +9,6 @@ import cn.bestsort.exception.LicException;
  */
 public interface ExceptionConstant {
 
-    // 4XXX为用户错误
-
-
     /**
      * 移动、重命名时已存在目标文件
      */

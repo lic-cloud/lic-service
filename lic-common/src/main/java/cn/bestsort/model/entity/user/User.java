@@ -1,4 +1,4 @@
-package cn.bestsort.model.user;
+package cn.bestsort.model.entity.user;
 
 import java.util.UUID;
 
@@ -6,8 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 
-import cn.bestsort.enums.Status;
-import cn.bestsort.model.BaseEntity;
+import cn.bestsort.model.enums.Status;
+import cn.bestsort.model.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.bestsort.model.MetaInfo;
+import cn.bestsort.model.entity.MetaInfo;
 import cn.bestsort.constant.MetaEnum;
 import cn.bestsort.repository.MetaInfoRepository;
 import cn.bestsort.service.AbstractBaseService;
@@ -60,18 +60,19 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateMeta(String metaKey, String metaVal) {
+    public void updateMeta(MetaEnum metaEnum, Object metaVal) {
+        String metaKey = metaEnum.getVal();
         Optional<MetaInfo> metaInfoOpt = metaInfoRepo.findByMetaKey(metaKey);
         MetaInfo metaInfo;
         if (metaInfoOpt.isEmpty()) {
             metaInfo = new MetaInfo();
             metaInfo.setMetaKey(metaKey);
-            metaInfo.setMetaVal(metaVal);
+            metaInfo.setMetaVal(metaVal.toString());
         } else {
             metaInfo = metaInfoOpt.get();
         }
         save(metaInfo);
-        metaMap.put(metaKey, metaVal);
+        metaMap.put(metaKey, metaVal.toString());
     }
 
     protected MetaInfoService(

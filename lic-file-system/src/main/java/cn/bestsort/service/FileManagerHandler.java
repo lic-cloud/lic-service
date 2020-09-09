@@ -1,6 +1,6 @@
 package cn.bestsort.service;
 
-import cn.bestsort.enums.FileNamespace;
+import cn.bestsort.model.enums.FileNamespace;
 
 /**
  * @author bestsort

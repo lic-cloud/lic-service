@@ -1,4 +1,4 @@
-package cn.bestsort.enums;
+package cn.bestsort.model.enums;
 
 /**
  * @author GoodTime0313

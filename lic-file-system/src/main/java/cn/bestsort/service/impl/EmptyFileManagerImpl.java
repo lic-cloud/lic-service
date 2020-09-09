@@ -3,8 +3,8 @@ package cn.bestsort.service.impl;
 import java.util.List;
 
 import cn.bestsort.dto.FileDTO;
-import cn.bestsort.model.FileInfo;
-import cn.bestsort.enums.FileNamespace;
+import cn.bestsort.model.entity.FileInfo;
+import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.exception.LicException;
 import cn.bestsort.service.FileManager;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,10 @@
-package cn.bestsort.model.user;
+package cn.bestsort.model.entity.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 
-import cn.bestsort.model.BaseEntity;
+import cn.bestsort.model.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
