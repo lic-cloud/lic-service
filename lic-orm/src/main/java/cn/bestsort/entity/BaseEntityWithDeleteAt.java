@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 
-import cn.bestsort.constant.LicConstant;
+import cn.bestsort.constant.MetaEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -29,7 +29,7 @@ public class BaseEntityWithDeleteAt extends BaseEntity {
     @PrePersist
     protected void prePersistDelete() {
         if (deleteAt == null) {
-            deleteAt = LicConstant.TIME_ZERO;
+            deleteAt = MetaEnum.get(Timestamp.class, MetaEnum.TIME_ZERO);
         }
     }
 }

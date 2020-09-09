@@ -6,7 +6,6 @@ import cn.bestsort.cache.store.CacheStore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -18,9 +17,9 @@ import org.springframework.util.Assert;
 @Slf4j
 @Component
 public class CacheHandler {
-    private static CacheStoreType                                                STRATEGY = CacheStoreType.MEMORY;
+    private static CacheStoreType                                                STRATEGY = CacheStoreType.DEFAULT;
     private final  ConcurrentHashMap<CacheStoreType, CacheStore<String, String>> cacheMap = new ConcurrentHashMap<>();
-    private final  ConcurrentHashMap<String, String> metaMap = new ConcurrentHashMap<>();
+
     public void init(ApplicationContext context, CacheStoreType type) {
         for (CacheStore cacheStore : context.getBeansOfType(CacheStore.class).values()) {
             this.cacheMap.put(cacheStore.getCacheType(), cacheStore);
@@ -32,7 +31,7 @@ public class CacheHandler {
     private void setStrategy(CacheStoreType strategy, boolean isChanged) {
         Assert.notNull(strategy, "storage must be not null");
         if (isChanged) {
-            if (strategy.equals(CacheStoreType.MEMORY)) {
+            if (strategy.equals(CacheStoreType.DEFAULT)) {
                 log.warn("检测到使用的缓存模式为[MEMORY], 为保证Lic的长期运行, 请使用REDIS模式(MEMORY只适用于短期运行)");
             }
             log.info("cache middleware was changed to {}", strategy);
@@ -40,16 +39,6 @@ public class CacheHandler {
             STRATEGY = strategy;
             fetchCacheStore().init();
         }
-    }
-
-    public String getMeta(String metaKey) {
-        return metaMap.get(metaKey);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public void updateMeta(String metaKey, String metaVal) {
-        //TODO flush to db
-        metaMap.put(metaKey, metaVal);
     }
 
     public String getStrategy() {

@@ -2,6 +2,7 @@ package cn.bestsort.param;
 
 import java.sql.Timestamp;
 
+import cn.bestsort.constant.MetaEnum;
 import lombok.Data;
 
 /**
@@ -25,7 +26,7 @@ public class ShareParam {
 
     /**
      * 过期时间， 当时间为 null 的时候表示永久
-     * P.S:永久在数据库中表示为{@link cn.bestsort.constant.LicConstant#TIME_ZERO}
+     * P.S:永久在数据库中表示为{@link MetaEnum#TIME_ZERO}
      */
     Timestamp expire;
 

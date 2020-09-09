@@ -10,10 +10,14 @@ public enum CacheStoreType {
     /**
      * use default(db)
      */
-    MEMORY,
+    DEFAULT,
     /**
      * use redis
      */
-    REDIS
+    REDIS;
+
+    public static CacheStoreType parse(String val) {
+        return CacheStoreType.valueOf(val);
+    }
 }
 

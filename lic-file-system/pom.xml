@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>file-system</artifactId>
+    <artifactId>lic-file-system</artifactId>
     <dependencies>
         <dependency>
             <groupId>cn.bestsort</groupId>
