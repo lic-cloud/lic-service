@@ -1,4 +1,4 @@
-package cn.bestsort.model.param;
+package cn.bestsort.param;
 
 /**
  * @author bestsort
@@ -6,4 +6,5 @@ package cn.bestsort.model.param;
  * @date 2020-09-09 10:26
  */
 public class InstallParam {
+
 }
