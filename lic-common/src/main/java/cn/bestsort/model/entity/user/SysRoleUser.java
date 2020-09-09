@@ -18,7 +18,7 @@ import lombok.ToString;
 @Data
 @Entity
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class SysRoleUser extends BaseEntity {
 
     @Column

@@ -165,7 +165,6 @@
         <module>lic-starter</module>
         <module>lic-orm</module>
         <module>lic-authority</module>
-        <module>lic-pojo</module>
     </modules>
 
 

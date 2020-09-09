@@ -2,7 +2,7 @@ package cn.bestsort.controller;
 
 import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.constant.MetaEnum;
-import cn.bestsort.model.param.InstallParam;
+import cn.bestsort.model.param.install.CacheSettingParam;
 import cn.bestsort.service.impl.MetaInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class InstallController {
     @Autowired
     MetaInfoService metaInfoService;
-    ResponseEntity<Boolean> install(InstallParam param) {
+    ResponseEntity<Boolean> install(CacheSettingParam param) {
         if (metaInfoService.getMetaObj(Boolean.class, MetaEnum.INSTALLED)) {
             throw ExceptionConstant.LIC_INSTALLED;
         }

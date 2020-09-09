@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import cn.bestsort.dto.FileDTO;
+import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.FileShare;

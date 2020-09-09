@@ -2,7 +2,7 @@ package cn.bestsort.service;
 
 import java.util.List;
 
-import cn.bestsort.dto.FileDTO;
+import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.exception.LicException;

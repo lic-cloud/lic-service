@@ -1,4 +1,4 @@
-package cn.bestsort.dto;
+package cn.bestsort.model.dto;
 
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
