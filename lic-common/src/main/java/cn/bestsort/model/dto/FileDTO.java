@@ -1,6 +1,7 @@
 package cn.bestsort.model.dto;
 
 import cn.bestsort.model.entity.FileInfo;
+import cn.bestsort.model.entity.user.User;
 import cn.bestsort.model.enums.FileNamespace;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,5 +33,11 @@ public class FileDTO {
      * 文件夹信息(部分场景需要)
      */
     private FileInfo dirInfo;
+
+    public FileDTO(FileInfo fileInfo, User usr) {
+        this.fileInfo = fileInfo;
+        this.namespace = fileInfo.getNamespace();
+        this.userId = usr.getId();
+    }
 
 }

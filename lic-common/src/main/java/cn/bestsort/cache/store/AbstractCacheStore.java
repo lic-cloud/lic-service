@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.ValueEnum;
-import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
 /**
@@ -35,11 +34,6 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
         return (X) getInternal(key).orElseThrow(exceptionSupplier);
     }
 
-    @Override
-    public void put(@NonNull K key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit) {
-        putInternal(key, value, timeout, timeUnit);
-    }
-
     /**
      * get value
      *
@@ -54,8 +48,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
         if (oldValue != null && oldValue.equals(value)) {
             return;
         }
-        putInternal(key, value,
-                    ValueEnum.get(Long.class, value == null ? LicMetaEnum.CACHE_NULL_EXPIRE : LicMetaEnum.CACHE_EXPIRE),
+        put(key, value, ValueEnum.get(Long.class, LicMetaEnum.CACHE_EXPIRE),
                     ValueEnum.get(TimeUnit.class, LicMetaEnum.CACHE_UNIT));
     }
 

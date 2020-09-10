@@ -363,8 +363,9 @@ public abstract class AbstractBaseService<DOMAIN extends BaseEntity, ID> impleme
      * @param id id
      * @return Optional
      */
+    @Override
     @SuppressWarnings("unchecked")
-    private Optional<DOMAIN> fetchById(ID id) {
+    public Optional<DOMAIN> fetchById(ID id) {
         Assert.notNull(id, domainName + " id must not be null");
         String key = key(fetchClass(), id);
         Object res;

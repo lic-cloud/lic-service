@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2020-08-24 11:04
  */
 public interface FileManager {
+    String DOWNLOAD_LINK_PATH = "/download";
+
     /**
      * 根据映射地址获取临时下载地址以供下载
      * @param fileDTO 映射地址

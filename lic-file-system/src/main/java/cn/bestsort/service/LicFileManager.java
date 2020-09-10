@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 1.0
  * @date 2020-09-07 17:33
  */
-public interface LicFileService {
+public interface LicFileManager {
 
     List<FileMapping> listFiles(Long dirId, User user);
 
@@ -25,6 +25,15 @@ public interface LicFileService {
      */
     @Transactional(rollbackFor = Exception.class)
     void deleteFile(Long fileId, User user, boolean remove);
+
+    /**
+     * 创建链接以供下载使用， 链接有效期为 expire(单位: S)
+     * @param fileId 需要下载的文件id
+     * @param user   用户
+     * @param expire 链接过期时间
+     * @return       生成后的链接
+     */
+    String createDownloadLink(Long fileId, User user, Long expire);
 
     /**
      * 创建分享链接, 返回结果为链接地址, 类似如下:

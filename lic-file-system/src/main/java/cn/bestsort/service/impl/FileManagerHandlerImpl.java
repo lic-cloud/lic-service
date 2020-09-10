@@ -3,6 +3,7 @@ package cn.bestsort.service.impl;
 import java.util.List;
 
 import cn.bestsort.constant.ExceptionConstant;
+import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.service.FileManager;
 import cn.bestsort.service.FileManagerHandler;
@@ -28,6 +29,11 @@ public class FileManagerHandlerImpl implements FileManagerHandler {
             }
         }
         throw ExceptionConstant.NOT_FOUND_FILE_SYS;
+    }
+
+    @Override
+    public FileManager handle(FileInfo fileInfo) {
+        return handle(fileInfo.getNamespace());
     }
 
     public FileManagerHandlerImpl(List<FileManager> fileManagers) {

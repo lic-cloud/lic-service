@@ -71,7 +71,7 @@ public class DefaultCacheStoreImpl extends AbstractCacheStore<String, String>
     }
 
     @Override
-    public void putInternal(@NotNull String key, @NotNull String value, long timeout, @NotNull TimeUnit timeUnit) {
+    public void put(@NotNull String key, @NotNull String value, long timeout, @NotNull TimeUnit timeUnit) {
         KV_CACHE_POOL.put(key, value);
     }
 

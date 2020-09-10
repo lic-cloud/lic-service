@@ -2,6 +2,7 @@ package cn.bestsort.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import cn.bestsort.model.entity.BaseEntity;
 import org.springframework.data.domain.Page;
@@ -208,5 +209,8 @@ public interface BaseService<DOMAIN extends BaseEntity, ID> {
      * @return clazz
      */
     Class<?> getTemplateType();
+
+    @SuppressWarnings("unchecked")
+    Optional<DOMAIN> fetchById(ID id);
 }
 

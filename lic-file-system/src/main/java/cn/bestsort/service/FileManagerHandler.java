@@ -1,5 +1,6 @@
 package cn.bestsort.service;
 
+import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
 
 /**
@@ -14,4 +15,11 @@ public interface FileManagerHandler {
      * @return  对应实现
      */
     FileManager handle(FileNamespace namespace);
+
+    /**
+     * 根据FileInfo确定其对应的namespace
+     * @param fileInfo 文件信息
+     * @return         对应实现
+     */
+    FileManager handle(FileInfo fileInfo);
 }

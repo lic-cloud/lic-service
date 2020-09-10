@@ -2,12 +2,14 @@ package cn.bestsort.service.impl;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.exception.LicException;
 import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,9 +30,15 @@ public class EmptyFileManagerImpl extends AbstractFileManager {
     @Override
     public String downloadLink(FileDTO fileDTO, Long expire) {
 
-        String root = metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR);
-
-        return null;
+        String dataDir = metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR);
+        String fullPath = ROOT_PATH + dataDir + File.separator + fileDTO.getFileInfo().getPath();
+        String randomKey = UUID.randomUUID().toString();
+        String mappingPath = String.format("%s/%s/%s%s", metaInfoService.getMetaOrDefault(LicMetaEnum.HOST),
+                              DOWNLOAD_LINK_PATH,
+                              FileNamespace.LOCALHOST,
+                              randomKey);
+        cache().put(randomKey, fullPath, expire, TimeUnit.SECONDS);
+        return mappingPath;
     }
 
     @Override

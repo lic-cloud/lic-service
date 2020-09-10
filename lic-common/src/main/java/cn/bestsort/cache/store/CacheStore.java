@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import cn.bestsort.cache.CacheStoreType;
-import com.sun.istack.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Async;
@@ -73,16 +72,6 @@ public interface CacheStore<K, V> {
      * @return value
      */
     <X extends Throwable> X getOrElseThrow(K key, Supplier<? extends X> exceptionSupplier) throws Throwable;
-
-    /**
-     * put a cache with will be expired, and do not backup for this k-v
-     *
-     * @param key      cache key must not be null
-     * @param value    cache value must not be null
-     * @param timeout  the key expiration must not be less than 1
-     * @param timeUnit timeout unit
-     */
-    void putInternal(@NotNull K key, @NotNull V value, long timeout, @NotNull TimeUnit timeUnit);
 
     /**
      * Puts a cache which will be expired.
