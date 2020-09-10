@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-09-09 20:26
  */
 
-@Api
+@Api("tag")
 @RestController("/api/login")
 public class TestController {
 
