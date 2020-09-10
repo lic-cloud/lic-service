@@ -12,10 +12,8 @@ import cn.bestsort.repository.SysRolePermissionRepository;
 import cn.bestsort.repository.SysRoleUserRepository;
 import cn.bestsort.repository.UserRepository;
 import dto.LoginUser;
-import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,33 +31,38 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private SysRoleUserRepository sysRoleUserRepository;
-	@Autowired
-	private SysRolePermissionRepository sysRolePermissionRepository;
-	@Autowired
-	private PermissionRepository permissionRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private SysRoleUserRepository sysRoleUserRepository;
+    @Autowired
+    private SysRolePermissionRepository sysRolePermissionRepository;
+    @Autowired
+    private PermissionRepository permissionRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Collection list = new ArrayList();
-		User user = userRepository.findByUserName(username).orElseThrow(() -> ExceptionConstant.UNAUTHORIZED);
-		if (user.getStatus() == Status.INVALID) {
-			throw new LockedException("用户无效,请联系管理员");
-		}
-		LoginUser loginUser = new LoginUser();
-		BeanUtils.copyProperties(user, loginUser);
-		list.add(user.getId());
-		Collection<Long> allByUserId= sysRoleUserRepository.findAllByIdIn(list);
-		List<SysRolePermission> allByIdIn = sysRolePermissionRepository.findAllByIdIn(allByUserId);
-		allByIdIn.forEach(str -> {
-			list.add(str.getPermissionId());
-		});
-		List<Permission> allByIdIn1 = permissionRepository.findAllByIdIn(list);
-		loginUser.setPermissions(allByIdIn1);
-		return loginUser;
-	}
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Collection list = new ArrayList();
+        User user = userRepository.findByUserName(username).orElseThrow(() -> ExceptionConstant.UNAUTHORIZED);
+        if (user.getStatus() == Status.INVALID) {
+            throw new LockedException("用户无效,请联系管理员");
+        }
+        LoginUser loginUser = new LoginUser();
+        BeanUtils.copyProperties(user, loginUser);
+        list.add(user.getId());
+        List<SysRoleUser> allByIdIn1 = sysRoleUserRepository.findAllByIdIn(list);
+        list.clear();
+        allByIdIn1.forEach(str -> {
+            list.add(str.getRoleId());
+        });
+        List<SysRolePermission> allByIdIn = sysRolePermissionRepository.findAllByIdIn(list);
+        list.clear();
+        allByIdIn.forEach(str -> {
+            list.add(str.getPermissionId());
+        });
+        List<Permission> allByIdIn2 = permissionRepository.findAllByIdIn(list);
+        loginUser.setPermissions(allByIdIn2);
+        return loginUser;
+    }
 
 }

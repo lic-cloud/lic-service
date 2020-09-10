@@ -13,13 +13,16 @@ import dto.Token;
  * com.boot.security.server.service.impl.TokenServiceDbImpl
  */
 public interface TokenService {
-	//保存token
-	Token saveToken(LoginUser loginUser);
-	//刷新token
-	void refresh(LoginUser loginUser);
-	//根据token查找用户
-	LoginUser getLoginUser(String token);
-	//删除token
-	boolean deleteToken(String token);
+    //保存token
+    Token saveToken(LoginUser loginUser);
+
+    //刷新token
+    void refresh(LoginUser loginUser);
+
+    //根据token查找用户
+    LoginUser getLoginUser(String token);
+
+    //删除token
+    boolean deleteToken(String token);
 
 }

@@ -23,10 +23,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cn.bestsort</groupId>
-            <artifactId>lic-orm</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
         </dependency>
     </dependencies>
 </project>

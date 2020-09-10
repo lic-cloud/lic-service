@@ -60,4 +60,9 @@ public class FileInfo extends BaseEntity {
     @Column
     FileNamespace namespace;
 
+    /**
+     * 其他元数据, 存储为JSON
+     */
+    @Column(length = 512)
+    String extConfig;
 }

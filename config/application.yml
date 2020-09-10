@@ -37,3 +37,10 @@ spring:
   http:
     encoding:
       charset: UTF-8
+lic:
+  generator-fake-data: true
+
+token:
+  expire:
+    seconds: 7200
+  jwtSecret: (XIAO:)_$^11244^%$_(WEI:)_@@++--(LAO:)_++++_.sds_(SHI:)

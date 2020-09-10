@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestUtil {
 
-    static private String[] TRUST_PROXIES_IPS;
+    private static final String[] TRUST_PROXIES_IPS = new String[]{};
 
 
     /**

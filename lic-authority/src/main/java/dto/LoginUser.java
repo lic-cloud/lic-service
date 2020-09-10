@@ -16,96 +16,100 @@ import java.util.stream.Collectors;
 
 public class LoginUser extends User implements UserDetails {
 
-	private static final long serialVersionUID = -1379274258881257107L;
+    private static final long serialVersionUID = -1379274258881257107L;
 
-	private List<Permission> permissions;
+    private List<Permission> permissions;
 
-	private String token;
-	/** 登陆时间戳（毫秒） */
-	private Long loginTime;
-	/** 过期时间戳 */
-	private Long expireTime;
+    private String token;
+    /**
+     * 登陆时间戳（毫秒）
+     */
+    private Long loginTime;
+    /**
+     * 过期时间戳
+     */
+    private Long expireTime;
 
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
 
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
-	}
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
 
-	public String getToken() {
-		return token;
-	}
+    public String getToken() {
+        return token;
+    }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public void setToken(String token) {
+        this.token = token;
+    }
 
 
-	@Override
-	@JsonIgnore
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return permissions.parallelStream().filter(p -> !StringUtils.isEmpty(p.getPermission()))
-				.map(p -> new SimpleGrantedAuthority(p.getPermission())).collect(Collectors.toSet());
-	}
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return permissions.parallelStream().filter(p -> !StringUtils.isEmpty(p.getPermission()))
+            .map(p -> new SimpleGrantedAuthority(p.getPermission())).collect(Collectors.toSet());
+    }
 
-	@Override
-	public String getPassword() {
-		return null;
-	}
+    @Override
+    public String getPassword() {
+        return null;
+    }
 
-	@Override
-	public String getUsername() {
-		return null;
-	}
+    @Override
+    public String getUsername() {
+        return null;
+    }
 
-	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-		// do nothing
-	}
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        // do nothing
+    }
 
-	// 账户是否未过期
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    // 账户是否未过期
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	// 账户是否无效
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonLocked() {
-		return getStatus() != Status.INVALID;
-	}
+    // 账户是否无效
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return getStatus() != Status.INVALID;
+    }
 
-	// 密码是否未过期
-	@JsonIgnore
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    // 密码是否未过期
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	// 账户是否激活
-	@JsonIgnore
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    // 账户是否激活
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
-	public Long getLoginTime() {
-		return loginTime;
-	}
+    public Long getLoginTime() {
+        return loginTime;
+    }
 
-	public void setLoginTime(Long loginTime) {
-		this.loginTime = loginTime;
-	}
+    public void setLoginTime(Long loginTime) {
+        this.loginTime = loginTime;
+    }
 
-	public Long getExpireTime() {
-		return expireTime;
-	}
+    public Long getExpireTime() {
+        return expireTime;
+    }
 
-	public void setExpireTime(Long expireTime) {
-		this.expireTime = expireTime;
-	}
+    public void setExpireTime(Long expireTime) {
+        this.expireTime = expireTime;
+    }
 
 }

@@ -1,15 +1,15 @@
 package cn.bestsort.model.entity.user;
 
-import java.util.UUID;
+
+import cn.bestsort.model.entity.BaseEntity;
+import cn.bestsort.model.enums.Status;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
-
-import cn.bestsort.model.enums.Status;
-import cn.bestsort.model.entity.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.UUID;
 
 /**
  * @author GoodTime0313
@@ -22,43 +22,43 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
-    @Column(nullable = false,length = 20)
+    @Column(length = 20)
     private String userName;
 
-    @Column(nullable = false,length = 50)
+    @Column(length = 50)
     private String userEmail;
 
-    @Column(nullable = false,length = 100)
+    @Column(length = 100)
     private String userPassword;
 
     /**
      * 用户头像 默认图片地址为“xxxxx”
      */
-    @Column(nullable = false)
+    @Column
     private String avatar;
 
     /**
      *  用户状态 正常 1，停用 0
      */
-    @Column(nullable = false)
+    @Column
     private Status status;
 
     /**
      *  用户网盘容量,-1表示无穷，默认为10
      */
-    @Column(nullable = false)
+    @Column
     private float totalCapacity;
 
     /**
      *  用户已使用的容量，默认为0
      */
-    @Column(nullable = false)
+    @Column
     private float usedCapacity;
 
     /**
      * 容量单位,默认为G, 容量一律换算为KB, -1表示无穷
      */
-    @Column(nullable = false)
+    @Column
     private Long capacityUnit;
 
     /**
@@ -67,9 +67,9 @@ public class User extends BaseEntity {
     @Column(length = 36)
     String rememberToken;
 
-
     @PrePersist
     protected void prePersist() {
         rememberToken = UUID.randomUUID().toString();
     }
+
 }
