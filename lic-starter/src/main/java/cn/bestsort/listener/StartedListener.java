@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import cn.bestsort.StaterProperties;
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.cache.CacheStoreType;
-import cn.bestsort.constant.MetaEnum;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.service.BaseService;
 import cn.bestsort.service.impl.MetaInfoService;
 import cn.bestsort.util.DebugUtil;
@@ -47,21 +47,21 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     @Override
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
         init();
-        String version = metaInfoService.getMeta(MetaEnum.VERSION, "V1.0");
+        String version = metaInfoService.getMeta(LicMetaEnum.VERSION, "V1.0");
         log.info("Lic{} start success, click url to view [ swagger ] document {}",
                  version, AnsiOutput.toString(AnsiColor.BLUE,
-                                              metaInfoService.getMetaOrDefault(MetaEnum.HOST) + "/swagger-ui.html"));
+                                              metaInfoService.getMetaOrDefault(LicMetaEnum.HOST) + "/swagger-ui.html"));
 
         log.info("Lic{} start success, click url to view [ knife4j ] document {}",
                  version, AnsiOutput.toString(AnsiColor.BLUE,
-                                              metaInfoService.getMetaOrDefault(MetaEnum.HOST) + "/doc.html"));
+                                              metaInfoService.getMetaOrDefault(LicMetaEnum.HOST) + "/doc.html"));
     }
 
     private void init() {
         metaInfoService.refresh();
         // init cache
         handler.init(context, CacheStoreType
-            .valueOf(metaInfoService.getMetaOrDefault(MetaEnum.CACHE_TYPE)));
+            .valueOf(metaInfoService.getMetaOrDefault(LicMetaEnum.CACHE_TYPE)));
 
         // 根据DEBUG_DATA生成假数据
         if (properties.getGeneratorFakeData()) {

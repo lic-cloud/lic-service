@@ -1,4 +1,4 @@
-package cn.bestsort.constant;
+package cn.bestsort.model.enums;
 
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
@@ -6,12 +6,14 @@ import java.util.concurrent.TimeUnit;
 import cn.bestsort.cache.CacheStoreType;
 
 /**
+ * 此处存储为保证Lic系统正常运行的一些元数据,
  * @author bestsort
  * @version 1.0
  * @date 2020-09-09 08:54
  */
 @SuppressWarnings("checkstyle:Indentation")
-public enum  MetaEnum {
+public enum LicMetaEnum implements ValueEnum<Object> {
+
     /**
      * 版本号
      */
@@ -54,29 +56,18 @@ public enum  MetaEnum {
     REQUEST_START_STAMP(null);
     private final String val;
     private final Object defaultVal;
-    MetaEnum(Object defaultVal) {
-        this.val = this.name().toLowerCase();
+    LicMetaEnum(Object defaultVal) {
+        this.val = "lic_" + this.name().toLowerCase();
         this.defaultVal = defaultVal;
     }
 
+    @Override
     public String getVal() {
         return this.val;
     }
 
-    /**
-     * 将Enum转换为对应Class
-     * <b>枚举类无法使用此类</b>
-     * @param clz       target class
-     * @param metaEnum  元数据枚举
-     * @param <T>       返回的数据类型, 与clz一致
-     * @return          对应枚举默认值
-     */
-    public static  <T> T get(Class<T> clz,MetaEnum metaEnum) {
-        return clz.cast(metaEnum.defaultVal);
-    }
-
-    public Object getDefaultVal() {
+    @Override
+    public Object getDefault() {
         return this.defaultVal;
     }
-
 }

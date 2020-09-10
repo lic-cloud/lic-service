@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author bestsort
@@ -14,11 +15,17 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class MetaInfo extends BaseEntity {
-    @Column(length = 36, nullable = false)
+    @Column(length = 64, nullable = false)
     String metaKey;
 
     @Column(nullable = false)
     String metaVal;
+
+    public MetaInfo(String metaKey, String metaVal) {
+        this.metaKey = metaKey;
+        this.metaVal = metaVal;
+    }
 }

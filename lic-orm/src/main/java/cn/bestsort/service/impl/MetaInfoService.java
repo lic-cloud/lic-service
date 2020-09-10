@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.model.entity.MetaInfo;
-import cn.bestsort.constant.MetaEnum;
+import cn.bestsort.model.enums.ValueEnum;
 import cn.bestsort.repository.MetaInfoRepository;
 import cn.bestsort.service.AbstractBaseService;
 import org.springframework.stereotype.Service;
@@ -28,24 +28,31 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         return metaMap.get(metaKey);
     }
     public String getMeta(String metaKey, String defaultVal) {
-        return metaMap.getOrDefault(metaKey, defaultVal);
+        String value = metaMap.get(metaKey);
+        if (value == null) {
+            metaInfoRepo.saveAndFlush(new MetaInfo(metaKey, defaultVal));
+            metaMap.put(metaKey, defaultVal);
+            value = defaultVal;
+        }
+        return value;
     }
-    public <T> T getMetaObj(Class<T> clazz, MetaEnum metaEnum) {
+    public <T> T getMetaObj(Class<T> clazz, ValueEnum licMetaEnum) {
         String res;
-        if ((res = getMeta(metaEnum)) != null) {
+        if ((res = getMeta(licMetaEnum)) != null) {
             return JSON.parseObject(res, clazz);
         }
-        return MetaEnum.get(clazz, metaEnum);
+        return ValueEnum.get(clazz, licMetaEnum);
     }
 
-    public String getMeta(MetaEnum metaKey) {
-        return getMeta(metaKey.getVal());
+    public String getMeta(ValueEnum metaKey) {
+        return getMeta(metaKey.getVal().toString());
     }
-    public String getMeta(MetaEnum metaKey, String defaultVal) {
-        return getMeta(metaKey.getVal(), defaultVal);
+    public String getMeta(ValueEnum metaKey, String defaultVal) {
+        return getMeta(metaKey.getVal().toString(), defaultVal);
     }
-    public String getMetaOrDefault(MetaEnum metaKey) {
-        return getMeta(metaKey.getVal(), metaKey.getDefaultVal().toString());
+
+    public String getMetaOrDefault(ValueEnum metaKey) {
+        return getMeta(metaKey.getVal().toString(), ValueEnum.get(String.class, metaKey));
     }
 
     /**
@@ -60,8 +67,8 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateMeta(MetaEnum metaEnum, Object metaVal) {
-        String metaKey = metaEnum.getVal();
+    public void updateMeta(ValueEnum licMetaEnum, Object metaVal) {
+        String metaKey = licMetaEnum.getVal().toString();
         Optional<MetaInfo> metaInfoOpt = metaInfoRepo.findByMetaKey(metaKey);
         MetaInfo metaInfo;
         if (metaInfoOpt.isEmpty()) {
@@ -71,7 +78,7 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         } else {
             metaInfo = metaInfoOpt.get();
         }
-        save(metaInfo);
+        metaInfoRepo.saveAndFlush(metaInfo);
         metaMap.put(metaKey, metaVal.toString());
     }
 

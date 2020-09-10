@@ -12,7 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.bestsort.constant.MetaEnum;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.entity.user.User;
 import cn.bestsort.service.UserService;
 import cn.bestsort.util.RequestUtil;
@@ -39,10 +39,10 @@ public class RequestInitFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request    = (HttpServletRequest) servletRequest;
-        User               userEntity = (User) request.getSession().getAttribute(MetaEnum.USER_SESSION.getVal());
-        request.getSession().setAttribute(MetaEnum.USER_IP.getVal(), RequestUtil.getClientIp(request));
+        User               userEntity = (User) request.getSession().getAttribute(LicMetaEnum.USER_SESSION.getVal());
+        request.getSession().setAttribute(LicMetaEnum.USER_IP.getVal(), RequestUtil.getClientIp(request));
         // add necessary attribute
-        request.setAttribute(MetaEnum.REQUEST_START_STAMP.getVal(), System.nanoTime());
+        request.setAttribute(LicMetaEnum.REQUEST_START_STAMP.getVal(), System.nanoTime());
         // add user info
         if (userEntity == null && request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -52,7 +52,7 @@ public class RequestInitFilter implements Filter {
                         ((HttpServletResponse) response).addCookie(EMPTY_REMEMBER_TOKEN);
                         break;
                     }
-                    request.getSession().setAttribute(MetaEnum.USER_SESSION.getVal(), userEntity);
+                    request.getSession().setAttribute(LicMetaEnum.USER_SESSION.getVal(), userEntity);
                     log.debug("user {} login by cookie", userEntity.getUserName());
                     break;
                 }

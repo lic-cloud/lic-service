@@ -39,7 +39,7 @@ public class BaseEntity {
     @CreatedDate
     private Timestamp createAt;
 
-    @LastModifiedDate
     @Column
+    @LastModifiedDate
     private Timestamp updateAt;
 }

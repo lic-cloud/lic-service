@@ -16,11 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface FileManager {
     /**
-     * 根据映射地址获取真实地址以提供下载、删除等服务
+     * 根据映射地址获取临时下载地址以供下载
      * @param fileDTO 映射地址
+     * @param expire  链接过期时间, 单位为秒, -1为永不过期(P.S: 会导致链接常驻内存, 慎用)
      * @return  文件真实地址, 格式为{FileNamespace}::{realPath}
      */
-    String realDir(FileDTO fileDTO);
+    String downloadLink(FileDTO fileDTO, Long expire);
 
     /**
      * 当目标路径已存在对应文件的时候抛出{@link cn.bestsort.constant.ExceptionConstant#TARGET_EXIST}异常

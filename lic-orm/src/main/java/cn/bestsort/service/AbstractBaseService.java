@@ -16,7 +16,7 @@ import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.cache.store.CacheStore;
 import cn.bestsort.constant.CachePrefix;
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.constant.MetaEnum;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.entity.BaseEntity;
 import cn.bestsort.model.entity.user.User;
 import cn.bestsort.repository.BaseRepository;
@@ -53,7 +53,7 @@ public abstract class AbstractBaseService<DOMAIN extends BaseEntity, ID> impleme
     }
 
     private User fetchUserFromSession(boolean nullable, HttpSession session) {
-        User userEntity = (User) session.getAttribute(MetaEnum.USER_SESSION.getVal());
+        User userEntity = (User) session.getAttribute(LicMetaEnum.USER_SESSION.getVal());
         if (!nullable && userEntity == null) {
             throw ExceptionConstant.UNAUTHORIZED;
         }

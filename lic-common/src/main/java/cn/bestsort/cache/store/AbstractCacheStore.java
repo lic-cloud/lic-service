@@ -5,7 +5,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-import cn.bestsort.constant.MetaEnum;
+import cn.bestsort.model.enums.LicMetaEnum;
+import cn.bestsort.model.enums.ValueEnum;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
@@ -54,8 +55,8 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
             return;
         }
         putInternal(key, value,
-            MetaEnum.get(Long.class, value == null ? MetaEnum.CACHE_NULL_EXPIRE : MetaEnum.CACHE_EXPIRE),
-            MetaEnum.get(TimeUnit.class, MetaEnum.CACHE_UNIT));
+                    ValueEnum.get(Long.class, value == null ? LicMetaEnum.CACHE_NULL_EXPIRE : LicMetaEnum.CACHE_EXPIRE),
+                    ValueEnum.get(TimeUnit.class, LicMetaEnum.CACHE_UNIT));
     }
 
     @Override

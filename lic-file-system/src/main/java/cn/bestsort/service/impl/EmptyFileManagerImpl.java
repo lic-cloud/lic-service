@@ -1,12 +1,14 @@
 package cn.bestsort.service.impl;
 
+import java.io.File;
 import java.util.List;
 
+import cn.bestsort.model.enums.LicMetaEnum;
+import cn.bestsort.exception.LicException;
 import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
-import cn.bestsort.exception.LicException;
-import cn.bestsort.service.FileManager;
+import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,10 +19,17 @@ import org.springframework.web.multipart.MultipartFile;
  */
 
 @Service
-public class EmptyFileManagerImpl implements FileManager {
+public class EmptyFileManagerImpl extends AbstractFileManager {
+
+    public static final String ROOT_PATH = System.getProperty("user.dir") +
+        File.separator;
+
 
     @Override
-    public String realDir(FileDTO fileDTO) {
+    public String downloadLink(FileDTO fileDTO, Long expire) {
+
+        String root = metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR);
+
         return null;
     }
 
@@ -46,6 +55,6 @@ public class EmptyFileManagerImpl implements FileManager {
 
     @Override
     public boolean match(FileNamespace namespace) {
-        return false;
+        return FileNamespace.LOCALHOST.equals(namespace);
     }
 }

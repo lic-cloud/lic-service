@@ -1,7 +1,7 @@
 package cn.bestsort.controller;
 
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.constant.MetaEnum;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.param.install.CacheSettingParam;
 import cn.bestsort.service.impl.MetaInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ public class InstallController {
     @Autowired
     MetaInfoService metaInfoService;
     ResponseEntity<Boolean> install(CacheSettingParam param) {
-        if (metaInfoService.getMetaObj(Boolean.class, MetaEnum.INSTALLED)) {
+        if (metaInfoService.getMetaObj(Boolean.class, LicMetaEnum.INSTALLED)) {
             throw ExceptionConstant.LIC_INSTALLED;
         }
         // TODO install
-        metaInfoService.updateMeta(MetaEnum.INSTALLED, Boolean.TRUE);
+        metaInfoService.updateMeta(LicMetaEnum.INSTALLED, Boolean.TRUE);
         return ResponseEntity.ok(true);
     }
 }
