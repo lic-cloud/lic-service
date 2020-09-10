@@ -38,11 +38,11 @@ public enum  MetaEnum {
     /**
      * 默认Cache_KEY失效时间
      */
-    CACHE_EXPIRE(30),
+    CACHE_EXPIRE(30L),
     /**
      * val 为 null 时的缓存失效时间
      */
-    CACHE_NULL_EXPIRE(5),
+    CACHE_NULL_EXPIRE(5L),
 
 
 
@@ -63,6 +63,14 @@ public enum  MetaEnum {
         return this.val;
     }
 
+    /**
+     * 将Enum转换为对应Class
+     * <b>枚举类无法使用此类</b>
+     * @param clz       target class
+     * @param metaEnum  元数据枚举
+     * @param <T>       返回的数据类型, 与clz一致
+     * @return          对应枚举默认值
+     */
     public static  <T> T get(Class<T> clz,MetaEnum metaEnum) {
         return clz.cast(metaEnum.defaultVal);
     }

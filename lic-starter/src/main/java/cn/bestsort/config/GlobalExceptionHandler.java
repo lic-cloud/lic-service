@@ -1,4 +1,4 @@
-package cn.bestsort.exception;
+package cn.bestsort.config;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.constant.ExceptionConstant;
+import cn.bestsort.exception.LicException;
 import cn.bestsort.model.vo.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

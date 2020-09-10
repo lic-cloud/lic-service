@@ -6,9 +6,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-import javax.validation.constraints.NotNull;
-
 import cn.bestsort.cache.CacheStoreType;
+import com.sun.istack.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Async;

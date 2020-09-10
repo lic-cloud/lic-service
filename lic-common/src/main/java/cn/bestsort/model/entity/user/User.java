@@ -22,43 +22,43 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
-    @Column(nullable = false,length = 20)
+    @Column(length = 20)
     private String userName;
 
-    @Column(nullable = false,length = 50)
+    @Column(length = 50)
     private String userEmail;
 
-    @Column(nullable = false,length = 36)
+    @Column(length = 60)
     private String userPassword;
 
     /**
      * 用户头像 默认图片地址为“xxxxx”
      */
-    @Column(nullable = false)
+    @Column
     private String avatar;
 
     /**
      *  用户状态 正常 1，停用 0
      */
-    @Column(nullable = false)
+    @Column
     private Status status;
 
     /**
      *  用户网盘容量,-1表示无穷，默认为10
      */
-    @Column(nullable = false)
+    @Column
     private float totalCapacity;
 
     /**
      *  用户已使用的容量，默认为0
      */
-    @Column(nullable = false)
+    @Column
     private float usedCapacity;
 
     /**
      * 容量单位,默认为G, 容量一律换算为KB, -1表示无穷
      */
-    @Column(nullable = false)
+    @Column
     private Long capacityUnit;
 
     /**

@@ -2,11 +2,11 @@ package cn.bestsort.model.vo;
 
 import com.alibaba.fastjson.JSON;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 /**
  * @author bestsort
  * @version 1.0
