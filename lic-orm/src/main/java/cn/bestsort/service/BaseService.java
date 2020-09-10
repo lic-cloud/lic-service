@@ -62,7 +62,6 @@ public interface BaseService<DOMAIN extends BaseEntity, ID> {
      */
     @NonNull
     List<DOMAIN> listAllByIds(@Nullable Collection<ID> ids, @NonNull Sort sort);
-
     /**
      * Get by id
      *

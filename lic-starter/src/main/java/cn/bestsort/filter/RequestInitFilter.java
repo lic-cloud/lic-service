@@ -32,9 +32,9 @@ public class RequestInitFilter implements Filter {
 
     @Autowired
     UserService userService;
-    private static final String REMEMBER_TOKEN              = "rememberToken";
+    private static final String REMEMBER_TOKEN  = "rememberToken";
 
-    private static final Cookie EMPTY_REMEMBER_TOKEN        = new Cookie(REMEMBER_TOKEN, null);
+    private static final Cookie EMPTY_REMEMBER_TOKEN = new Cookie(REMEMBER_TOKEN, null);
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException, ServletException {

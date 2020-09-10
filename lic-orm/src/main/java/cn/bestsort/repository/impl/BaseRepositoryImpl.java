@@ -117,6 +117,11 @@ public class BaseRepositoryImpl<DOMAIN, ID> extends SimpleJpaRepository<DOMAIN, 
             : readPage(query, getDomainClass(), pageable, countQuery);
     }
 
+    @Override
+    public List<DOMAIN> findAllByIdIn(Collection<ID> ids) {
+        return  findAllByIdIn(ids, Sort.unsorted());
+    }
+
     /**
      * Deletes by id list.
      *

@@ -27,7 +27,8 @@ public interface BaseRepository<DOMAIN, ID> extends JpaRepository<DOMAIN, ID> {
      */
     @NonNull
     List<DOMAIN> findAllByIdIn(@NonNull Collection<ID> ids, @NonNull Sort sort);
-
+    @NonNull
+    List<DOMAIN> findAllByIdIn(@NonNull Collection<ID> ids);
     /**
      * Finds all domain by domain id list.
      *
