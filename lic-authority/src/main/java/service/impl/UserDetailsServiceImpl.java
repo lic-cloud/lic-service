@@ -51,8 +51,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		LoginUser loginUser = new LoginUser();
 		BeanUtils.copyProperties(user, loginUser);
-
-		List<Long> allByUserId = new ArrayList<>();// = sysRoleUserRepository.findAllByUserId(user.getId());
+		list.add(user.getId());
+		Collection<Long> allByUserId= sysRoleUserRepository.findAllByIdIn(list);
 		List<SysRolePermission> allByIdIn = sysRolePermissionRepository.findAllByIdIn(allByUserId);
 		allByIdIn.forEach(str -> {
 			list.add(str.getPermissionId());

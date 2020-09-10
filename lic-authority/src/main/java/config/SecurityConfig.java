@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-            .antMatchers("/hello").hasRole("admin")
+            .antMatchers("/").permitAll()
             .anyRequest().authenticated();
         //配置登录的核心代码
         http.formLogin().loginProcessingUrl("/login")

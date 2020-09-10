@@ -13,10 +13,11 @@ import lombok.ToString;
  * @version 1.0
  * @date 2020/9/4 23:49
  */
-@EqualsAndHashCode(callSuper = true)
+
 @Data
 @Entity
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class SysRolePermission extends BaseEntity {
     @Column
     private Long roleId;

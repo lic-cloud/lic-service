@@ -13,6 +13,4 @@ import java.util.List;
  * @date 2020/9/9 22:15
  */
 public interface SysRoleUserRepository extends BaseRepository<SysRoleUser,Long> {
-    //@Query(value = "select role_id from sys_role_user where user_id = ?1 ", nativeQuery = true)
-    //List<Long> findAllByUserId(Long userId);
 }
