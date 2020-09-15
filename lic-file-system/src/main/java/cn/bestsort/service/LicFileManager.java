@@ -1,10 +1,14 @@
 package cn.bestsort.service;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.user.User;
+import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.param.ShareParam;
+import cn.bestsort.model.param.UploadSuccessCallbackParam;
+import cn.bestsort.model.vo.UploadTokenVO;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -14,7 +18,20 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2020-09-07 17:33
  */
 public interface LicFileManager {
+    /**
+     * 是否能够秒传
+     * @param md5 校验和
+     * @param fileNamespace 对应存储空间
+     * @return 是否已经存在对应文件实体
+     */
+    boolean canSuperUpload(String md5, FileNamespace fileNamespace);
 
+    /**
+     * 获取文件列表
+     * @param dirId 文件夹ID
+     * @param user  用户(用作鉴权)
+     * @return      文件列表
+     */
     List<FileMapping> listFiles(Long dirId, User user);
 
     /**
@@ -36,6 +53,13 @@ public interface LicFileManager {
     String createDownloadLink(Long fileId, User user, Long expire);
 
     /**
+     * 创建上传所需要的token和相关参数
+     * @param namespace 对应的文件系统实现
+     * @param config    额外配置，由对应文件系统自行处理
+     * @return          VO
+     */
+    UploadTokenVO createUploadToken(FileNamespace namespace, Map<String, String> config);
+    /**
      * 创建分享链接, 返回结果为链接地址, 类似如下:
      * https://{host}/share/{randomKey}/{path}
      * @param param 参数
@@ -43,4 +67,12 @@ public interface LicFileManager {
      * @return      如上
      */
     String  createShareLink(ShareParam param, User user);
+
+    /**
+     * 上传成功， 数据库插入对应数据
+     * @param user      上传用户
+     * @param param     相关参数
+     */
+    @Transactional(rollbackFor = Exception.class)
+    void uploadSuccess(User user, UploadSuccessCallbackParam param);
 }

@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @AllArgsConstructor
 @Data
-public class UserVo {
+public class UserVO {
     String  username;
     Integer userId;
     String  token;

@@ -1,12 +1,13 @@
 package cn.bestsort.service;
 
 import java.util.List;
+import java.util.Map;
 
+import cn.bestsort.exception.LicException;
 import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
-import cn.bestsort.exception.LicException;
-import org.springframework.web.multipart.MultipartFile;
+import cn.bestsort.model.vo.UploadTokenVO;
 
 /**
  * 文件系统接口, 对外提供通用的接口实现
@@ -34,12 +35,11 @@ public interface FileManager {
     void move(FileDTO fileDTO, Long targetDirId) throws LicException;
 
     /**
-     * TODO
-     * @param fileDTO   入参
-     * @param files     文件
+     * 根据参数生成不同的host和extConfig(不同实现支持的参数不同, 故采用Map)
+     * @param config 参数配置
+     * @return VO
      */
-    void upload(FileDTO fileDTO, MultipartFile[] files);
-
+    UploadTokenVO generatorUploadVO(Map<String, String> config);
     /**
      * 当目标文件名已存在时抛出TargetExistException异常
      * TODO

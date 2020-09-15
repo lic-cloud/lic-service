@@ -1,5 +1,7 @@
 package cn.bestsort.model.enums.file;
 
+import java.io.File;
+
 import cn.bestsort.model.enums.ValueEnum;
 
 /**
@@ -11,7 +13,8 @@ public enum  LocalHostMetaEnum implements ValueEnum<String> {
     /**
      * 文件存储地址
      */
-    DATA_DIR("/data");
+    DATA_DIR("data" + File.separator),
+    ROOT_PATH(System.getProperty("user.home") + File.separator);
 
     private final String value;
 

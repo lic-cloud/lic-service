@@ -2,6 +2,7 @@ package cn.bestsort.service.impl;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -11,8 +12,9 @@ import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
+import cn.bestsort.model.vo.UploadTokenVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author bestsort
@@ -23,15 +25,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class EmptyFileManagerImpl extends AbstractFileManager {
 
-    public static final String ROOT_PATH = System.getProperty("user.dir") +
-        File.separator;
+    @Autowired
+    MetaInfoService metaInfoService;
 
 
     @Override
     public String downloadLink(FileDTO fileDTO, Long expire) {
 
         String dataDir = metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR);
-        String fullPath = ROOT_PATH + dataDir + File.separator + fileDTO.getFileInfo().getPath();
+        String fullPath = metaInfoService.getMeta(LocalHostMetaEnum.ROOT_PATH) + dataDir + File.separator + fileDTO.getFileInfo().getPath();
         String randomKey = UUID.randomUUID().toString();
         String mappingPath = String.format("%s/%s/%s%s", metaInfoService.getMetaOrDefault(LicMetaEnum.HOST),
                               DOWNLOAD_LINK_PATH,
@@ -47,8 +49,8 @@ public class EmptyFileManagerImpl extends AbstractFileManager {
     }
 
     @Override
-    public void upload(FileDTO fileDTO, MultipartFile[] files) {
-
+    public UploadTokenVO generatorUploadVO(Map<String, String> config) {
+        return null;
     }
 
     @Override
