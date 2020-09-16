@@ -2,6 +2,7 @@ package cn.bestsort.authority.dto;
 
 
 import cn.bestsort.authority.model.Role;
+import lombok.Data;
 
 import java.util.List;
 
@@ -10,17 +11,9 @@ import java.util.List;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
+@Data
 public class RoleDto extends Role {
-
-	private static final long serialVersionUID = 4218495592167610193L;
 
 	private List<Long> permissionIds;
 
-	public List<Long> getPermissionIds() {
-		return permissionIds;
-	}
-
-	public void setPermissionIds(List<Long> permissionIds) {
-		this.permissionIds = permissionIds;
-	}
 }

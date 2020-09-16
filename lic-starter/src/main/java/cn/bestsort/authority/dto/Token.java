@@ -1,5 +1,7 @@
 package cn.bestsort.authority.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
+@Data
 public class Token implements Serializable {
 
 	private static final long serialVersionUID = 6314027741784310221L;
@@ -19,22 +22,6 @@ public class Token implements Serializable {
 	public Token(String token, Long loginTime) {
 		super();
 		this.token = token;
-		this.loginTime = loginTime;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public Long getLoginTime() {
-		return loginTime;
-	}
-
-	public void setLoginTime(Long loginTime) {
 		this.loginTime = loginTime;
 	}
 

@@ -11,12 +11,12 @@ import java.util.List;
  */
 @Data
 public class Permission extends BaseEntity<Long> {
-	private Long parentId;
-	private String name;
-	private String css;
-	private String href;
-	private Integer type;
-	private String permission;
-	private Integer sort;
-	private List<Permission> child;
+    private Long parentId;
+    private String name;
+    private String css;
+    private String href;
+    private Integer type;
+    private String permission;
+    private Integer sort;
+    private List<Permission> child;
 }

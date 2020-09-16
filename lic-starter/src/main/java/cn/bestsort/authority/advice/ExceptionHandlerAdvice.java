@@ -16,6 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 /**
  * 以Controller为入口的报错异常的捕获处理
+ *
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
@@ -24,33 +25,33 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
 
-	//非法参数的报错
-	@ExceptionHandler({ IllegalArgumentException.class })
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ResponseInfo badRequestException(IllegalArgumentException exception) {
-		return new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", exception.getMessage());
-		//exception.getMessage() 异常抛出的信息
-	}
+    //非法参数的报错
+    @ExceptionHandler({IllegalArgumentException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseInfo badRequestException(IllegalArgumentException exception) {
+        return new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", exception.getMessage());
+        //exception.getMessage() 异常抛出的信息
+    }
 
-	@ExceptionHandler({ AccessDeniedException.class })
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public ResponseInfo badRequestException(AccessDeniedException exception) {
-		return new ResponseInfo(HttpStatus.FORBIDDEN.value() + "", exception.getMessage());
-	}
+    @ExceptionHandler({AccessDeniedException.class})
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseInfo badRequestException(AccessDeniedException exception) {
+        return new ResponseInfo(HttpStatus.FORBIDDEN.value() + "", exception.getMessage());
+    }
 
-	@ExceptionHandler({ MissingServletRequestParameterException.class, HttpMessageNotReadableException.class,
-			UnsatisfiedServletRequestParameterException.class, MethodArgumentTypeMismatchException.class })
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ResponseInfo badRequestException(Exception exception) {
-		return new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", exception.getMessage());
-	}
+    @ExceptionHandler({MissingServletRequestParameterException.class, HttpMessageNotReadableException.class,
+        UnsatisfiedServletRequestParameterException.class, MethodArgumentTypeMismatchException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseInfo badRequestException(Exception exception) {
+        return new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", exception.getMessage());
+    }
 
-	@ExceptionHandler(Throwable.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ResponseInfo exception(Throwable throwable) {
-		log.error("系统异常", throwable);
-		return new ResponseInfo(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", throwable.getMessage());
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseInfo exception(Throwable throwable) {
+        log.error("系统异常", throwable);
+        return new ResponseInfo(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", throwable.getMessage());
 
-	}
+    }
 
 }

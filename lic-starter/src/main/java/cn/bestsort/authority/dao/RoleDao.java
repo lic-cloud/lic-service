@@ -14,7 +14,7 @@ import java.util.Map;
 @Mapper
 public interface RoleDao {
 
-	@Options(useGeneratedKeys = true, keyProperty = "id") //自增主键
+	@Options(useGeneratedKeys = true, keyProperty = "id")
 	@Insert("insert into sys_role(name, description, createTime, updateTime) values(#{name}, #{description}, now(),now())")
 	int save(Role role);
 

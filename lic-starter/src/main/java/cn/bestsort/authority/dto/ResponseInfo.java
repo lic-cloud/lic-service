@@ -1,5 +1,7 @@
 package cn.bestsort.authority.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -7,9 +9,8 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
+@Data
 public class ResponseInfo implements Serializable {
-
-	private static final long serialVersionUID = -4417715614021482064L;
 
 	private String code;
 	private String message;
@@ -20,20 +21,5 @@ public class ResponseInfo implements Serializable {
 		this.message = message;
 	}
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 }

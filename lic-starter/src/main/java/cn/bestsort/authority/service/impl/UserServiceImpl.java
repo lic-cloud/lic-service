@@ -24,61 +24,61 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
 
-	@Autowired
-	private UserDao userDao;
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-	@Override
-	@Transactional
-	public User saveUser(UserDto userDto) {
-		User user = userDto;
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setStatus(Status.VALID);
-		userDao.save(user);
-		saveUserRoles(user.getId(), userDto.getRoleIds());
+    @Override
+    @Transactional
+    public User saveUser(UserDto userDto) {
+        User user = userDto;
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setStatus(Status.VALID);
+        userDao.save(user);
+        saveUserRoles(user.getId(), userDto.getRoleIds());
 
-		log.debug("新增用户{}", user.getUsername());
-		return user;
-	}
+        log.debug("新增用户{}", user.getUsername());
+        return user;
+    }
 
-	private void saveUserRoles(Long userId, List<Long> roleIds) {
-		if (roleIds != null) {
-			userDao.deleteUserRole(userId);
-			if (!CollectionUtils.isEmpty(roleIds)) {
-				userDao.saveUserRoles(userId, roleIds);
-			}
-		}
-	}
+    private void saveUserRoles(Long userId, List<Long> roleIds) {
+        if (roleIds != null) {
+            userDao.deleteUserRole(userId);
+            if (!CollectionUtils.isEmpty(roleIds)) {
+                userDao.saveUserRoles(userId, roleIds);
+            }
+        }
+    }
 
-	@Override
-	public User getUser(String username) {
-		return userDao.getUser(username);
-	}
+    @Override
+    public User getUser(String username) {
+        return userDao.getUser(username);
+    }
 
-	@Override
-	public void changePassword(String username, String oldPassword, String newPassword) {
-		User u = userDao.getUser(username);
-		if (u == null) {
-			throw new IllegalArgumentException("用户不存在");
-		}
+    @Override
+    public void changePassword(String username, String oldPassword, String newPassword) {
+        User u = userDao.getUser(username);
+        if (u == null) {
+            throw new IllegalArgumentException("用户不存在");
+        }
 
-		if (!passwordEncoder.matches(oldPassword, u.getPassword())) {
-			throw new IllegalArgumentException("旧密码错误");
-		}
+        if (!passwordEncoder.matches(oldPassword, u.getPassword())) {
+            throw new IllegalArgumentException("旧密码错误");
+        }
 
-		userDao.changePassword(u.getId(), passwordEncoder.encode(newPassword));
+        userDao.changePassword(u.getId(), passwordEncoder.encode(newPassword));
 
-		log.debug("修改{}的密码", username);
-	}
+        log.debug("修改{}的密码", username);
+    }
 
-	@Override
-	@Transactional
-	public User updateUser(UserDto userDto) {
-		userDao.update(userDto);
-		saveUserRoles(userDto.getId(), userDto.getRoleIds());
+    @Override
+    @Transactional
+    public User updateUser(UserDto userDto) {
+        userDao.update(userDto);
+        saveUserRoles(userDto.getId(), userDto.getRoleIds());
 
-		return userDto;
-	}
+        return userDto;
+    }
 
 }

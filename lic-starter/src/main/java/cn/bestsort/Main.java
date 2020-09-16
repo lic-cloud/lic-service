@@ -17,7 +17,8 @@ import java.lang.reflect.Field;
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
-        disableWarning(); //禁用警告
+        //禁用警告
+        disableWarning();
         SpringApplication.run(Main.class, args);
     }
     public static void disableWarning() {

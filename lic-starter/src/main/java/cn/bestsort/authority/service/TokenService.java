@@ -11,13 +11,31 @@ import cn.bestsort.authority.dto.Token;
  * @date 2020/9/15 8:59
  */
 public interface TokenService {
-	//保存token
+	/**
+	 * 保存token
+	 * @param loginUser
+	 * @return
+	 */
 	Token saveToken(LoginUser loginUser);
-	//刷新token
+
+	/**
+	 * 刷新token
+	 * @param loginUser
+	 */
 	void refresh(LoginUser loginUser);
-	//根据token查找用户
+
+	/**
+	 * 根据token查找用户
+	 * @param token
+	 * @return
+	 */
 	LoginUser getLoginUser(String token);
-	//删除token
+
+	/**
+	 * 删除token
+	 * @param token
+	 * @return
+	 */
 	boolean deleteToken(String token);
 
 }
