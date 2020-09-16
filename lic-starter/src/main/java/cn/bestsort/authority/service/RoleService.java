@@ -10,7 +10,7 @@ import cn.bestsort.authority.dto.RoleDto;
  */
 public interface RoleService {
 
-	void saveRole(RoleDto roleDto);
+    void saveRole(RoleDto roleDto);
 
-	void deleteRole(Long id);
+    void deleteRole(Long id);
 }

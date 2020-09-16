@@ -9,13 +9,13 @@ import lombok.Data;
  */
 @Data
 public class Notice extends BaseEntity<Long> {
-	private String title;
-	private String content;
-	private Integer status;
+    private String title;
+    private String content;
+    private Integer status;
 
-	public interface Status {
-		int DRAFT = 0;
-		int PUBLISH = 1;
-	}
+    public interface Status {
+        int DRAFT = 0;
+        int PUBLISH = 1;
+    }
 
 }

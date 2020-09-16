@@ -15,22 +15,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringUtil implements ApplicationContextAware {
 
-    private static ApplicationContext applicationContext = null;
+    private static ApplicationContext CONTEXT = null;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringUtil.applicationContext = applicationContext;
+        SpringUtil.CONTEXT = applicationContext;
     }
 
     public static <T> T getBean(Class<T> cla) {
-        return applicationContext.getBean(cla);
+        return CONTEXT.getBean(cla);
     }
 
     public static <T> T getBean(String name, Class<T> cal) {
-        return applicationContext.getBean(name, cal);
+        return CONTEXT.getBean(name, cal);
     }
 
     public static String getProperty(String key) {
-        return applicationContext.getBean(Environment.class).getProperty(key);
+        return CONTEXT.getBean(Environment.class).getProperty(key);
     }
 }

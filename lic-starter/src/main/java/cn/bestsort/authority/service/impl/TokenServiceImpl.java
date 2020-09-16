@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Primary
 @Service
-public class TokenServiceJWTImpl implements TokenService {
+public class TokenServiceImpl implements TokenService {
 
 
     @Autowired
@@ -69,14 +69,13 @@ public class TokenServiceJWTImpl implements TokenService {
      * 生成jwt
      */
     private String createToken(LoginUser loginUser) {
-        Map<String, Object> claims = new HashMap<>();
-		// 放入一个随机字符串，通过该串可找到登陆用户
+        Map<String, Object> claims = new HashMap<>(4);
+        // 放入一个随机字符串，通过该串可找到登陆用户
         claims.put(CachePrefix.LOGIN_USER_KEY, loginUser.getToken());
 
         return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, getKeyInstance())
             .compact();
     }
-
     private void cacheLoginUser(LoginUser loginUser) {
         loginUser.setLoginTime(System.currentTimeMillis());
         long expire = Long.parseLong(metaInfoService.getMetaOrDefault(LicMetaEnum.CACHE_EXPIRE)) * 100;
@@ -96,7 +95,7 @@ public class TokenServiceJWTImpl implements TokenService {
 
     @Override
     public LoginUser getLoginUser(String jwtToken) {
-        String uuid = getUUIDFromJWT(jwtToken);
+        String uuid = getRandomKey(jwtToken);
         if (uuid != null) {
             return cacheHandler.fetchCacheStore().getObj(LoginUser.class, getTokenKey(uuid));
         }
@@ -106,7 +105,7 @@ public class TokenServiceJWTImpl implements TokenService {
 
     @Override
     public boolean deleteToken(String jwtToken) {
-        String uuid = getUUIDFromJWT(jwtToken);
+        String uuid = getRandomKey(jwtToken);
         if (uuid != null) {
             String key = getTokenKey(uuid);
             LoginUser loginUser = cacheHandler.fetchCacheStore().getObj(LoginUser.class, key);
@@ -125,7 +124,7 @@ public class TokenServiceJWTImpl implements TokenService {
 
     private Key getKeyInstance() {
         if (KEY == null) {
-            synchronized (TokenServiceJWTImpl.class) {
+            synchronized (TokenServiceImpl.class) {
                 if (KEY == null) {
                     byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(jwtSecret);
                     KEY = new SecretKeySpec(apiKeySecretBytes, SignatureAlgorithm.HS256.getJcaName());
@@ -136,7 +135,7 @@ public class TokenServiceJWTImpl implements TokenService {
         return KEY;
     }
 
-    private String getUUIDFromJWT(String jwtToken) {
+    private String getRandomKey(String jwtToken) {
         if ("null".equals(jwtToken) || StringUtils.isBlank(jwtToken)) {
             return null;
         }

@@ -1,10 +1,10 @@
 package cn.bestsort.authority.dto;
 
 
+import java.util.List;
+
 import cn.bestsort.authority.model.Role;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @author GoodTime0313
@@ -14,6 +14,6 @@ import java.util.List;
 @Data
 public class RoleDto extends Role {
 
-	private List<Long> permissionIds;
+    private List<Long> permissionIds;
 
 }

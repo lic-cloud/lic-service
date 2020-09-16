@@ -11,12 +11,12 @@ import cn.bestsort.authority.model.User;
  */
 public interface UserService {
 
-	User saveUser(UserDto userDto);
+    User saveUser(UserDto userDto);
 
-	User updateUser(UserDto userDto);
+    User updateUser(UserDto userDto);
 
-	User getUser(String username);
+    User getUser(String username);
 
-	void changePassword(String username, String oldPassword, String newPassword);
+    void changePassword(String username, String oldPassword, String newPassword);
 
 }

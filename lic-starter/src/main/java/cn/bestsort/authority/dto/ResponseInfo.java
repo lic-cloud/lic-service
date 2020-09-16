@@ -1,8 +1,8 @@
 package cn.bestsort.authority.dto;
 
-import lombok.Data;
-
 import java.io.Serializable;
+
+import lombok.Data;
 
 /**
  * @author GoodTime0313
@@ -12,14 +12,14 @@ import java.io.Serializable;
 @Data
 public class ResponseInfo implements Serializable {
 
-	private String code;
-	private String message;
+    private String code;
+    private String message;
 
-	public ResponseInfo(String code, String message) {
-		super();
-		this.code = code;
-		this.message = message;
-	}
+    public ResponseInfo(String code, String message) {
+        super();
+        this.code = code;
+        this.message = message;
+    }
 
 
 }

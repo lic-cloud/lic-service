@@ -2,12 +2,12 @@ package cn.bestsort.authority.dto;
 
 
 
+import java.io.Serializable;
+import java.util.List;
+
 import cn.bestsort.authority.model.Notice;
 import cn.bestsort.authority.model.User;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author GoodTime0313
@@ -17,9 +17,9 @@ import java.util.List;
 @Data
 public class NoticeVO implements Serializable {
 
-	private Notice notice;
+    private Notice notice;
 
-	private List<User> users;
+    private List<User> users;
 
 
 }
