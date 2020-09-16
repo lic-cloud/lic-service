@@ -1,7 +1,5 @@
 package cn.bestsort.service;
 
-import cn.bestsort.model.entity.user.User;
-
 /**
  * @author bestsort
  * @version 1.0
@@ -15,6 +13,6 @@ public interface UserService {
      * @param requestIp     where user login from
      * @return user info
      */
-    User login(String rememberToken, String requestIp);
+   // User login(String rememberToken, String requestIp);
 
 }

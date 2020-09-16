@@ -1,27 +1,19 @@
 package cn.bestsort.model.entity.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-
-import cn.bestsort.model.entity.BaseEntity;
 import lombok.Data;
-import lombok.ToString;
 
 /**
  * @author GoodTime0313
  * @version 1.0
- * @date 2020/9/4 23:12
+ * @date 2020/9/15 8:59
  */
-
 @Data
-@Entity
-@ToString
-public class Role extends BaseEntity  {
+public class Role extends BaseEntity<Long> {
 
-    @Column(nullable = false,length = 50)
-    private String roleName;
+	private static final long serialVersionUID = -3802292814767103648L;
 
-    @Column(nullable = false,length = 100)
-    private String roleDescription;
+	private String name;
+
+	private String description;
 
 }

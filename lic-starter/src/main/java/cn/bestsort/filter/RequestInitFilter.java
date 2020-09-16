@@ -8,16 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import cn.bestsort.model.enums.LicMetaEnum;
-import cn.bestsort.model.entity.user.User;
-import cn.bestsort.service.UserService;
-import cn.bestsort.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 /**
  * @author bestsort
@@ -25,12 +17,16 @@ import org.springframework.stereotype.Component;
  * @date 2020-09-09 10:52
  */
 
-@WebFilter
-@Component
+//@WebFilter
+//@Component
 @Slf4j
 public class RequestInitFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-    @Autowired
+    }
+
+   /* @Autowired
     UserService userService;
     private static final String REMEMBER_TOKEN              = "rememberToken";
 
@@ -59,5 +55,5 @@ public class RequestInitFilter implements Filter {
             }
         }
         chain.doFilter(request, response);
-    }
+    }*/
 }
