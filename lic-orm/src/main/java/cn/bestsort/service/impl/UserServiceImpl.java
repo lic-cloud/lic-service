@@ -3,8 +3,8 @@ package cn.bestsort.service.impl;
 import java.util.Optional;
 
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.model.enums.Status;
 import cn.bestsort.model.entity.user.User;
+import cn.bestsort.model.enums.Status;
 import cn.bestsort.repository.UserRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.UserService;
@@ -23,11 +23,11 @@ import org.springframework.stereotype.Service;
  * @date 2020-09-09 11:10
  */
 
-@Slf4j
-@Service
-public class UserServiceImpl extends AbstractBaseService<User, Long> implements UserService {
+//@Slf4j
+//@Service
+public class UserServiceImpl  implements UserService {
 
-    @Override
+   /* @Override
     public User login(String rememberToken, String requestIp) {
         DecodedJWT jwtUnVerify;
         try {
@@ -62,6 +62,6 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     protected UserServiceImpl(UserRepository repository) {
         super(repository);
         this.userRepo = repository;
-    }
+    }*/
 
 }

@@ -59,7 +59,7 @@ public class LicFileManagerImpl implements LicFileManager {
             url = RandomStringUtils.randomAlphanumeric(16);
         } while (fileShareImpl.existsByUrl(url));
 
-        fileShareImpl.save(new FileShare(param.getFileId(), user.getUserName(),
+        fileShareImpl.save(new FileShare(param.getFileId(), user.getUsername(),
             user.getId(), param.getPassword(), url, param.getExpire()));
         return url;
     }

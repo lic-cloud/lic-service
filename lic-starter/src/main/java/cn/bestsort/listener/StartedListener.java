@@ -46,7 +46,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     StaterProperties properties;
     @Override
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
-        init();
+        //init();
         String version = metaInfoService.getMeta(LicMetaEnum.VERSION, "V1.0");
         log.info("Lic{} start success, click url to view [ swagger ] document {}",
                  version, AnsiOutput.toString(AnsiColor.BLUE,

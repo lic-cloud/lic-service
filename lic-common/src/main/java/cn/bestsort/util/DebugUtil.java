@@ -52,7 +52,7 @@ public class DebugUtil {
         if (target.get(0) instanceof User) {
             target.forEach(o -> {
                 User user = (User) o;
-                user.setUserPassword(BCrypt.hashpw(user.getUserPassword(), BCrypt.gensalt()));
+                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             });
         }
     }
