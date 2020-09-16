@@ -54,7 +54,7 @@ public class LocalHostUploaderController {
         // byte -> kb
         param.setSize((float)(file.getSize() / 1000));
         User user1 = new User();
-        user1.setUserName("name");
+        user1.setUsername("name");
         user1.setId(1L);
         licFileManager.uploadSuccess(user1, param);
         return ResponseEntity.ok(finished);

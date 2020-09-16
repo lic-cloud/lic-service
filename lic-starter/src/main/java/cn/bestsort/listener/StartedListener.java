@@ -48,11 +48,11 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
         //init();
         String version = metaInfoService.getMeta(LicMetaEnum.VERSION, "V1.0");
-        log.info("Lic{} start success, click url to view [ swagger ] document {}",
+        log.info("Lic[{}] start success, click url to view [ swagger ] document {}",
                  version, AnsiOutput.toString(AnsiColor.BLUE,
                                               metaInfoService.getMetaOrDefault(LicMetaEnum.HOST) + "/swagger-ui.html"));
 
-        log.info("Lic{} start success, click url to view [ knife4j ] document {}",
+        log.info("Lic[{}] start success, click url to view [ knife4j ] document {}",
                  version, AnsiOutput.toString(AnsiColor.BLUE,
                                               metaInfoService.getMetaOrDefault(LicMetaEnum.HOST) + "/doc.html"));
     }

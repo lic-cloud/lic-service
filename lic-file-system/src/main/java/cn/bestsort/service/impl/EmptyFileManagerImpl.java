@@ -13,7 +13,6 @@ import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.model.vo.UploadTokenVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,13 +24,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmptyFileManagerImpl extends AbstractFileManager {
 
-    @Autowired
-    MetaInfoService metaInfoService;
-
-
     @Override
     public String downloadLink(FileDTO fileDTO, Long expire) {
-
         String dataDir = metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR);
         String fullPath = metaInfoService.getMeta(LocalHostMetaEnum.ROOT_PATH) + dataDir + File.separator + fileDTO.getFileInfo().getPath();
         String randomKey = UUID.randomUUID().toString();

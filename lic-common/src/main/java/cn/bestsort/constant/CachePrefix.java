@@ -8,4 +8,5 @@ package cn.bestsort.constant;
 public interface CachePrefix {
     String ENTITY = "entity";
     String UNDEFINED = "undefined";
+    String LOGIN_USER_KEY = "login_user_key";
 }

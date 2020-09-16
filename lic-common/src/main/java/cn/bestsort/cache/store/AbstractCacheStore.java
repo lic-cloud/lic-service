@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import com.alibaba.fastjson.JSON;
+
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.ValueEnum;
 import org.springframework.util.Assert;
@@ -22,6 +24,10 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
         return getInternal(key).orElse(null);
     }
 
+    @Override
+    public <T> T getObj(Class<T> clazz, K key) {
+        return JSON.parseObject(get(key).toString(), clazz);
+    }
     @Override
     public V getOrElse(K key, V defaultValue) {
         Assert.notNull(key, "Cache key must not be blank");

@@ -29,6 +29,13 @@ public interface CacheStore<K, V> {
     V get(K key);
 
     /**
+     * get by type
+     * @param key key
+     * @param <T> type
+     * @return obj
+     */
+    <T> T getObj(Class<T> clazz,K key);
+    /**
      * add objects to sorted list, if some exist, update them's score
      *
      * @param listName    name

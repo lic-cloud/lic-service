@@ -1,20 +1,21 @@
 package cn.bestsort;
 
+import java.lang.reflect.Field;
+
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import sun.misc.Unsafe;
-
-import java.lang.reflect.Field;
 
 /**
  * @author bestsort
  * @version 1.0
  * @date 2020-08-24 10:39
  */
+
 @EnableJpaAuditing
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"cn.bestsort",
+    "org.springframework.boot.autoconfigure.data.redis"})
 public class Main {
     public static void main(String[] args) {
         //禁用警告

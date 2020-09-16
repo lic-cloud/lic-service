@@ -88,7 +88,7 @@ public class LicFileManagerImpl implements LicFileManager {
             info.setFileName(param.getName());
             info.setMd5(param.getMd5());
             info.setNamespace(param.getNamespace());
-            info.setOwner(user.getUserName());
+            info.setOwner(user.getUsername());
             info.setSize(param.getSize());
             info = fileInfoImp.save(info);
         }

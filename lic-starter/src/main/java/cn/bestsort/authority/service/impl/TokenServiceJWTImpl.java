@@ -1,9 +1,23 @@
 package cn.bestsort.authority.service.impl;
 
+import java.security.Key;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.authority.dto.LoginUser;
 import cn.bestsort.authority.dto.Token;
 import cn.bestsort.authority.service.TokenService;
+import cn.bestsort.cache.CacheHandler;
+import cn.bestsort.constant.CachePrefix;
+import cn.bestsort.model.enums.LicMetaEnum;
+import cn.bestsort.service.impl.MetaInfoService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,16 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-import java.security.Key;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * token存到redis的实现类
@@ -37,13 +42,11 @@ import java.util.concurrent.TimeUnit;
 public class TokenServiceJWTImpl implements TokenService {
 
 
-    /**
-     * token过期秒数
-     */
-    @Value("${token.expire.seconds}")
-    private Integer expireSeconds;
     @Autowired
-    private RedisTemplate<String, LoginUser> redisTemplate;
+    private MetaInfoService metaInfoService;
+    @Autowired
+    private CacheHandler cacheHandler;
+
     /**
      * 私钥：随便字符串
      */
@@ -51,40 +54,36 @@ public class TokenServiceJWTImpl implements TokenService {
     private String jwtSecret;
 
     private static Key KEY = null;
-    private static final String LOGIN_USER_KEY = "LOGIN_USER_KEY";
 
     @Override
     public Token saveToken(LoginUser loginUser) {
         loginUser.setToken(UUID.randomUUID().toString());
         cacheLoginUser(loginUser);
 
-        String jwtToken = createJWTToken(loginUser);
+        String jwtToken = createToken(loginUser);
 
         return new Token(jwtToken, loginUser.getLoginTime());
     }
 
     /**
      * 生成jwt
-     *
-     * @param loginUser
-     * @return
      */
-    private String createJWTToken(LoginUser loginUser) {
+    private String createToken(LoginUser loginUser) {
         Map<String, Object> claims = new HashMap<>();
 		// 放入一个随机字符串，通过该串可找到登陆用户
-        claims.put(LOGIN_USER_KEY, loginUser.getToken());
+        claims.put(CachePrefix.LOGIN_USER_KEY, loginUser.getToken());
 
-        String jwtToken = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, getKeyInstance())
+        return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, getKeyInstance())
             .compact();
-
-        return jwtToken;
     }
 
     private void cacheLoginUser(LoginUser loginUser) {
         loginUser.setLoginTime(System.currentTimeMillis());
-        loginUser.setExpireTime(loginUser.getLoginTime() + expireSeconds * 1000);
+        long expire = Long.parseLong(metaInfoService.getMetaOrDefault(LicMetaEnum.CACHE_EXPIRE)) * 100;
+        loginUser.setExpireTime(loginUser.getLoginTime());
         // 根据uuid将loginUser缓存
-        redisTemplate.boundValueOps(getTokenKey(loginUser.getToken())).set(loginUser, expireSeconds, TimeUnit.SECONDS);
+        cacheHandler.fetchCacheStore().put(getTokenKey(loginUser.getToken()), JSON.toJSONString(loginUser),
+                                           expire, TimeUnit.MINUTES);
     }
 
     /**
@@ -99,7 +98,7 @@ public class TokenServiceJWTImpl implements TokenService {
     public LoginUser getLoginUser(String jwtToken) {
         String uuid = getUUIDFromJWT(jwtToken);
         if (uuid != null) {
-            return redisTemplate.boundValueOps(getTokenKey(uuid)).get();
+            return cacheHandler.fetchCacheStore().getObj(LoginUser.class, getTokenKey(uuid));
         }
 
         return null;
@@ -110,9 +109,9 @@ public class TokenServiceJWTImpl implements TokenService {
         String uuid = getUUIDFromJWT(jwtToken);
         if (uuid != null) {
             String key = getTokenKey(uuid);
-            LoginUser loginUser = redisTemplate.opsForValue().get(key);
+            LoginUser loginUser = cacheHandler.fetchCacheStore().getObj(LoginUser.class, key);
             if (loginUser != null) {
-                redisTemplate.delete(key);
+                cacheHandler.fetchCacheStore().delete(key);
                 return true;
             }
         }
@@ -144,11 +143,11 @@ public class TokenServiceJWTImpl implements TokenService {
 
         try {
             Map<String, Object> jwtClaims = Jwts.parser().setSigningKey(getKeyInstance()).parseClaimsJws(jwtToken).getBody();
-            return MapUtils.getString(jwtClaims, LOGIN_USER_KEY);
+            return MapUtils.getString(jwtClaims, CachePrefix.LOGIN_USER_KEY);
         } catch (ExpiredJwtException e) {
             log.error("{}已过期", jwtToken);
         } catch (Exception e) {
-            log.error("{}", e);
+            log.error("token: {}", jwtToken, e);
         }
 
         return null;
