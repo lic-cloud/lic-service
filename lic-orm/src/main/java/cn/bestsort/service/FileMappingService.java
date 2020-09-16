@@ -17,4 +17,7 @@ public interface FileMappingService extends BaseService<FileMapping, Long> {
      * @return      列表集合
      */
     List<FileMapping> listUserFile(Long dirId, Long userId);
+
+    String fullPath(Long dirId);
+
 }

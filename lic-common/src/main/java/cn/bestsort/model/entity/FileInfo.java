@@ -47,14 +47,6 @@ public class FileInfo extends BaseEntity {
 
 
     /**
-     * 是否是文件夹
-     * true     是
-     * false    否
-     */
-    @Column
-    Boolean isDir;
-
-    /**
      * 对应的文件系统实现
      */
     @Column

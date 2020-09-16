@@ -1,6 +1,6 @@
 package cn.bestsort.controller;
 
-import cn.bestsort.model.vo.UserVo;
+import cn.bestsort.model.vo.UserVO;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<UserVo> login() {
-        return ResponseEntity.ok(new UserVo("username",1, "token"));
+    ResponseEntity<UserVO> login() {
+        return ResponseEntity.ok(new UserVO("username", 1, "token"));
     }
 }

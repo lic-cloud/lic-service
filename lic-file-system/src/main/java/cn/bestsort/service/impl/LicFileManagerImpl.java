@@ -15,6 +15,8 @@ import cn.bestsort.model.entity.user.User;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.Status;
 import cn.bestsort.model.param.ShareParam;
+import cn.bestsort.model.param.UploadSuccessCallbackParam;
+import cn.bestsort.model.vo.UploadTokenVO;
 import cn.bestsort.service.FileInfoService;
 import cn.bestsort.service.FileManager;
 import cn.bestsort.service.FileManagerHandler;
@@ -37,6 +39,11 @@ public class LicFileManagerImpl implements LicFileManager {
     final FileMappingService fileMappingImpl;
     final FileShareService   fileShareImpl;
 
+    @Override
+    public boolean canSuperUpload(String md5, FileNamespace fileNamespace) {
+        return fileInfoImp.getByMd5(md5, fileNamespace) != null;
+    }
+
 
     @Override
     public List<FileMapping> listFiles(Long dirId, User user) {
@@ -50,6 +57,10 @@ public class LicFileManagerImpl implements LicFileManager {
         return manager.handle(info).downloadLink(new FileDTO(info, user), expire);
     }
 
+    @Override
+    public UploadTokenVO createUploadToken(FileNamespace namespace, Map<String, String> config) {
+        return manager.handle(namespace).generatorUploadVO(config);
+    }
 
     @Override
     public String createShareLink(ShareParam param, User user) {
@@ -62,6 +73,34 @@ public class LicFileManagerImpl implements LicFileManager {
         fileShareImpl.save(new FileShare(param.getFileId(), user.getUsername(),
             user.getId(), param.getPassword(), url, param.getExpire()));
         return url;
+    }
+
+    @Override
+    public void uploadSuccess(User user, UploadSuccessCallbackParam param) {
+        FileInfo info = fileInfoImp.getByMd5(param.getMd5(), param.getNamespace());
+        FileMapping fileMapping = new FileMapping();
+        if (info != null) {
+            info.setReference(info.getReference() + 1);
+        } else {
+            info = new FileInfo();
+            info.setPath(fileMappingImpl.fullPath(param.getPid()));
+            info.setReference(1);
+            info.setFileName(param.getName());
+            info.setMd5(param.getMd5());
+            info.setNamespace(param.getNamespace());
+            info.setOwner(user.getUserName());
+            info.setSize(param.getSize());
+            info = fileInfoImp.save(info);
+        }
+        fileMapping.setInfoId(info.getId());
+        fileMapping.setFileName(param.getName());
+        fileMapping.setIsDir(false);
+        fileMapping.setOwnerId(user.getId());
+        fileMapping.setPid(param.getPid());
+        fileMapping.setShare(false);
+        fileMapping.setSize(param.getSize());
+        fileMapping.setStatus(Status.VALID);
+        fileMappingImpl.save(fileMapping);
     }
 
     @Override

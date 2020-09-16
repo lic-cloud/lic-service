@@ -49,8 +49,11 @@ public class FileMapping extends BaseEntityWithDeleteAt {
      * 该文件是否已经被分享
      */
     @Column
-    Integer share;
+    Boolean share;
 
+    /**
+     * 是否位于回收站
+     */
     @Column
     Status status;
 }
