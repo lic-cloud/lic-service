@@ -34,10 +34,10 @@ public interface PermissionDao {
     Permission getById(Long id);
 
     @Insert("insert into sys_permission(parentId, name, css, href, type, permission, sort) values(#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})")
-    int save(Permission permission);
+    int save(Permission permissionDTO);
 
     @Update("update sys_permission t set parentId = #{parentId}, name = #{name}, css = #{css}, href = #{href}, type = #{type}, permission = #{permission}, sort = #{sort} where t.id = #{id}")
-    int update(Permission permission);
+    int update(Permission permissionDTO);
 
     @Delete("delete from sys_permission where id = #{id}")
     int delete(Long id);

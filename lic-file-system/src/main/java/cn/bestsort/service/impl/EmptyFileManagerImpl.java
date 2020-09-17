@@ -26,10 +26,10 @@ public class EmptyFileManagerImpl extends AbstractFileManager {
 
     @Override
     public String downloadLink(FileDTO fileDTO, Long expire) {
-        String dataDir = metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR);
+        String dataDir = metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR);
         String fullPath = metaInfoService.getMeta(LocalHostMetaEnum.ROOT_PATH) + dataDir + File.separator + fileDTO.getFileInfo().getPath();
         String randomKey = UUID.randomUUID().toString();
-        String mappingPath = String.format("%s/%s/%s%s", metaInfoService.getMetaOrDefault(LicMetaEnum.HOST),
+        String mappingPath = String.format("%s/%s/%s%s", metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST),
                               DOWNLOAD_LINK_PATH,
                               FileNamespace.LOCALHOST,
                               randomKey);

@@ -1,7 +1,7 @@
 package cn.bestsort.authority.service;
 
 
-import cn.bestsort.authority.model.Permission;
+import cn.bestsort.authority.model.PermissionDTO;
 
 /**
  * @author GoodTime0313
@@ -10,9 +10,9 @@ import cn.bestsort.authority.model.Permission;
  */
 public interface PermissionService {
 
-    void save(Permission permission);
+    void save(PermissionDTO permissionDTO);
 
-    void update(Permission permission);
+    void update(PermissionDTO permissionDTO);
 
     void delete(Long id);
 }

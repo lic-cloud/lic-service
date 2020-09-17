@@ -2,10 +2,12 @@ package cn.bestsort.authority.service.impl;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cn.bestsort.authority.dao.PermissionDao;
 import cn.bestsort.authority.dto.LoginUser;
 import cn.bestsort.authority.model.Permission;
+import cn.bestsort.authority.model.PermissionDTO;
 import cn.bestsort.authority.model.User;
 import cn.bestsort.authority.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -47,9 +49,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //进行对象之间属性的赋值
         BeanUtils.copyProperties(sysUser, loginUser);
 
-        List<Permission> permissions = permissionDao.listByUserId(sysUser.getId());
-        loginUser.setPermissions(permissions);
-
+        List<Permission> permission = permissionDao.listByUserId(sysUser.getId());
+        loginUser.setPermissions(permission.stream()
+                                        .map(PermissionDTO::transForm)
+                                        .collect(Collectors.toList()));
         return loginUser;
     }
 

@@ -50,8 +50,8 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
     public String getMeta(ValueEnum metaKey, String defaultVal) {
         return getMeta(metaKey.getVal().toString(), defaultVal);
     }
-
-    public String getMetaOrDefault(ValueEnum metaKey) {
+    
+    public String getMetaOrDefaultStr(ValueEnum metaKey) {
         return getMeta(metaKey.getVal().toString(), ValueEnum.get(String.class, metaKey));
     }
 

@@ -63,12 +63,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //配置登录的核心代码 登录成功失败异常的处理器SecurityHandlerConfig
         //对应html登录的时候提交表单的url
         http.formLogin().loginProcessingUrl("/login")
-            .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
-            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
-        http.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
+            .successHandler(authenticationSuccessHandler)
+            .failureHandler(authenticationFailureHandler)
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPoint);
+
+        http.logout().logoutUrl("/logout")
+            .logoutSuccessHandler(logoutSuccessHandler);
+
         // 解决不允许显示在iframe的问题
         http.headers().frameOptions().disable();
         http.headers().cacheControl();
+
         //做一个拦截请求 获取到token 对token进行校验
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

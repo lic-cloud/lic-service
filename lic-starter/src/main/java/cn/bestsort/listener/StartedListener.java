@@ -46,22 +46,22 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     StaterProperties properties;
     @Override
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
-        //init();
+        init();
         String version = metaInfoService.getMeta(LicMetaEnum.VERSION, "V1.0");
         log.info("Lic[{}] start success, click url to view [ swagger ] document {}",
                  version, AnsiOutput.toString(AnsiColor.BLUE,
-                                              metaInfoService.getMetaOrDefault(LicMetaEnum.HOST) + "/swagger-ui.html"));
+                                              metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/swagger-ui.html"));
 
         log.info("Lic[{}] start success, click url to view [ knife4j ] document {}",
                  version, AnsiOutput.toString(AnsiColor.BLUE,
-                                              metaInfoService.getMetaOrDefault(LicMetaEnum.HOST) + "/doc.html"));
+                                              metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/doc.html"));
     }
 
     private void init() {
         metaInfoService.refresh();
         // init cache
         handler.init(context, CacheStoreType
-            .valueOf(metaInfoService.getMetaOrDefault(LicMetaEnum.CACHE_TYPE)));
+            .valueOf(metaInfoService.getMetaOrDefaultStr(LicMetaEnum.CACHE_TYPE)));
 
         // 根据DEBUG_DATA生成假数据
         if (properties.getGeneratorFakeData()) {

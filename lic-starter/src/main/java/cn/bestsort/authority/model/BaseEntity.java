@@ -11,7 +11,7 @@ import lombok.Data;
  * @date 2020/9/15 8:59
  */
 @Data
-public abstract class BaseEntity<ID extends Serializable> implements Serializable {
+public abstract class BaseEntity<ID extends Long> implements Serializable {
 
     private static final long serialVersionUID = 2054813493011812469L;
 

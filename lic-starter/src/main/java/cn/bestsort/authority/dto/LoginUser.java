@@ -1,27 +1,31 @@
 package cn.bestsort.authority.dto;
 
 
-import cn.bestsort.authority.model.Permission;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import cn.bestsort.authority.model.PermissionDTO;
 import cn.bestsort.authority.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
  */
+@Getter
+@Setter
 public class LoginUser extends User implements UserDetails {
 
-    private List<Permission> permissions;
-    private String token;
+    private List<PermissionDTO> permissions;
+    private String              token;
     /**
      * 登陆时间戳（毫秒）
      */
@@ -30,22 +34,6 @@ public class LoginUser extends User implements UserDetails {
      * 过期时间戳
      */
     private Long expireTime;
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     /**
      * 获取非空的用户权限集合,在Controller每个请求接口上会有注解，校验用户是否有此请求权限
@@ -91,22 +79,6 @@ public class LoginUser extends User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public Long getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Long loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public Long getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime) {
-        this.expireTime = expireTime;
     }
 
 }

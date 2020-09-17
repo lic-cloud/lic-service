@@ -1,7 +1,5 @@
 package cn.bestsort.model.entity.user;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 
 import cn.bestsort.model.entity.BaseEntity;
@@ -24,5 +22,4 @@ public class Permission extends BaseEntity {
     private Integer type;
     private String permission;
     private Integer sort;
-    private List<Permission> child;
 }

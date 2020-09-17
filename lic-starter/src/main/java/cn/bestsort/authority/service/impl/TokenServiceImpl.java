@@ -78,7 +78,7 @@ public class TokenServiceImpl implements TokenService {
     }
     private void cacheLoginUser(LoginUser loginUser) {
         loginUser.setLoginTime(System.currentTimeMillis());
-        long expire = Long.parseLong(metaInfoService.getMetaOrDefault(LicMetaEnum.CACHE_EXPIRE)) * 100;
+        long expire = metaInfoService.getMetaObj(Long.class, LicMetaEnum.CACHE_EXPIRE) * 100;
         loginUser.setExpireTime(loginUser.getLoginTime());
         // 根据uuid将loginUser缓存
         cacheHandler.fetchCacheStore().put(getTokenKey(loginUser.getToken()), JSON.toJSONString(loginUser),

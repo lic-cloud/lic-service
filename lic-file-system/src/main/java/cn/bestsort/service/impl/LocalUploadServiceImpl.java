@@ -36,8 +36,8 @@ public class LocalUploadServiceImpl implements LocalUploadService {
     @Override
     public boolean simpleUpload(MultipartFile file) throws IOException {
 
-        String path = metaInfoService.getMetaOrDefault(LocalHostMetaEnum.ROOT_PATH) +
-                metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR) + file.getOriginalFilename();
+        String path = metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH) +
+                metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR) + file.getOriginalFilename();
         File localFile = new File(path);
         int cnt = 0;
         while (localFile.exists() || localFile.isDirectory()) {
@@ -56,8 +56,8 @@ public class LocalUploadServiceImpl implements LocalUploadService {
                                    Integer chunks, Integer chunk,
                                    MultipartFile file) throws IOException {
         String fileName = getFileName(md5, chunks);
-        FileUtils.writeWithBlock(metaInfoService.getMetaOrDefault(LocalHostMetaEnum.ROOT_PATH) +
-                                     metaInfoService.getMetaOrDefault(LocalHostMetaEnum.DATA_DIR) +
+        FileUtils.writeWithBlock(metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH) +
+                                     metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR) +
                                      fileName, size, file.getInputStream(), file.getSize(), chunks, chunk);
         // 标记当前文件块
         fileUploadBufferPool.get(md5).status[chunk] = true;

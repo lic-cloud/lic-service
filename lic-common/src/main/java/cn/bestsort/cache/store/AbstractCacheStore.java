@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSON;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.ValueEnum;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @author bestsort
@@ -26,7 +27,12 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
 
     @Override
     public <T> T getObj(Class<T> clazz, K key) {
-        return JSON.parseObject(get(key).toString(), clazz);
+        Object obj = get(key);
+
+        if (ObjectUtils.isEmpty(obj)) {
+            return null;
+        }
+        return JSON.parseObject(obj.toString(), clazz);
     }
     @Override
     public V getOrElse(K key, V defaultValue) {

@@ -2,6 +2,7 @@ package cn.bestsort.authority.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import cn.bestsort.authority.dao.PermissionDao;
 import cn.bestsort.authority.dto.LoginUser;
 import cn.bestsort.authority.model.Permission;
+import cn.bestsort.authority.model.PermissionDTO;
 import cn.bestsort.authority.service.PermissionService;
 import cn.bestsort.authority.utils.UserUtil;
 import com.google.common.collect.Lists;
@@ -48,14 +50,15 @@ public class PermissionController {
 
     @ApiOperation(value = "当前登录用户拥有的权限")
     @GetMapping("/current")
-    public List<Permission> permissionsCurrent() {
+    public List<PermissionDTO> permissionsCurrent() {
         LoginUser loginUser = UserUtil.getLoginUser();
-        List<Permission> list = loginUser.getPermissions();
-        final List<Permission> permissions = list.stream().filter(l -> l.getType().equals(1))
+        List<PermissionDTO> list = loginUser.getPermissions();
+        final List<PermissionDTO> permissionDTOS = list.stream().filter(l -> l.getType().equals(1))
             .collect(Collectors.toList());
-        List<Permission> firstLevel = permissions.stream().filter(p -> p.getParentId().equals(0L)).collect(Collectors.toList());
+        List<PermissionDTO> firstLevel = permissionDTOS
+            .stream().filter(p -> p.getParentId().equals(0L)).collect(Collectors.toList());
         firstLevel.parallelStream().forEach(p -> {
-            setChild(p, permissions);
+            setChild(p, permissionDTOS);
         });
 
         return firstLevel;
@@ -66,15 +69,16 @@ public class PermissionController {
      * 2018.06.09
      *
      * @param p
-     * @param permissions
+     * @param permissionDTOS
      */
-    private void setChild(Permission p, List<Permission> permissions) {
-        List<Permission> child = permissions.parallelStream().filter(a -> a.getParentId().equals(p.getId())).collect(Collectors.toList());
+    private void setChild(PermissionDTO p, List<PermissionDTO> permissionDTOS) {
+        List<PermissionDTO> child = permissionDTOS
+            .parallelStream().filter(a -> a.getParentId().equals(p.getId())).collect(Collectors.toList());
         p.setChild(child);
         if (!CollectionUtils.isEmpty(child)) {
             child.parallelStream().forEach(c -> {
                 //递归设置子元素，多级菜单支持
-                setChild(c, permissions);
+                setChild(c, permissionDTOS);
             });
         }
     }
@@ -86,11 +90,13 @@ public class PermissionController {
      * @param permissionsAll
      * @param list
      */
-    private void setPermissionsList(Long pId, List<Permission> permissionsAll, List<Permission> list) {
-        for (Permission per : permissionsAll) {
+    private void setPermissionsList(Long pId, List<PermissionDTO> permissionsAll, List<PermissionDTO> list) {
+        for (PermissionDTO per : permissionsAll) {
             if (per.getParentId().equals(pId)) {
                 list.add(per);
-                if (permissionsAll.stream().filter(p -> p.getParentId().equals(per.getId())).findAny() != null) {
+                if (permissionsAll.stream()
+                    .filter(p -> p.getParentId().equals(per.getId()))
+                    .findAny() != null) {
                     setPermissionsList(per.getId(), permissionsAll, list);
                 }
             }
@@ -100,11 +106,14 @@ public class PermissionController {
     @GetMapping
     @ApiOperation(value = "菜单列表")
     @PreAuthorize("hasAuthority('sys:menu:query')")
-    public List<Permission> permissionsList() {
+    public List<PermissionDTO> permissionsList() {
         List<Permission> permissionsAll = permissionDao.listAll();
 
-        List<Permission> list = Lists.newArrayList();
-        setPermissionsList(0L, permissionsAll, list);
+        List<PermissionDTO> list = Lists.newArrayList();
+        setPermissionsList(0L, permissionsAll.stream()
+                               .map(PermissionDTO::transForm)
+                               .collect(Collectors.toList()),
+                           list);
 
         return list;
     }
@@ -115,7 +124,9 @@ public class PermissionController {
     public JSONArray permissionsAll() {
         List<Permission> permissionsAll = permissionDao.listAll();
         JSONArray array = new JSONArray();
-        setPermissionsTree(0L, permissionsAll, array);
+        setPermissionsTree(0L, permissionsAll.stream()
+            .map(PermissionDTO::transForm)
+            .collect(Collectors.toList()), array);
 
         return array;
     }
@@ -123,10 +134,12 @@ public class PermissionController {
     @GetMapping("/parents")
     @ApiOperation(value = "一级菜单")
     @PreAuthorize("hasAuthority('sys:menu:query')")
-    public List<Permission> parentMenu() {
+    public List<PermissionDTO> parentMenu() {
         List<Permission> parents = permissionDao.listParents();
 
-        return parents;
+        return parents.stream()
+            .map(PermissionDTO::transForm)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -136,14 +149,14 @@ public class PermissionController {
      * @param permissionsAll
      * @param array
      */
-    private void setPermissionsTree(Long pId, List<Permission> permissionsAll, JSONArray array) {
-        for (Permission per : permissionsAll) {
+    private void setPermissionsTree(Long pId, List<PermissionDTO> permissionsAll, JSONArray array) {
+        for (PermissionDTO per : permissionsAll) {
             if (per.getParentId().equals(pId)) {
                 String string = JSONObject.toJSONString(per);
                 JSONObject parent = (JSONObject) JSONObject.parse(string);
                 array.add(parent);
 
-                if (permissionsAll.stream().filter(p -> p.getParentId().equals(per.getId())).findAny() != null) {
+                if (permissionsAll.stream().anyMatch(p -> p.getParentId().equals(per.getId()))) {
                     JSONArray child = new JSONArray();
                     parent.put("child", child);
                     setPermissionsTree(per.getId(), permissionsAll, child);
@@ -155,31 +168,35 @@ public class PermissionController {
     @GetMapping(params = "roleId")
     @ApiOperation(value = "根据角色id获取权限")
     @PreAuthorize("hasAnyAuthority('sys:menu:query','sys:role:query')")
-    public List<Permission> listByRoleId(Long roleId) {
-        return permissionDao.listByRoleId(roleId);
+    public List<PermissionDTO> listByRoleId(Long roleId) {
+        return permissionDao
+            .listByRoleId(roleId)
+            .stream()
+            .map(PermissionDTO::transForm)
+            .collect(Collectors.toList());
     }
 
 
     @PostMapping
     @ApiOperation(value = "保存菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
-    public void save(@RequestBody Permission permission) {
-        permissionDao.save(permission);
+    public void save(@RequestBody PermissionDTO permissionDTO) {
+        permissionDao.save(permissionDTO);
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "根据菜单id获取菜单")
     @PreAuthorize("hasAuthority('sys:menu:query')")
-    public Permission get(@PathVariable Long id) {
-        return permissionDao.getById(id);
+    public PermissionDTO get(@PathVariable Long id) {
+        return PermissionDTO.transForm(permissionDao.getById(id));
     }
 
 
     @PutMapping
     @ApiOperation(value = "修改菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
-    public void update(@RequestBody Permission permission) {
-        permissionService.update(permission);
+    public void update(@RequestBody PermissionDTO permissionDTO) {
+        permissionService.update(permissionDTO);
     }
 
     /**
@@ -190,13 +207,13 @@ public class PermissionController {
     @GetMapping("/owns")
     @ApiOperation(value = "校验当前用户的权限")
     public Set<String> ownsPermission() {
-        List<Permission> permissions = UserUtil.getLoginUser().getPermissions();
-        if (CollectionUtils.isEmpty(permissions)) {
+        List<PermissionDTO> permissionDTOS = Objects.requireNonNull(UserUtil.getLoginUser()).getPermissions();
+        if (CollectionUtils.isEmpty(permissionDTOS)) {
             return Collections.emptySet();
         }
 
-        return permissions.parallelStream().filter(p -> !StringUtils.isEmpty(p.getPermission()))
-            .map(Permission::getPermission).collect(Collectors.toSet());
+        return permissionDTOS.parallelStream().filter(p -> !StringUtils.isEmpty(p.getPermission()))
+            .map(PermissionDTO::getPermission).collect(Collectors.toSet());
     }
 
 

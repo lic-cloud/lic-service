@@ -50,7 +50,7 @@ spring:
     servlet:
       load-on-startup: 1
 lic:
-  generator-fake-data: true
+  generator-fake-data: false
 mybatis:
   type-aliases-package: cn.bestsort.authority.model
   mapper-locations: classpath:/mybatis-mappers/*
