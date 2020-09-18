@@ -11,6 +11,7 @@ import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.RolePermissionService;
 import cn.bestsort.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -26,7 +27,7 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
 
 
     private RoleRepository roleRepo;
-    private RolePermissionService rolePermissionService;
+    private final RolePermissionService rolePermissionService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -35,9 +36,9 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
         permissionIds.remove(0L);
 
         if (roleDto.getId() != null) {
-            updateRole(roleDto, permissionIds);
+            updateRole(roleDto.supperRole(), permissionIds);
         } else {
-            saveRole(roleDto, permissionIds);
+            saveRole(roleDto.supperRole(), permissionIds);
         }
     }
 
@@ -83,9 +84,10 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
     }
 
     protected RoleServiceImpl(
-        RoleRepository repository) {
+        RoleRepository repository, RolePermissionService rolePermissionService) {
         super(repository);
         roleRepo = repository;
+        this.rolePermissionService = rolePermissionService;
     }
 
 }

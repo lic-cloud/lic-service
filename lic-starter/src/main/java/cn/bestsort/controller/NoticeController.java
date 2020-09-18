@@ -69,6 +69,7 @@ public class NoticeController {
         if (notice.getStatus() == Status.DRAFT) {
             return vo;
         }
+        //TODO uk exception
         vo.setNotice(notice);
         //TODO defined NPE
         noticeReadService.save(
@@ -124,11 +125,5 @@ public class NoticeController {
             .map(NoticeRead::getUserId)
             .collect(Collectors.toSet())
             .size();
-    }
-
-    @GetMapping("/published")
-    @ApiOperation(value = "公告列表")
-    public Page<Notice> listNoticeReadVO(Pageable request) {
-        return noticeService.listAll(request);
     }
 }

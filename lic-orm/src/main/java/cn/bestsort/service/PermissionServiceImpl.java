@@ -26,8 +26,6 @@ public class PermissionServiceImpl extends AbstractBaseService<Permission, Long>
         return permissionRepo.findAllByType(type);
     }
 
-
-
     @Override
     @Transactional
     public void delete(Long id) {
