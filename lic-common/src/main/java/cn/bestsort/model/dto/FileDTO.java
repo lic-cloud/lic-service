@@ -1,7 +1,7 @@
 package cn.bestsort.model.dto;
 
 import cn.bestsort.model.entity.FileInfo;
-import cn.bestsort.model.entity.user.User;
+import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
 import lombok.AllArgsConstructor;
 import lombok.Data;

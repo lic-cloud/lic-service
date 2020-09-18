@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
-import cn.bestsort.model.entity.user.User;
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.cache.store.CacheStore;
 import cn.bestsort.constant.CachePrefix;
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.entity.BaseEntity;
+import cn.bestsort.model.entity.User;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.repository.BaseRepository;
 import cn.bestsort.util.CacheUtil;
 import cn.bestsort.util.SpringUtil;

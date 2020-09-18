@@ -9,6 +9,7 @@ import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.repository.FileInfoRepository;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.service.LocalUploadService;
+import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class LocalUploadServiceImpl implements LocalUploadService {
     @Autowired
     MetaInfoService metaInfoService;
     @Autowired
-    LicFileManager licFileManager;
+    LicFileManager  licFileManager;
     @Autowired
     FileInfoRepository fileInfoRepo;
 

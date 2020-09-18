@@ -6,6 +6,7 @@ import cn.bestsort.repository.FileInfoRepository;
 import cn.bestsort.repository.FileMappingRepository;
 import cn.bestsort.repository.FileShareRepository;
 import cn.bestsort.service.FileManager;
+import cn.bestsort.service.MetaInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -15,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public abstract class AbstractFileManager implements FileManager {
     @Autowired
-    protected CacheHandler cacheHandler;
+    protected CacheHandler       cacheHandler;
     @Autowired
-    protected MetaInfoService metaInfoService;
+    protected MetaInfoService    metaInfoService;
     @Autowired
     protected FileInfoRepository fileInfoRepo;
     @Autowired

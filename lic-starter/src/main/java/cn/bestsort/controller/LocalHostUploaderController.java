@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.bestsort.model.entity.user.User;
+import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;

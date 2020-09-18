@@ -32,7 +32,7 @@ spring:
     database: mysql
     show-sql: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   http:
     encoding:
@@ -51,11 +51,6 @@ spring:
       load-on-startup: 1
 lic:
   generator-fake-data: false
-mybatis:
-  type-aliases-package: cn.bestsort.authority.model
-  mapper-locations: classpath:/mybatis-mappers/*
-  configuration:
-    mapUnderscoreToCamelCase: true
 token:
   expire:
     seconds: 7200

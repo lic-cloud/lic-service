@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.bestsort.authority.dto.ResponseInfo;
+import cn.bestsort.model.vo.ResponseInfo;
 import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.exception.LicException;
 import cn.bestsort.model.vo.ErrorResponse;
@@ -59,31 +59,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseInfo badRequestException(IllegalArgumentException exception) {
-        return new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", exception.getMessage());
-        //exception.getMessage() 异常抛出的信息
+        return ResponseInfo.of(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler({AccessDeniedException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseInfo badRequestException(AccessDeniedException exception) {
-        return new ResponseInfo(HttpStatus.FORBIDDEN.value() + "", exception.getMessage());
+        return ResponseInfo.of(HttpStatus.FORBIDDEN, exception.getMessage());
     }
 
     @ExceptionHandler({MissingServletRequestParameterException.class, HttpMessageNotReadableException.class,
         UnsatisfiedServletRequestParameterException.class, MethodArgumentTypeMismatchException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseInfo badRequestException(Exception exception) {
-        return new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", exception.getMessage());
+        return ResponseInfo.of(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(Throwable.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseInfo exception(Throwable throwable) {
-        log.error("系统异常", throwable);
-        return new ResponseInfo(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", throwable.getMessage());
-
-    }
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler(LicException.class)
     public ResponseEntity<ErrorResponse> handleCustomExceptions(LicException e) {
         log.debug("exception type: {}, http status: {}, message: {}", e.getClass(), e.getCode(), e.getMsg());
         return ResponseEntity.status(e.getCode())

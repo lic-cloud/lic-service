@@ -13,7 +13,7 @@ import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.cache.CacheStoreType;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.service.BaseService;
-import cn.bestsort.service.impl.MetaInfoService;
+import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.util.DebugUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;

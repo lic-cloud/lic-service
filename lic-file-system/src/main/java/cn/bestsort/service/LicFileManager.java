@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.bestsort.model.entity.FileMapping;
-import cn.bestsort.model.entity.user.User;
+import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;

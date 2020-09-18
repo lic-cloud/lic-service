@@ -33,9 +33,6 @@ public class ErrorResponse {
         return new ResponseBuilder();
     }
 
-    public String toJSONString() {
-        return JSON.toJSONString(this);
-    }
 
     public static class ResponseBuilder {
         private Integer code;

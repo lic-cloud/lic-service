@@ -20,7 +20,8 @@ public interface ExceptionConstant {
 
     LicException UNAUTHORIZED   = new LicException("无权限, 请尝试登录或者联系管理员分配权限", 4004);
     LicException USER_HAS_BEEN_LOCKED = new LicException("用户已被冻结", 4005);
-
+    LicException PASSWORD_ERROR = new LicException("密码错误", 4006);
+    LicException NEED_LOGIN = new LicException("未登录", 4007);
     /**
      * 5XXX为系统错误
      */
