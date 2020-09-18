@@ -28,7 +28,9 @@ public class User extends BaseEntity {
     private Timestamp birthday;
     private Integer   sex;
     private Integer status;
-
+    private float totalCapacity;
+    private float usedCapacity;
+    
     public interface Status {
         int DISABLED = 0;
         int VALID = 1;

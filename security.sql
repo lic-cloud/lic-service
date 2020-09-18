@@ -107,10 +107,10 @@ INSERT INTO `role_user`(role_id, user_id) VALUES (2, 2);
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `lic_user`(id, username, password, nickname, status)
-VALUES (1, 'admin', '$2a$10$iYM/H7TrSaLs7XyIWQdGwe1xf4cdmt3nwMja6RT0wxG5YY1RjN0EK', '管理员', 1);
-INSERT INTO `lic_user`(id, username, password, nickname, status)
-VALUES (2, 'user', '$2a$10$ooGb4wjT7Hg3zgU2RhZp6eVu3jvG29i/U4L6VRwiZZ4.DZ0OOEAHu', '用户', 1);
+INSERT INTO `lic_user`(id, username, password, nickname, status, total_capacity, used_capacity)
+VALUES (1, 'admin', '$2a$10$iYM/H7TrSaLs7XyIWQdGwe1xf4cdmt3nwMja6RT0wxG5YY1RjN0EK', '管理员', 1,-1, 0);
+INSERT INTO `lic_user`(id, username, password, nickname, status, total_capacity, used_capacity)
+VALUES (2, 'user', '$2a$10$ooGb4wjT7Hg3zgU2RhZp6eVu3jvG29i/U4L6VRwiZZ4.DZ0OOEAHu', '用户', 1,10, 0);
 
 
 INSERT INTO `dict`(id, type, k, val, create_at, update_at) VALUES (1, 'sex', '0', '女', '2017-11-17 09:58:24', '2017-11-18 14:21:05');
