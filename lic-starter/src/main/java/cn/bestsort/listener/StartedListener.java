@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.bestsort.StaterProperties;
+import cn.bestsort.config.StaterProperties;
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.cache.CacheStoreType;
 import cn.bestsort.model.enums.LicMetaEnum;

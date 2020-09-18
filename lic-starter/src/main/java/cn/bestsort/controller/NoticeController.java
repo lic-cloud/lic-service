@@ -8,10 +8,12 @@ import cn.bestsort.model.entity.Notice;
 import cn.bestsort.model.entity.Notice.Status;
 import cn.bestsort.model.entity.NoticeRead;
 import cn.bestsort.model.entity.User;
+import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.model.vo.NoticeVO;
 import cn.bestsort.service.NoticeReadService;
 import cn.bestsort.service.NoticeService;
 import cn.bestsort.service.UserService;
+import cn.bestsort.util.DataTableUtil;
 import cn.bestsort.util.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -94,8 +97,11 @@ public class NoticeController {
     @GetMapping
     @ApiOperation(value = "公告管理列表")
     @PreAuthorize("hasAuthority('notice:query')")
-    public Page<Notice> listNotice(Pageable request) {
-        return noticeService.listAll(request);
+    public DataTable<Notice> listNotice(@RequestParam int draw,
+                                        @RequestParam int start,
+                                        @RequestParam int length) {
+        Page<Notice> page = noticeService.listAll(DataTableUtil.toPageable(start, length));
+        return DataTable.build(page, draw, start);
     }
 
     @DeleteMapping("/{id}")

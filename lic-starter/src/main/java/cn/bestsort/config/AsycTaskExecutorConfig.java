@@ -19,8 +19,8 @@ public class AsycTaskExecutorConfig {
     @Bean
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(50);
-        taskExecutor.setMaxPoolSize(100);
+        taskExecutor.setCorePoolSize(Runtime.getRuntime().availableProcessors());
+        taskExecutor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 2);
 
         return taskExecutor;
     }

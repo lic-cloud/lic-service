@@ -37,8 +37,6 @@ public class SecurityHandlerConfig {
 
     /**
      * 登陆成功，返回Token
-     *
-     * @return
      */
     @Bean
     public AuthenticationSuccessHandler loginSuccessHandler() {
@@ -54,8 +52,6 @@ public class SecurityHandlerConfig {
 
     /**
      * 登陆失败
-     *
-     * @return
      */
     @Bean
     public AuthenticationFailureHandler loginFailureHandler() {
@@ -74,8 +70,6 @@ public class SecurityHandlerConfig {
 
     /**
      * 未登录，返回401
-     *
-     * @return
      */
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
@@ -87,8 +81,6 @@ public class SecurityHandlerConfig {
 
     /**
      * 退出处理
-     *
-     * @return
      */
     @Bean
     public LogoutSuccessHandler logoutSussHandler() {
@@ -116,7 +108,7 @@ public class SecurityHandlerConfig {
             //data转换为json返回到前端
             response.getWriter().write(JSONObject.toJSONString(data));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("response 设置失败， response:{}, data:{}", response, data, e);
         }
     }
 }

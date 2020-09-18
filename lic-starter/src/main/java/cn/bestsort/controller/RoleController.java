@@ -6,13 +6,14 @@ import java.util.stream.Collectors;
 import cn.bestsort.model.dto.RoleDTO;
 import cn.bestsort.model.entity.Role;
 import cn.bestsort.model.entity.RoleUser;
+import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.service.RoleService;
 import cn.bestsort.service.RoleUserService;
+import cn.bestsort.util.DataTableUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -48,8 +50,11 @@ public class RoleController {
     @GetMapping
     @ApiOperation(value = "角色列表")
     @PreAuthorize("hasAuthority('sys:role:query')")
-    public Page<Role> listRoles(Pageable request) {
-        return roleService.listAll(request);
+    public DataTable<Role> listRoles(@RequestParam int draw,
+                                @RequestParam int start,
+                                @RequestParam int length) {
+        Page<Role> pageable = roleService.listAll(DataTableUtil.toPageable(start, length));
+        return DataTable.build(pageable, draw, start);
     }
 
     @GetMapping("/{id}")

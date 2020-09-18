@@ -1,4 +1,4 @@
-package cn.bestsort;
+package cn.bestsort.config;
 
 import lombok.Getter;
 import lombok.Setter;

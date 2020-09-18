@@ -62,9 +62,6 @@ public class TokenFilter extends OncePerRequestFilter {
     /**
      * 校验时间<br>
      * 过期时间与当前时间对比，临近过期10分钟内的话，自动刷新缓存
-     *
-     * @param loginUserVO
-     * @return
      */
     private LoginUserVO checkLoginTime(LoginUserVO loginUserVO) {
         long expireTime = loginUserVO.getExpireTime();
@@ -85,9 +82,6 @@ public class TokenFilter extends OncePerRequestFilter {
 
     /**
      * 根据参数或者header获取token
-     *
-     * @param request
-     * @return
      */
     public static String getToken(HttpServletRequest request) {
         String token = request.getParameter(TOKEN_KEY);

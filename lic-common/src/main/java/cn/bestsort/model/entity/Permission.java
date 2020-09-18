@@ -19,7 +19,6 @@ public class Permission extends BaseEntity {
     private String              name;
     private String              css;
     private String              href;
-    //TODO ?
     private Integer             type;
     private String              permission;
     private Integer             sort;

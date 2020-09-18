@@ -3,11 +3,12 @@ package cn.bestsort.controller;
 import java.util.List;
 
 import cn.bestsort.model.entity.Dict;
+import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.service.DictService;
+import cn.bestsort.util.DataTableUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -59,8 +61,11 @@ public class DictController {
     @PreAuthorize("hasAuthority('dict:query')")
     @GetMapping(params = { "start", "length" })
     @ApiOperation(value = "列表")
-    public Page<Dict> list(Pageable request) {
-        return dictService.listAll(request);
+    public DataTable<Dict> list(@RequestParam int draw,
+                           @RequestParam int start,
+                           @RequestParam int length) {
+        Page<Dict> pageable = dictService.listAll(DataTableUtil.toPageable(start, length));
+        return DataTable.build(pageable, draw, start);
     }
 
     @PreAuthorize("hasAuthority('dict:del')")
