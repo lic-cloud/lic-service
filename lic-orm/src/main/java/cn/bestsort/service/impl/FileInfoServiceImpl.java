@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileInfoServiceImpl extends AbstractBaseService<FileInfo, Long> implements FileInfoService {
 
-
-
     @Override
     public FileInfo getByMd5(String md5, FileNamespace namespace) {
         return repo.getFirstByMd5AndNamespace(md5, namespace);
