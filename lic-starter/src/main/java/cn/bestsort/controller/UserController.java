@@ -1,5 +1,8 @@
 package cn.bestsort.controller;
 
+import cn.bestsort.model.entity.Notice;
+import cn.bestsort.model.vo.DataTable;
+import cn.bestsort.util.DataTableUtil;
 import cn.bestsort.util.UserUtil;
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.entity.User;
@@ -12,13 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户相关接口
@@ -80,8 +77,11 @@ public class UserController {
     @GetMapping
     @ApiOperation(value = "用户列表")
     @PreAuthorize("hasAuthority('sys:user:query')")
-    public Page<User> listUsers(Pageable request) {
-        return userService.listAll(request);
+    public DataTable<User> listUsers(@RequestParam int draw,
+                                     @RequestParam int start,
+                                     @RequestParam int length) {
+        Page<User> page = userService.listAll(DataTableUtil.toPageable(start, length));
+        return DataTable.build(page, draw, start);
     }
 
     @ApiOperation(value = "当前登录用户")
