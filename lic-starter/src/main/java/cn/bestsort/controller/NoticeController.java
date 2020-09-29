@@ -9,6 +9,7 @@ import cn.bestsort.model.entity.Notice.Status;
 import cn.bestsort.model.entity.NoticeRead;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.vo.DataTable;
+import cn.bestsort.model.vo.NoticeReadVO;
 import cn.bestsort.model.vo.NoticeVO;
 import cn.bestsort.service.NoticeReadService;
 import cn.bestsort.service.NoticeService;
@@ -124,5 +125,14 @@ public class NoticeController {
             .map(NoticeRead::getUserId)
             .collect(Collectors.toSet())
             .size();
+    }
+
+
+    @GetMapping("/published")
+    @ApiOperation(value = "公告列表")
+    public DataTable<NoticeReadVO> listNoticeReadVO(@RequestParam int draw,
+                                              @RequestParam int start,
+                                              @RequestParam int length) {
+        return null;
     }
 }
