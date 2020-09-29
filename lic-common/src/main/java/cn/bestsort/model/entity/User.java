@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "lic_user")
+@Table(name = "sys_user")
 public class User extends BaseEntity {
     private String username;
     private String password;
@@ -30,7 +30,7 @@ public class User extends BaseEntity {
     private Integer status;
     private float totalCapacity;
     private float usedCapacity;
-    
+
     public interface Status {
         int DISABLED = 0;
         int VALID = 1;

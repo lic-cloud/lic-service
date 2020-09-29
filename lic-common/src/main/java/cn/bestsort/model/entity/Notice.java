@@ -1,6 +1,8 @@
 package cn.bestsort.model.entity;
 
+import javax.naming.Name;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Table(name = "t_notice")
 public class Notice extends BaseEntity {
     private String title;
     private String content;
