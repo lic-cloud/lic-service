@@ -2,6 +2,7 @@ package cn.bestsort.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Table(name = "sys_role_permission")
 public class RolePermission extends BaseEntity {
     @Column
     Long permissionId;

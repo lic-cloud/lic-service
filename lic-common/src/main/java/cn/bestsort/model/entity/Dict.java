@@ -1,6 +1,7 @@
 package cn.bestsort.model.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Table(name = "t_dict")
 public class Dict extends BaseEntity {
 
     private String type;
