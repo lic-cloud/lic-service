@@ -3,6 +3,8 @@ package cn.bestsort.service;
 import java.util.List;
 
 import cn.bestsort.model.entity.Permission;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author GoodTime0313

@@ -1,11 +1,16 @@
-package cn.bestsort.service;
+package cn.bestsort.service.impl;
 
 
 import java.util.List;
 
 import cn.bestsort.model.entity.Permission;
 import cn.bestsort.repository.PermissionRepository;
+import cn.bestsort.repository.RolePermissionRepository;
+import cn.bestsort.service.AbstractBaseService;
+import cn.bestsort.service.PermissionService;
+import cn.bestsort.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +25,8 @@ public class PermissionServiceImpl extends AbstractBaseService<Permission, Long>
     implements PermissionService {
 
     private PermissionRepository permissionRepo;
-
+    @Autowired
+    private RolePermissionRepository rolePermission;
     @Override
     public List<Permission> listByType(Integer type) {
         return permissionRepo.findAllByType(type);
@@ -30,11 +36,9 @@ public class PermissionServiceImpl extends AbstractBaseService<Permission, Long>
     @Transactional
     public void delete(Long id) {
         //TODO fix
-
-        //permissionDao.deleteRolePermission(id);
-        //permissionDao.delete(id);
-        //permissionDao.deleteByParentId(id);
-
+        rolePermission.deleteByPermissionId(id);
+        permissionRepo.deleteById(id);
+        permissionRepo.deleteByParentId(id);
         log.debug("删除菜单id:{}", id);
     }
 

@@ -11,4 +11,5 @@ import cn.bestsort.model.entity.Permission;
  */
 public interface PermissionRepository extends BaseRepository<Permission, Long> {
     List<Permission> findAllByType(Integer type);
+    void deleteByParentId(Long id);
 }
