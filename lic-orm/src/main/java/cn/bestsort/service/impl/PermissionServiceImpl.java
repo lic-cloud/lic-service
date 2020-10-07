@@ -1,6 +1,5 @@
 package cn.bestsort.service.impl;
 
-
 import java.util.List;
 
 import cn.bestsort.model.entity.Permission;
@@ -8,7 +7,6 @@ import cn.bestsort.repository.PermissionRepository;
 import cn.bestsort.repository.RolePermissionRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.PermissionService;
-import cn.bestsort.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
