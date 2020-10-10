@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "lic.generator-fake-data",
+      "type": "java.lang.String",
+      "description": "Description for lic.generator-fake-data."
+  }
+] }

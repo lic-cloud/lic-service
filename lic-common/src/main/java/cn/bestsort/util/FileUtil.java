@@ -7,12 +7,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author bestsort
  * @version 1.0
  * @date 2020-09-15 09:26
  */
-public class FileUtils {
+public class FileUtil {
 
     /**
      * 写入文件
@@ -57,5 +59,17 @@ public class FileUtils {
             randomAccessFile.write(buf,0,len);
         }
         randomAccessFile.close();
+    }
+
+    public static String unionPath(String...args) {
+        StringBuilder builder = new StringBuilder();
+        for (String arg : args) {
+            if (!arg.startsWith(File.separator)) {
+                builder.append(File.separator);
+            }
+            StringUtils.stripEnd(arg, File.separator);
+            builder.append(arg);
+        }
+        return builder.toString();
     }
 }
