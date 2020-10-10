@@ -42,7 +42,6 @@ spring:
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    joda-date-time-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   servlet:
     multipart:
@@ -59,3 +58,5 @@ token:
   jwtSecret: (XIAO:)_$^11244^%$_(WEI:)_@@++--(LAO:)_++++_.sds_(SHI:)
 server:
   port: 8080
+logging:
+  level: error

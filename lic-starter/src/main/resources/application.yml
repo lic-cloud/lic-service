@@ -58,3 +58,5 @@ token:
   jwtSecret: (XIAO:)_$^11244^%$_(WEI:)_@@++--(LAO:)_++++_.sds_(SHI:)
 server:
   port: 8080
+logging:
+  level: debug
