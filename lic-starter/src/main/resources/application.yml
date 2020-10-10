@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://192.168.246.128:3306/lic?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/lic?useUnicode=true&characterEncoding=UTF-8
     username: root
     password:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -16,7 +16,7 @@ spring:
           slow-sql-millis: 2000
 
   redis:
-    host: 192.168.246.128
+    host: localhost
     port: 6379
     password:
     max-total: 4
