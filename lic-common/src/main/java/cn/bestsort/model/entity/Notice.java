@@ -1,6 +1,5 @@
 package cn.bestsort.model.entity;
 
-import javax.naming.Name;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
