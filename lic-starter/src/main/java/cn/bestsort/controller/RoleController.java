@@ -10,6 +10,9 @@ import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.service.RoleService;
 import cn.bestsort.service.RoleUserService;
 import cn.bestsort.util.DataTableUtil;
+import cn.bestsort.util.page.PageTableHandler;
+import cn.bestsort.util.page.PageTableRequest;
+import cn.bestsort.util.page.PageTableResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +53,27 @@ public class RoleController {
     @GetMapping
     @ApiOperation(value = "角色列表")
     @PreAuthorize("hasAuthority('sys:role:query')")
-    public DataTable<Role> listRoles(@RequestParam int draw,
+    public PageTableResponse listRoles(PageTableRequest request) {
+        return new PageTableHandler(new PageTableHandler.CountHandler() {
+            @Override
+            public int count(PageTableRequest request) {
+                return roleService.countRole(request.getParams());
+            }
+        }, new PageTableHandler.ListHandler() {
+            @Override
+            public List<Role> list(PageTableRequest request) {
+                List<Role> list = roleService.listRole(request.getParams(), request.getOffset(), request.getLimit());
+                return list;
+            }
+        }).handle(request);
+    }
+    /*public DataTable<Role> listRoles(@RequestParam int draw,
                                 @RequestParam int start,
                                 @RequestParam int length) {
+
         Page<Role> pageable = roleService.listAll(DataTableUtil.toPageable(start, length));
         return DataTable.build(pageable, draw, start);
-    }
+    }*/
 
     @GetMapping("/{id}")
     @ApiOperation(value = "根据id获取角色")
@@ -81,7 +99,6 @@ public class RoleController {
                 .map(RoleUser::getRoleId)
                 .collect(Collectors.toSet()));
     }
-
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除角色")

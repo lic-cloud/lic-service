@@ -170,7 +170,6 @@ public class PermissionController {
     @ApiOperation(value = "根据角色id获取权限")
     @PreAuthorize("hasAnyAuthority('sys:menu:query','sys:role:query')")
     public List<PermissionDTO> listByRoleId(Long roleId) {
-
         // 1. 根据roleId在role-permission关系表中找到去重后的permissionId集合
         // 2. 根据Id执行in语句并转换成PermissionDTO
         return permissionService.listAllByIds(

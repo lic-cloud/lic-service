@@ -2,11 +2,14 @@ package cn.bestsort.service.impl;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.entity.RoleUser;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.entity.User.Status;
+import cn.bestsort.repository.impl.RepositoryEntity;
+import cn.bestsort.repository.RoleUserRepository;
 import cn.bestsort.repository.UserRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.RoleUserService;
@@ -31,10 +34,11 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     @Autowired
     private RoleUserService roleUserService;
     @Autowired
+    private RoleUserRepository roleUserRepository;
+    @Autowired
     private UserRepository userRepo;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
 
     @Override
     @Transactional
@@ -51,7 +55,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
 
     private void saveUserRoles(Long userId, List<Long> roleIds) {
         if (roleIds != null) {
-            removeById(userId);
+            roleUserRepository.deleteAllByUserId(userId);
             if (!CollectionUtils.isEmpty(roleIds)) {
                 List<RoleUser> list = new LinkedList<>();
                 roleIds.forEach(i -> list.add(RoleUser.of(userId, i)));
@@ -86,14 +90,38 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         User user = new User();
         SpringUtil.cloneWithoutNullVal(userDto, user);
         update(user, user.getId());
-
         saveUserRoles(userDto.getId(), userDto.getRoleIds());
-
         return userDto;
+    }
+
+    @Override
+    public int countUser(Map<String, Object> params) {
+        String username = (String) params.get("username");
+        String nickname = (String) params.get("nickname");
+        String status = (String) params.get("status");
+        if (status.equals("")){
+            return userRepo.count(username,nickname,null);
+        }
+        return userRepo.count(username,nickname,Integer.valueOf(status));
+    }
+    @Autowired
+    private RepositoryEntity ure;
+    @Override
+    public List<User> listUser(Map<String, Object> params, int offset, int limit) {
+        String username = (String) params.get("username");
+        String nickname = (String) params.get("nickname");
+        String status = (String) params.get("status");
+        String orderBy = (String) params.get("orderBy");
+        if (status.equals("")){
+            return ure.listUser(username,nickname,null,orderBy,offset,limit);
+        }
+        return ure.listUser(username,nickname,Integer.valueOf(status),orderBy,offset,limit);
     }
 
     protected UserServiceImpl(UserRepository repository) {
         super(repository);
         userRepo = repository;
     }
+
+
 }

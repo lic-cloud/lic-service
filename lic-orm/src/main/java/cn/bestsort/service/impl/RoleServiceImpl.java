@@ -2,11 +2,15 @@ package cn.bestsort.service.impl;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import cn.bestsort.model.dto.RoleDTO;
 import cn.bestsort.model.entity.Role;
 import cn.bestsort.model.entity.RolePermission;
+import cn.bestsort.repository.impl.RepositoryEntity;
+import cn.bestsort.repository.RolePermissionRepository;
 import cn.bestsort.repository.RoleRepository;
+import cn.bestsort.repository.RoleUserRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.RolePermissionService;
 import cn.bestsort.service.RoleService;
@@ -24,8 +28,12 @@ import org.springframework.util.CollectionUtils;
 @Service
 public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements RoleService {
 
-
+    @Autowired
     private RoleRepository roleRepo;
+    @Autowired
+    private RolePermissionRepository rolePermissionRepository;
+    @Autowired
+    private RoleUserRepository roleUserRepository;
     private final RolePermissionService rolePermissionService;
 
     @Override
@@ -33,7 +41,6 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
     public void saveRole(RoleDTO roleDto) {
         List<Long> permissionIds = roleDto.getPermissionIds();
         permissionIds.remove(0L);
-
         if (roleDto.getId() != null) {
             updateRole(roleDto.supperRole(), permissionIds);
         } else {
@@ -49,8 +56,9 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
         save(role);
         if (!CollectionUtils.isEmpty(permissionIds)) {
             List<RolePermission> lst = new LinkedList<>();
-            permissionIds.forEach(
-                i -> lst.add(RolePermission.of(role.getId(), i)));
+            for (int i = 0; i < permissionIds.size(); i++) {
+                lst.add(RolePermission.of(permissionIds.get(i), role.getId()));
+            }
             rolePermissionService.saveAll(lst);
         }
         log.debug("新增角色{}", role.getName());
@@ -61,12 +69,14 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
         if (r != null && !r.getId().equals(role.getId())) {
             throw new IllegalArgumentException(role.getName() + "已存在");
         }
-
         update(role, role.getId());
-
-        //TODO roleDao.deleteRolePermission(role.getId());
+        rolePermissionRepository.deleteAllByRoleId(role.getId());
         if (!CollectionUtils.isEmpty(permissionIds)) {
-            //TODO roleDao.saveRolePermission(role.getId(), permissionIds);
+            List<RolePermission> lst = new LinkedList<>();
+            for (int i = 0; i < permissionIds.size(); i++) {
+                lst.add(RolePermission.of(permissionIds.get(i), role.getId()));
+            }
+            rolePermissionService.saveAll(lst);
         }
         log.debug("修改角色{}", role.getName());
     }
@@ -74,12 +84,26 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
     @Override
     @Transactional
     public void deleteRole(Long id) {
-        //TODO
-        //roleDao.deleteRolePermission(id);
-        //roleDao.deleteRoleUser(id);
-        //roleDao.delete(id);
-
+        rolePermissionRepository.deleteAllByRoleId(id);
+        roleUserRepository.deleteAllByRoleId(id);
+        roleRepo.deleteAllById(id);
         log.debug("删除角色id:{}", id);
+    }
+
+    @Override
+    public int countRole(Map<String, Object> params) {
+        String name = (String) params.get("name");
+        return roleRepo.count(name);
+    }
+
+    @Autowired
+    private RepositoryEntity rre;
+
+    @Override
+    public List<Role> listRole(Map<String, Object> params, int offset, int limit) {
+        String name = (String) params.get("name");
+        String orderBy = (String) params.get("orderBy");
+        return rre.listRole(name, orderBy, offset, limit);
     }
 
     protected RoleServiceImpl(

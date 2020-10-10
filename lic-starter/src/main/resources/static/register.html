@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <meta name="robots" content="all"/>
+    <script>
+        function display(){
+            alert("注册功能正在维护中......");
+        }
+    </script>
+    <link href="css/register-css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/register.js"></script>
+</head>
+<body>
+<br />
+<br />
+<form method="" action="post" name="frm" class="form-div">
+    <div style="text-align: center;">
+        <img src="" style="width: 150px;"/>
+    </div>
+    <p class="message">在这个站点注册</p>
+    <div >
+        <label>用户名</label>
+        <input type="text" id="username" class="inputText" placeholder="请输入您的用户名" onfocus="YHMonfocu()" onblur="YHMonblus()" />
+        <span id="YHMerror">
+        </span>
+    </div>
+    <div >
+        <label>昵称</label>
+        <input type="text" id="nickname" class="inputText" placeholder="请输入您的昵称" onfocus="YHMonfocu2()" onblur="YHMonblus2()" />
+        <span id="YHMerror2">
+        </span>
+    </div>
+    <div>
+        <label>密码</label>
+        <input type="password" id="password" class="inputText" placeholder="请输入您的密码" onfocus="MMonfocu()" onblur="MMonblus()"/>
+        <span id="MMerror">
+        </span>
+    </div>
+    <div>
+        <label>确认密码</label>
+        <input type="password" id="confirmPassword" class="inputText" placeholder="请确认您的密码" onfocus="QRMMonfocu()" onblur="QRMMonblus()"/>
+        <span id="QRMMerror">
+        </span>
+    </div>
+    <div>
+        <label>性别</label>
+        <input type="radio"  name="gender" value="male" onfocus="XBonfocu()" onblur="XBMonblus()" checked="true" />男
+        <input type="radio"  name="gender" value="female" onfocus="XBMonfocu()" onblur="XBMonblus()"/>女
+        <span id="XBerror">
+        </span>
+    </div>
+
+    <div>
+        <label>手机号</label>
+        <input type="text" id="phone" class="inputText" placeholder="请输入您的手机号" onfocus="LXDHonfocu()" onblur="LXDHonblus()"/>
+        <span id="LXDHerror">
+        </span>
+    </div>
+    <div>
+        <label>电话</label>
+        <input type="text" id="phone2" class="inputText" placeholder="请输入您的电话" onfocus="LXDHonfocu2()" onblur="LXDHonblus2()"/>
+        <span id="LXDHerror2">
+        </span>
+    </div>
+    <div>
+        <label>电子邮箱</label>
+        <input type="email" id="email" class="inputText" placeholder="请输入您的电子邮箱" onfocus="DZYXonfocu()" onblur="DZYXonblus()"/>
+        <span id="DZYXerror">
+        </span>
+    </div>
+    <div>
+        <label>生日</label>
+        <input type="datetime-local" id="birthday" class="inputText" placeholder="请输入您的生日" />
+    </div>
+    <div style="text-align: center;">
+        <input value="注 册" type="button" style="margin-right:20px; margin-top:20px;" onclick="display()" class="button">
+        <input value="我有账号，我要登录" type="button" style="margin-right:45px; margin-top:20px;" class="button" onclick="window.location.href = '/login.html'" >
+    </div>
+</form>
+</body>
+</html>

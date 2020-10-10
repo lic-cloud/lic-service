@@ -45,4 +45,5 @@ public interface BaseRepository<DOMAIN, ID> extends JpaRepository<DOMAIN, ID> {
      * @return number of rows affected
      */
     long deleteByIdIn(@NonNull Collection<ID> ids);
+
 }

@@ -16,6 +16,9 @@ import cn.bestsort.service.NoticeService;
 import cn.bestsort.service.UserService;
 import cn.bestsort.util.DataTableUtil;
 import cn.bestsort.util.UserUtil;
+import cn.bestsort.util.page.PageTableHandler;
+import cn.bestsort.util.page.PageTableRequest;
+import cn.bestsort.util.page.PageTableResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,19 +94,31 @@ public class NoticeController {
             throw new IllegalArgumentException("发布状态的不能修改");
         }
         noticeService.update(notice, notice.getId());
-
         return notice;
     }
 
     @GetMapping
     @ApiOperation(value = "公告管理列表")
     @PreAuthorize("hasAuthority('notice:query')")
-    public DataTable<Notice> listNotice(@RequestParam int draw,
+    public PageTableResponse listNotice(PageTableRequest request) {
+        return new PageTableHandler(new PageTableHandler.CountHandler() {
+            @Override
+            public int count(PageTableRequest request) {
+                return noticeService.countNotice(request.getParams());
+            }
+        }, new PageTableHandler.ListHandler() {
+            @Override
+            public List<Notice> list(PageTableRequest request) {
+                return noticeService.listNotice(request.getParams(), request.getOffset(), request.getLimit());
+            }
+        }).handle(request);
+    }
+  /*  public DataTable<Notice> listNotice(@RequestParam int draw,
                                         @RequestParam int start,
                                         @RequestParam int length) {
         Page<Notice> page = noticeService.listAll(DataTableUtil.toPageable(start, length));
         return DataTable.build(page, draw, start);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除公告")
