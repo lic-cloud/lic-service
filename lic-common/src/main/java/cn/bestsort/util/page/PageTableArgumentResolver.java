@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -20,13 +21,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
+@Configuration
 public class PageTableArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        Class<?> cla = parameter.getParameterType();
-
-        return cla.isAssignableFrom(PageTableRequest.class);
+        return parameter.getParameterType().isAssignableFrom(PageTableRequest.class);
     }
 
     @Override

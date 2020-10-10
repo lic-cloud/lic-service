@@ -15,4 +15,5 @@ public class PageTableRequest implements Serializable {
     private Integer offset;
     private Integer limit;
     private Map<String, Object> params;
+
 }
