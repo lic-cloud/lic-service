@@ -95,11 +95,11 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     }
 
     @Override
-    public int countUser(Map<String, Object> params) {
+    public int count(Map<String, Object> params) {
         String username = (String) params.get("username");
         String nickname = (String) params.get("nickname");
         String status = (String) params.get("status");
-        if (status.equals("")){
+        if ("".equals(status)) {
             return userRepo.count(username,nickname,null);
         }
         return userRepo.count(username,nickname,Integer.valueOf(status));
@@ -107,12 +107,12 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     @Autowired
     private RepositoryEntity ure;
     @Override
-    public List<User> listUser(Map<String, Object> params, int offset, int limit) {
+    public List<User> list(Map<String, Object> params, int offset, int limit) {
         String username = (String) params.get("username");
         String nickname = (String) params.get("nickname");
         String status = (String) params.get("status");
         String orderBy = (String) params.get("orderBy");
-        if (status.equals("")){
+        if ("".equals(status)) {
             return ure.listUser(username,nickname,null,orderBy,offset,limit);
         }
         return ure.listUser(username,nickname,Integer.valueOf(status),orderBy,offset,limit);

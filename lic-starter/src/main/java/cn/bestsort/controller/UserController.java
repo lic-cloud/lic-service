@@ -1,20 +1,17 @@
 package cn.bestsort.controller;
 
-import cn.bestsort.util.UserUtil;
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.entity.User;
-import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.service.UserService;
+import cn.bestsort.util.UserUtil;
 import cn.bestsort.util.page.PageTableHandler;
 import cn.bestsort.util.page.PageTableRequest;
 import cn.bestsort.util.page.PageTableResponse;
-import cn.bestsort.util.DataTableUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,10 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * 用户相关接口
@@ -86,25 +80,9 @@ public class UserController {
     @ApiOperation(value = "用户列表")
     @PreAuthorize("hasAuthority('sys:user:query')")
     public PageTableResponse listUsers(PageTableRequest request) {
-        return new PageTableHandler(new PageTableHandler.CountHandler() {
-            @Override
-            public int count(PageTableRequest request) {
-                return userService.countUser(request.getParams());
-            }
-        }, new PageTableHandler.ListHandler() {
-            @Override
-            public List<User> list(PageTableRequest request) {
-                List<User> list = userService.listUser(request.getParams(), request.getOffset(), request.getLimit());
-                return list;
-            }
-        }).handle(request);
+        return PageTableHandler.handlePage(request, userService);
     }
-    /*public DataTable<User> listUsers(@RequestParam int draw,
-                                     @RequestParam int start,
-                                     @RequestParam int length) {
-        Page<User> page = userService.listAll(DataTableUtil.toPageable(start, length));
-        return DataTable.build(page, draw, start);
-    }*/
+
 
     @ApiOperation(value = "当前登录用户")
     @GetMapping("/current")

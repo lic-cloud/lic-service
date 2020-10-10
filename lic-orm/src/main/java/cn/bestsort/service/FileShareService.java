@@ -1,5 +1,7 @@
 package cn.bestsort.service;
 
+import java.util.Optional;
+
 import cn.bestsort.model.entity.FileShare;
 
 /**
@@ -9,4 +11,5 @@ import cn.bestsort.model.entity.FileShare;
  */
 public interface FileShareService extends BaseService<FileShare, Long> {
     boolean existsByUrl(String url);
+    Optional<FileShare> getByUrl(String url);
 }

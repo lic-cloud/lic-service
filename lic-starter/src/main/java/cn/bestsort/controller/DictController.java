@@ -3,15 +3,13 @@ package cn.bestsort.controller;
 import java.util.List;
 
 import cn.bestsort.model.entity.Dict;
-import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.service.DictService;
-import cn.bestsort.util.DataTableUtil;
 import cn.bestsort.util.page.PageTableHandler;
 import cn.bestsort.util.page.PageTableRequest;
 import cn.bestsort.util.page.PageTableResponse;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
+@Api("字典")
 @RestController
 @RequestMapping("/dicts")
 public class DictController {
@@ -64,17 +62,7 @@ public class DictController {
     @GetMapping(params = { "start", "length" })
     @ApiOperation(value = "列表")
     public PageTableResponse list(PageTableRequest request) {
-        return new PageTableHandler(new PageTableHandler.CountHandler() {
-            @Override
-            public int count(PageTableRequest request) {
-                return dictService.countDict(request.getParams());
-            }
-        }, new PageTableHandler.ListHandler() {
-            @Override
-            public List<Dict> list(PageTableRequest request) {
-                return dictService.listDict(request.getParams(), request.getOffset(), request.getLimit());
-            }
-        }).handle(request);
+        return PageTableHandler.handlePage(request, dictService);
     }
    /* public DataTable<Dict> list(@RequestParam int draw,
                            @RequestParam int start,

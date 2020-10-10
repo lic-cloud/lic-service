@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.entity.FileMapping;
@@ -23,6 +24,7 @@ import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.LicFileManager;
+import cn.bestsort.util.TimeUtil;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
@@ -46,15 +48,31 @@ public class LicFileManagerImpl implements LicFileManager {
 
 
     @Override
-    public List<FileMapping> listFiles(Long dirId, User user) {
-        return fileMappingImpl.listUserFile(dirId, user.getId());
+    public List<FileMapping> listFiles(Long mappingId, Long userId) {
+        FileMapping fileMapping = fileMappingImpl.getById(mappingId);
+
+        if (fileMapping.getIsDir()) {
+            return fileMappingImpl.listUserFiles(mappingId, userId);
+        } else {
+            return List.of(fileMapping);
+        }
     }
 
+    @Override
+    public List<FileMapping> listFilesByShare(String url) {
+        FileShare fileShare = fileShareImpl.getByUrl(url)
+            .orElseThrow(() -> ExceptionConstant.NOT_FOUND_ITEM);
+        if (fileShare.getExpire().before(TimeUtil.now())) {
+            throw ExceptionConstant.EXPIRED;
+        }
+        return listFiles(fileShare.getMappingId(), fileShare.getOwnerId());
+    }
 
     @Override
     public String createDownloadLink(Long fileId, User user, Long expire) {
         FileInfo info = fileInfoImp.getById(fileId);
-        return manager.handle(info).downloadLink(new FileDTO(info, user), expire);
+
+        return manager.handle(info).downloadLink(info.getPath(), expire);
     }
 
     @Override
@@ -127,7 +145,7 @@ public class LicFileManagerImpl implements LicFileManager {
             return;
         }
         if (fileMapping.getIsDir()) {
-            List<FileMapping> fileMappings = listFiles(fileMapping.getId(), user);
+            List<FileMapping> fileMappings = listFiles(fileMapping.getId(), user.getId());
             for (FileMapping mapping : fileMappings) {
                 deleteSoftLink(mapping, user, remove, needRemove);
             }

@@ -32,8 +32,13 @@ public interface LicFileManager {
      * @param user  用户(用作鉴权)
      * @return      文件列表
      */
-    List<FileMapping> listFiles(Long dirId, User user);
+    List<FileMapping> listFiles(Long dirId, Long user);
 
+    /**
+     * 根据分享的url获取文件列表
+     * @return 文件列表
+     */
+    List<FileMapping> listFilesByShare(String url);
     /**
      * 逻辑删除文件
      * @param fileId    文件映射 Id

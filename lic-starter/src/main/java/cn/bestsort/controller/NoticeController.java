@@ -14,7 +14,6 @@ import cn.bestsort.model.vo.NoticeVO;
 import cn.bestsort.service.NoticeReadService;
 import cn.bestsort.service.NoticeService;
 import cn.bestsort.service.UserService;
-import cn.bestsort.util.DataTableUtil;
 import cn.bestsort.util.UserUtil;
 import cn.bestsort.util.page.PageTableHandler;
 import cn.bestsort.util.page.PageTableRequest;
@@ -22,7 +21,6 @@ import cn.bestsort.util.page.PageTableResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
-@Api(tags = "公告")
+@Api("公告")
 @RestController
 @RequestMapping("/notices")
 public class NoticeController {
@@ -101,17 +99,7 @@ public class NoticeController {
     @ApiOperation(value = "公告管理列表")
     @PreAuthorize("hasAuthority('notice:query')")
     public PageTableResponse listNotice(PageTableRequest request) {
-        return new PageTableHandler(new PageTableHandler.CountHandler() {
-            @Override
-            public int count(PageTableRequest request) {
-                return noticeService.countNotice(request.getParams());
-            }
-        }, new PageTableHandler.ListHandler() {
-            @Override
-            public List<Notice> list(PageTableRequest request) {
-                return noticeService.listNotice(request.getParams(), request.getOffset(), request.getLimit());
-            }
-        }).handle(request);
+        return PageTableHandler.handlePage(request, noticeService);
     }
   /*  public DataTable<Notice> listNotice(@RequestParam int draw,
                                         @RequestParam int start,

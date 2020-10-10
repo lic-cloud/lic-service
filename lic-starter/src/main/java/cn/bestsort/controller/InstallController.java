@@ -4,6 +4,7 @@ import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.param.install.CacheSettingParam;
 import cn.bestsort.service.MetaInfoService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-09-09 10:21
  */
 
+@Api("系统初始化")
 @RestController
 public class InstallController {
     @Autowired

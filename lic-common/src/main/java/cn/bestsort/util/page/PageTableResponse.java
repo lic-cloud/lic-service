@@ -1,9 +1,9 @@
 package cn.bestsort.util.page;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
+
+import lombok.Data;
 
 /** 分页查询返回
  * @author GoodTime0313
@@ -13,14 +13,14 @@ import java.util.List;
 @Data
 public class PageTableResponse implements Serializable {
 
-	private Integer recordsTotal;
-	private Integer recordsFiltered;
-	private List<?> data;
+    private Integer recordsTotal;
+    private Integer recordsFiltered;
+    private List<?> data;
 
-	public PageTableResponse(Integer recordsTotal, Integer recordsFiltered, List<?> data) {
-		super();
-		this.recordsTotal = recordsTotal;
-		this.recordsFiltered = recordsFiltered;
-		this.data = data;
-	}
+    public PageTableResponse(Integer recordsTotal, Integer recordsFiltered, List<?> data) {
+        super();
+        this.recordsTotal = recordsTotal;
+        this.recordsFiltered = recordsFiltered;
+        this.data = data;
+    }
 }

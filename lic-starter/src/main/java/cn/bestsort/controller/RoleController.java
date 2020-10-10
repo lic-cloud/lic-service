@@ -6,17 +6,14 @@ import java.util.stream.Collectors;
 import cn.bestsort.model.dto.RoleDTO;
 import cn.bestsort.model.entity.Role;
 import cn.bestsort.model.entity.RoleUser;
-import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.service.RoleService;
 import cn.bestsort.service.RoleUserService;
-import cn.bestsort.util.DataTableUtil;
 import cn.bestsort.util.page.PageTableHandler;
 import cn.bestsort.util.page.PageTableRequest;
 import cn.bestsort.util.page.PageTableResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -33,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
-@Api(tags = "角色")
+@Api("角色")
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
@@ -54,26 +50,8 @@ public class RoleController {
     @ApiOperation(value = "角色列表")
     @PreAuthorize("hasAuthority('sys:role:query')")
     public PageTableResponse listRoles(PageTableRequest request) {
-        return new PageTableHandler(new PageTableHandler.CountHandler() {
-            @Override
-            public int count(PageTableRequest request) {
-                return roleService.countRole(request.getParams());
-            }
-        }, new PageTableHandler.ListHandler() {
-            @Override
-            public List<Role> list(PageTableRequest request) {
-                List<Role> list = roleService.listRole(request.getParams(), request.getOffset(), request.getLimit());
-                return list;
-            }
-        }).handle(request);
+        return PageTableHandler.handlePage(request, roleService);
     }
-    /*public DataTable<Role> listRoles(@RequestParam int draw,
-                                @RequestParam int start,
-                                @RequestParam int length) {
-
-        Page<Role> pageable = roleService.listAll(DataTableUtil.toPageable(start, length));
-        return DataTable.build(pageable, draw, start);
-    }*/
 
     @GetMapping("/{id}")
     @ApiOperation(value = "根据id获取角色")

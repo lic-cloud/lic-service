@@ -3,8 +3,6 @@ package cn.bestsort.repository;
 import cn.bestsort.model.entity.Notice;
 import org.springframework.data.jpa.repository.Query;
 
-import java.sql.Time;
-
 /**
  * @author bestsort
  * @version 1.0

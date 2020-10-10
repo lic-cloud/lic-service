@@ -1,9 +1,9 @@
 package cn.bestsort.util.page;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Map;
+
+import lombok.Data;
 
 /** 分页查询参数
  * @author GoodTime0313
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @Data
 public class PageTableRequest implements Serializable {
-	private Integer offset;
-	private Integer limit;
-	private Map<String, Object> params;
+    private Integer offset;
+    private Integer limit;
+    private Map<String, Object> params;
 }

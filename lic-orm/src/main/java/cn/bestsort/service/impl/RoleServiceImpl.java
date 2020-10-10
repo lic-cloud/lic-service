@@ -7,14 +7,15 @@ import java.util.Map;
 import cn.bestsort.model.dto.RoleDTO;
 import cn.bestsort.model.entity.Role;
 import cn.bestsort.model.entity.RolePermission;
-import cn.bestsort.repository.impl.RepositoryEntity;
 import cn.bestsort.repository.RolePermissionRepository;
 import cn.bestsort.repository.RoleRepository;
 import cn.bestsort.repository.RoleUserRepository;
+import cn.bestsort.repository.impl.RepositoryEntity;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.RolePermissionService;
 import cn.bestsort.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -26,7 +27,8 @@ import org.springframework.util.CollectionUtils;
  */
 @Slf4j
 @Service
-public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements RoleService {
+public class RoleServiceImpl extends AbstractBaseService<Role, Long>
+    implements RoleService {
 
     @Autowired
     private RoleRepository roleRepo;
@@ -91,7 +93,7 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
     }
 
     @Override
-    public int countRole(Map<String, Object> params) {
+    public int count(Map<String, Object> params) {
         String name = (String) params.get("name");
         return roleRepo.count(name);
     }
@@ -100,7 +102,7 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long> implements 
     private RepositoryEntity rre;
 
     @Override
-    public List<Role> listRole(Map<String, Object> params, int offset, int limit) {
+    public List<Role> list(Map<String, Object> params, int offset, int limit) {
         String name = (String) params.get("name");
         String orderBy = (String) params.get("orderBy");
         return rre.listRole(name, orderBy, offset, limit);

@@ -4,6 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <!-- 默认使用该配置-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profileActive>test</profileActive>
+            </properties>
+        </profile>
+    </profiles>
     <repositories><!-- 代码库 -->
         <repository>
             <id>maven-ali</id>

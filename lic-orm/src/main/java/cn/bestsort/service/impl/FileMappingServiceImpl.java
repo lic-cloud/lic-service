@@ -22,7 +22,7 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
 
 
     @Override
-    public List<FileMapping> listUserFile(Long dirId, Long userId) {
+    public List<FileMapping> listUserFiles(Long dirId, Long userId) {
         return repo.findAllByPidAndOwnerIdAndStatus(dirId, userId, Status.VALID);
     }
 

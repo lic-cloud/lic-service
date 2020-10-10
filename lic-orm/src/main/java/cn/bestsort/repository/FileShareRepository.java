@@ -1,5 +1,7 @@
 package cn.bestsort.repository;
 
+import java.util.Optional;
+
 import cn.bestsort.model.entity.FileShare;
 
 /**
@@ -9,4 +11,5 @@ import cn.bestsort.model.entity.FileShare;
  */
 public interface FileShareRepository extends BaseRepository<FileShare, Long> {
     Boolean existsByUrl(String url);
+    Optional<FileShare> getFileShareByUrl(String url);
 }

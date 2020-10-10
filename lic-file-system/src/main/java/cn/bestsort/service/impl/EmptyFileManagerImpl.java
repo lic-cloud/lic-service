@@ -1,6 +1,5 @@
 package cn.bestsort.service.impl;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -13,6 +12,7 @@ import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.model.vo.UploadTokenVO;
+import cn.bestsort.util.FileUtil;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,16 +25,18 @@ import org.springframework.stereotype.Service;
 public class EmptyFileManagerImpl extends AbstractFileManager {
 
     @Override
-    public String downloadLink(FileDTO fileDTO, Long expire) {
-        String dataDir = metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR);
-        String fullPath = metaInfoService.getMeta(LocalHostMetaEnum.ROOT_PATH) + dataDir + File.separator + fileDTO.getFileInfo().getPath();
+    public String downloadLink(String path, Long expire) {
+        String fullPath = FileUtil.unionPath(
+            metaInfoService.getMetaObj(String.class, LocalHostMetaEnum.ROOT_PATH),
+            metaInfoService.getMetaObj(String.class, LocalHostMetaEnum.DATA_DIR),
+            path);
         String randomKey = UUID.randomUUID().toString();
-        String mappingPath = String.format("%s/%s/%s%s", metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST),
-                              DOWNLOAD_LINK_PATH,
-                              FileNamespace.LOCALHOST,
-                              randomKey);
         cache().put(randomKey, fullPath, expire, TimeUnit.SECONDS);
-        return mappingPath;
+        return String.format("%s/%s/%s%s",
+                             metaInfoService.getMetaObj(String.class, LicMetaEnum.HOST),
+                             DOWNLOAD_LINK_PATH,
+                             FileNamespace.LOCALHOST,
+                             randomKey);
     }
 
     @Override

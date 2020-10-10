@@ -6,10 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
-import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.service.LocalUploadService;
+import cn.bestsort.util.UserUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  * @date 2020-09-15 09:19
  */
+@Api("本地上传接口")
 @RestController
 @RequestMapping("/upload")
 public class LocalHostUploaderController {
@@ -37,7 +39,7 @@ public class LocalHostUploaderController {
 
         // 是否可以进行秒传
         boolean finished = licFileManager.canSuperUpload(md5, FileNamespace.LOCALHOST);
-        User user = (User)request.getSession().getAttribute(LicMetaEnum.USER_SESSION.getVal());
+        User user = UserUtil.getLoginUser();
         if (!finished) {
             if (chunks != null && chunks != 0) {
                 finished = service.uploadWithBlock(md5, size, chunks, chunk, file);

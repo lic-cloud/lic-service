@@ -55,8 +55,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //有些路径不需要全部去校验
         http.authorizeRequests()
-            .antMatchers("/", "/*.html", "/favicon.ico", "/css/**", "/js/**", "/fonts/**", "/layui/**", "/img/**",
-                "/v2/api-docs/**", "/swagger-resources/**", "/webjars/**", "/pages/**", "/druid/**",
+            .antMatchers(
+                "/",
+                "/*.html",
+                "/favicon.ico",
+                "/css/**",
+                "/js/**",
+                "/fonts/**",
+                "/layui/**",
+                "/img/**",
+                "/v2/api-docs/**",
+                "/swagger-resources/**",
+                "/webjars/**",
+                "/pages/**",
+                "/druid/**",
                 "/statics/**")
             .permitAll()
             .anyRequest().authenticated();

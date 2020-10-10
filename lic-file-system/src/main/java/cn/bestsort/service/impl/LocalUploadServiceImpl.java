@@ -10,7 +10,7 @@ import cn.bestsort.repository.FileInfoRepository;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.service.LocalUploadService;
 import cn.bestsort.service.MetaInfoService;
-import cn.bestsort.util.FileUtils;
+import cn.bestsort.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,7 +48,7 @@ public class LocalUploadServiceImpl implements LocalUploadService {
         File dir = new File(localFile.getParent());
         // 防止因为文件夹未创建而造成的 IOException, 不 care 创建结果
         dir.mkdirs();
-        FileUtils.write(localFile, file.getInputStream());
+        FileUtil.write(localFile, file.getInputStream());
         return true;
     }
 
@@ -57,7 +57,7 @@ public class LocalUploadServiceImpl implements LocalUploadService {
                                    Integer chunks, Integer chunk,
                                    MultipartFile file) throws IOException {
         String fileName = getFileName(md5, chunks);
-        FileUtils.writeWithBlock(metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH) +
+        FileUtil.writeWithBlock(metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH) +
                                      metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR) +
                                      fileName, size, file.getInputStream(), file.getSize(), chunks, chunk);
         // 标记当前文件块

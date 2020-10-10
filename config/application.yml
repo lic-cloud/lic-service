@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   datasource:
     url: jdbc:mysql://192.168.246.128:3306/lic?useUnicode=true&characterEncoding=UTF-8
     username: root

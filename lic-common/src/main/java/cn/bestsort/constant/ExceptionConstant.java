@@ -22,6 +22,7 @@ public interface ExceptionConstant {
     LicException USER_HAS_BEEN_LOCKED = new LicException("用户已被冻结", 4005);
     LicException PASSWORD_ERROR = new LicException("密码错误", 4006);
     LicException NEED_LOGIN = new LicException("未登录", 4007);
+    LicException EXPIRED    = new LicException("已过期", 4008);
     /**
      * 5XXX为系统错误
      */
