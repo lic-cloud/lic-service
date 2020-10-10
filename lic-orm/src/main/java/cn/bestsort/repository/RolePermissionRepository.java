@@ -15,4 +15,5 @@ public interface RolePermissionRepository extends BaseRepository<RolePermission,
     List<RolePermission> findAllByPermissionId(Long permissionId);
     List<RolePermission> findAllByRoleIdIn(Collection<Long> ids);
     void deleteByPermissionId(Long id);
+    void deleteAllByRoleId(Long id);
 }

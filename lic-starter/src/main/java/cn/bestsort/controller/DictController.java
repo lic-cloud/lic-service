@@ -6,6 +6,9 @@ import cn.bestsort.model.entity.Dict;
 import cn.bestsort.model.vo.DataTable;
 import cn.bestsort.service.DictService;
 import cn.bestsort.util.DataTableUtil;
+import cn.bestsort.util.page.PageTableHandler;
+import cn.bestsort.util.page.PageTableRequest;
+import cn.bestsort.util.page.PageTableResponse;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +43,6 @@ public class DictController {
             throw new IllegalArgumentException("类型和key已存在");
         }
         dictService.save(dict);
-
         return dict;
     }
 
@@ -61,12 +63,25 @@ public class DictController {
     @PreAuthorize("hasAuthority('dict:query')")
     @GetMapping(params = { "start", "length" })
     @ApiOperation(value = "列表")
-    public DataTable<Dict> list(@RequestParam int draw,
+    public PageTableResponse list(PageTableRequest request) {
+        return new PageTableHandler(new PageTableHandler.CountHandler() {
+            @Override
+            public int count(PageTableRequest request) {
+                return dictService.countDict(request.getParams());
+            }
+        }, new PageTableHandler.ListHandler() {
+            @Override
+            public List<Dict> list(PageTableRequest request) {
+                return dictService.listDict(request.getParams(), request.getOffset(), request.getLimit());
+            }
+        }).handle(request);
+    }
+   /* public DataTable<Dict> list(@RequestParam int draw,
                            @RequestParam int start,
                            @RequestParam int length) {
         Page<Dict> pageable = dictService.listAll(DataTableUtil.toPageable(start, length));
         return DataTable.build(pageable, draw, start);
-    }
+    }*/
 
     @PreAuthorize("hasAuthority('dict:del')")
     @DeleteMapping("/{id}")
