@@ -75,8 +75,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         if (u == null) {
             throw new IllegalArgumentException("用户不存在");
         }
-
-        if (!passwordEncoder.matches(oldPassword, u.getPassword())) {
+        if (!passwordEncoder.matches(oldPassword,u.getPassword())) {
             throw new IllegalArgumentException("旧密码错误");
         }
         u.setPassword(passwordEncoder.encode(newPassword));
