@@ -2,6 +2,7 @@ package cn.bestsort.service;
 
 import java.util.Collection;
 import java.util.List;
+
 import cn.bestsort.model.entity.RolePermission;
 
 /**
@@ -11,6 +12,8 @@ import cn.bestsort.model.entity.RolePermission;
  */
 public interface RolePermissionService extends BaseService<RolePermission, Long> {
     List<RolePermission> listByRoleId(Long roleId);
+
     List<RolePermission> listByRoleIds(Collection<Long> ids);
+
     List<RolePermission> listByPermissionId(Long permissionId);
 }

@@ -18,4 +18,4 @@ public interface UserRepository extends BaseRepository<User, Long> {
     int count(String username, String nickname, Integer status);
 
     List<User> findAllByIdIn(Collection lists);
- }
+}

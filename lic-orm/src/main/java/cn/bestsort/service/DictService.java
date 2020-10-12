@@ -12,6 +12,7 @@ import cn.bestsort.util.page.Listable;
  */
 public interface DictService extends BaseService<Dict, Long>, Listable<Dict> {
     Dict findByTypeAndKey(String type, String key);
+
     List<Dict> findAllByKey(String type);
 
 }

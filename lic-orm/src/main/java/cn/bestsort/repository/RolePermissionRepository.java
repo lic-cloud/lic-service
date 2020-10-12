@@ -12,8 +12,12 @@ import cn.bestsort.model.entity.RolePermission;
  */
 public interface RolePermissionRepository extends BaseRepository<RolePermission, Long> {
     List<RolePermission> findAllByRoleId(Long roleId);
+
     List<RolePermission> findAllByPermissionId(Long permissionId);
+
     List<RolePermission> findAllByRoleIdIn(Collection<Long> ids);
+
     void deleteByPermissionId(Long id);
+
     void deleteAllByRoleId(Long id);
 }

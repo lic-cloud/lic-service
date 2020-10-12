@@ -25,15 +25,15 @@ public class PermissionServiceImpl extends AbstractBaseService<Permission, Long>
     private PermissionRepository permissionRepo;
     @Autowired
     private RolePermissionRepository rolePermission;
+
     @Override
     public List<Permission> listByType(Integer type) {
         return permissionRepo.findAllByType(type);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-        //TODO fix
         rolePermission.deleteByPermissionId(id);
         permissionRepo.deleteById(id);
         permissionRepo.deleteByParentId(id);

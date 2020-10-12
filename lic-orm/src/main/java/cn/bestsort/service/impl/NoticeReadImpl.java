@@ -24,6 +24,7 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
     private NoticeReadRepository repo;
     @Autowired
     private RepositoryEntity rre;
+
     @Override
     public List<NoticeRead> findAllByNoticeId(Long id) {
         return repo.findAllByNoticeId(id);
@@ -35,6 +36,7 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
         super(repository);
         repo = repository;
     }
+
     @Override
     public int count(Map<String, Object> params) {
         String title = (String) params.get("title");
@@ -43,9 +45,9 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
         /*Time beginTime = (Time) params.get("beginTime");
         Time endTime = (Time) params.get("endTime");*/
         if ("".equals(isRead)) {
-            return repo.count(userId.intValue(),title,null);
+            return repo.count(userId.intValue(), title, null);
         }
-        return repo.count(userId.intValue(),title,Integer.valueOf(isRead));
+        return repo.count(userId.intValue(), title, Integer.valueOf(isRead));
     }
 
     @Override
@@ -57,8 +59,8 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
         Time endTime = (Time) params.get("endTime");*/
         String orderBy = (String) params.get("orderBy");
         if ("".equals(isRead)) {
-            return rre.listNoticeRead(userId.intValue(),title,null,orderBy,offset,limit);
+            return rre.listNoticeRead(userId.intValue(), title, null, orderBy, offset, limit);
         }
-        return rre.listNoticeRead(userId.intValue(),title,Integer.valueOf(isRead),orderBy,offset,limit);
+        return rre.listNoticeRead(userId.intValue(), title, Integer.valueOf(isRead), orderBy, offset, limit);
     }
 }

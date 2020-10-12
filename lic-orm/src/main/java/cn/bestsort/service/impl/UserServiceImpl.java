@@ -41,7 +41,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public User saveUser(UserDTO userDto) {
         User user = new User();
         SpringUtil.cloneWithoutNullVal(userDto, user);
@@ -75,7 +75,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         if (u == null) {
             throw new IllegalArgumentException("用户不存在");
         }
-        if (!passwordEncoder.matches(oldPassword,u.getPassword())) {
+        if (!passwordEncoder.matches(oldPassword, u.getPassword())) {
             throw new IllegalArgumentException("旧密码错误");
         }
         u.setPassword(passwordEncoder.encode(newPassword));
@@ -84,7 +84,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public User updateUser(UserDTO userDto) {
         User user = new User();
         SpringUtil.cloneWithoutNullVal(userDto, user);
@@ -99,12 +99,14 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         String nickname = (String) params.get("nickname");
         String status = (String) params.get("status");
         if ("".equals(status)) {
-            return userRepo.count(username,nickname,null);
+            return userRepo.count(username, nickname, null);
         }
-        return userRepo.count(username,nickname,Integer.valueOf(status));
+        return userRepo.count(username, nickname, Integer.valueOf(status));
     }
+
     @Autowired
     private RepositoryEntity ure;
+
     @Override
     public List<User> list(Map<String, Object> params, int offset, int limit) {
         String username = (String) params.get("username");
@@ -112,9 +114,9 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         String status = (String) params.get("status");
         String orderBy = (String) params.get("orderBy");
         if ("".equals(status)) {
-            return ure.listUser(username,nickname,null,orderBy,offset,limit);
+            return ure.listUser(username, nickname, null, orderBy, offset, limit);
         }
-        return ure.listUser(username,nickname,Integer.valueOf(status),orderBy,offset,limit);
+        return ure.listUser(username, nickname, Integer.valueOf(status), orderBy, offset, limit);
     }
 
     protected UserServiceImpl(UserRepository repository) {

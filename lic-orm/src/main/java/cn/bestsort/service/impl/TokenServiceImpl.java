@@ -45,7 +45,7 @@ public class TokenServiceImpl implements TokenService {
     @Autowired
     private MetaInfoService metaInfoService;
     @Autowired
-    private CacheHandler    cacheHandler;
+    private CacheHandler cacheHandler;
 
     /**
      * 私钥：随便字符串
@@ -76,13 +76,14 @@ public class TokenServiceImpl implements TokenService {
         return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, getKeyInstance())
             .compact();
     }
+
     private void cacheLoginUser(LoginUserVO loginUserVO) {
         loginUserVO.setLoginTime(System.currentTimeMillis());
         long expire = metaInfoService.getMetaObj(Long.class, LicMetaEnum.CACHE_EXPIRE) * 100;
         loginUserVO.setExpireTime(loginUserVO.getLoginTime());
         // 根据uuid将loginUser缓存
         cacheHandler.fetchCacheStore().put(getTokenKey(loginUserVO.getToken()), JSON.toJSONString(loginUserVO),
-                                           expire, TimeUnit.MINUTES);
+            expire, TimeUnit.MINUTES);
     }
 
     /**

@@ -14,5 +14,4 @@ public interface NoticeRepository extends BaseRepository<Notice, Long> {
 
     Notice findAllById(Long id);
 
-
 }

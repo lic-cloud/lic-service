@@ -57,6 +57,7 @@ public class NoticeController {
     private NoticeReadRepository noticeReadRepository;
     @Autowired
     RepositoryEntity rep;
+
     @PostMapping
     @ApiOperation(value = "保存公告")
     @PreAuthorize("hasAuthority('notice:add')")
@@ -82,8 +83,7 @@ public class NoticeController {
         vo.setNotice(notice);
         Long aLong = UserUtil.getLoginUser().getId();
         List<NoticeRead> all = noticeReadRepository.findAllByUserIdAndNoticeId(aLong, notice.getId());
-        if (all.isEmpty())
-        {
+        if (all.isEmpty()) {
             noticeReadService.save(NoticeRead.of(aLong, notice.getId()));
         }
         List<User> users = rep.listReadUsers(id);
