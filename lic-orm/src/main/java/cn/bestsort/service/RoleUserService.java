@@ -1,6 +1,7 @@
 package cn.bestsort.service;
 
 import java.util.List;
+
 import cn.bestsort.model.entity.RoleUser;
 
 /**
@@ -10,5 +11,6 @@ import cn.bestsort.model.entity.RoleUser;
  */
 public interface RoleUserService extends BaseService<RoleUser, Long> {
     List<RoleUser> listByRoleId(Long id);
+
     List<RoleUser> listByUserId(Long id);
 }

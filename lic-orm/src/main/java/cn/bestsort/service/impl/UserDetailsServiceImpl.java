@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * spring security登陆处理
+ *
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
@@ -39,6 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private RolePermissionService rolePermissionService;
     @Autowired
     private RoleUserService roleUserService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User sysUser = userService.getUser(username);

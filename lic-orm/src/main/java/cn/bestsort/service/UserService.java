@@ -11,14 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2020-09-09 11:09
  */
 public interface UserService extends BaseService<User, Long>, Listable<User> {
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     User saveUser(UserDTO userDto);
 
     User getUser(String username);
 
     void changePassword(String username, String oldPassword, String newPassword);
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     User updateUser(UserDTO userDto);
 
 }

@@ -15,5 +15,6 @@ public interface RoleUserRepository extends BaseRepository<RoleUser, Long> {
     List<RoleUser> findAllByRoleId(Long id);
 
     void deleteAllByUserId(Long id);
+
     void deleteAllByRoleId(Long id);
 }

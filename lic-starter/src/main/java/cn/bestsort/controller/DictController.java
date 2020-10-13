@@ -32,6 +32,7 @@ public class DictController {
 
     @Autowired
     private DictService dictService;
+
     @PreAuthorize("hasAuthority('dict:add')")
     @PostMapping
     @ApiOperation(value = "保存")
@@ -59,7 +60,7 @@ public class DictController {
     }
 
     @PreAuthorize("hasAuthority('dict:query')")
-    @GetMapping(params = { "start", "length" })
+    @GetMapping(params = {"start", "length"})
     @ApiOperation(value = "列表")
     public PageTableResponse list(PageTableRequest request) {
         return PageTableHandler.handlePage(request, dictService);

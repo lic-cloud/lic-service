@@ -87,10 +87,10 @@
 		layui.use('layer', function(){
 		    var layer = layui.layer;
 		});
-		
-		
+
+
 		initParentMenuSelect();
-		
+
 		function add() {
 			/**
 			 * 表单校验
@@ -113,10 +113,13 @@
 					layer.msg("添加成功", {shift: -1, time: 1000}, function(){
                         location.href = "menuList.html";
                     });
+				},
+				error:function (xhr,status,error) {
+					layer.msg(xhr.responseText, {shift: -1, time: 1000});
 				}
 			});
 		}
-		
+
 		function selectCss(){
 			layer.open({
 				  type: 2,

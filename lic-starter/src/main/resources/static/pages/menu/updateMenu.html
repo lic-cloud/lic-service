@@ -56,7 +56,7 @@
 			<div class="form-group">
                 <label class="col-md-2 control-label">排序</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="排序" name="sort" id="sort" type="number" 
+                    <input class="form-control" placeholder="排序" name="sort" id="sort" type="number"
                         data-bv-notempty="true"
                         data-bv-notempty-message="排序 不能为空">
                 </div>
@@ -87,11 +87,11 @@
 	layui.use('layer', function(){
 	    var layer = layui.layer;
 	});
-	
+
 	initParentMenuSelect();
 	var id = getUrlParam("id");
 	initData();
-	
+
 	function initData(){
 		if(id != ""){
 			$.ajax({
@@ -108,17 +108,20 @@
 					$("#type").val(data.type);
 					$("#permission").val(data.permission);
 					$("#sort").val(data.sort);
-					
+
 					if(css != ""){
 						$("#cssImg").addClass("fa");
 						$("#cssImg").addClass(css);
 					}
+				},
+				error:function (xhr,status,error) {
+					layer.msg(xhr.responseText, {shift: -1, time: 1000});
 				}
 			});
-			
+
 		}
 	}
-	
+
 	function selectCss(){
 		layer.open({
 			  type: 2,
@@ -129,35 +132,38 @@
 			  content: ['icon.html']
 			});
 	}
-	
+
 		function update() {
 			if($("#parentId").val() == id){
 	            layer.msg("父级菜单不能是自己");
 	            return;
 			}
-			
+
 			$('#form').bootstrapValidator();
 			var bootstrapValidator = $("#form").data('bootstrapValidator');
 			bootstrapValidator.validate();
 		    if(!bootstrapValidator.isValid()){
 			   return;
 		    }
-		    
+
 		    var formdata = $("#form").serializeObject();
 
 			$.ajax({
 				type : 'put',
 				url : '/permissions/',
-				contentType: "application/json; charset=utf-8",  
+				contentType: "application/json; charset=utf-8",
 				data : JSON.stringify(formdata),
 				success : function(data) {
 					layer.msg("修改成功", {shift: -1, time: 1000}, function(){
                         location.href = "menuList.html";
                     });
+				},
+				error:function (xhr,status,error) {
+					layer.msg(xhr.responseText, {shift: -1, time: 1000});
 				}
 			});
 		}
-		
+
 	</script>
 </body>
 </html>

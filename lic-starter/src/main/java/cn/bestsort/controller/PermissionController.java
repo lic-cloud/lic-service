@@ -111,9 +111,9 @@ public class PermissionController {
 
         List<PermissionDTO> list = Lists.newArrayList();
         setPermissionsList(0L, permissionsAll.stream()
-                               .map(PermissionDTO::transForm)
-                               .collect(Collectors.toList()),
-                           list);
+                .map(PermissionDTO::transForm)
+                .collect(Collectors.toList()),
+            list);
 
         return list;
     }

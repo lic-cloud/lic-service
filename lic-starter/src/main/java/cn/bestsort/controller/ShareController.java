@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ShareController {
     @Autowired
     LicFileManager fileManager;
+
     @GetMapping("/view/{url}")
     public List<FileMapping> listShare(@PathVariable String url) {
         return fileManager.listFilesByShare(url);

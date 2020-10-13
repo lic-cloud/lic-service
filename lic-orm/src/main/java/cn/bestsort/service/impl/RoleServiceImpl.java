@@ -84,7 +84,7 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteRole(Long id) {
         rolePermissionRepository.deleteAllByRoleId(id);
         roleUserRepository.deleteAllByRoleId(id);

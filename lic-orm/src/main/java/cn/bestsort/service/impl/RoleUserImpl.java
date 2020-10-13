@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class RoleUserImpl extends AbstractBaseService<RoleUser, Long> implements RoleUserService {
 
     RoleUserRepository repo;
+
     @Override
     public List<RoleUser> listByRoleId(Long id) {
         return repo.findAllByRoleId(id);

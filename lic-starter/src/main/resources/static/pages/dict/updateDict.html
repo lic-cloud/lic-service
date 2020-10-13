@@ -51,9 +51,9 @@
 		layui.use(['layer','laydate'], function(){
 		    var layer = layui.layer;
 		});
-		
+
 		initData();
-		
+
 		function initData(){
 			var id = getUrlParam("id");
 			if(id != ""){
@@ -67,6 +67,9 @@
 						$('#k').val(data.k);
 						$('#val').val(data.val);
 
+					},
+					error:function (xhr,status,error) {
+						layer.msg(xhr.responseText, {shift: -1, time: 1000});
 					}
 				});
 			}
@@ -79,22 +82,25 @@
 		    if(!bootstrapValidator.isValid()){
 			   return;
 		    }
-		    
+
 		    var formdata = $("#form").serializeObject();
 
 			$.ajax({
 				type : 'put',
 				url : '/dicts',
-				contentType: "application/json; charset=utf-8",  
+				contentType: "application/json; charset=utf-8",
 				data : JSON.stringify(formdata),
 				success : function(data) {
 					layer.msg("修改成功", {shift: -1, time: 1000}, function(){
                         location.href = "dictList.html";
                     });
+				},
+				error:function (xhr,status,error) {
+					layer.msg(xhr.responseText, {shift: -1, time: 1000});
 				}
 			});
 		}
-		
+
 	</script>
 </body>
 </html>
