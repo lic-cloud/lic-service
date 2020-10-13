@@ -1,10 +1,9 @@
 package cn.bestsort.repository;
 
-import java.util.List;
-
 import cn.bestsort.model.entity.NoticeRead;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author bestsort

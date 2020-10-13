@@ -68,7 +68,12 @@
 				<div class="checkbox" id="roles">
 				</div>
 			</div>
-
+			<div class="form-group">
+				<label class="col-md-2 control-label">总容量(MB)</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="总容量(MB)" type="text" maxlength="50" value="1024" name="totalCapacity">
+				</div>
+			</div>
 			<div class="form-actions">
 				<div class="row" align="center">
 					<div class="col-md-12">
@@ -79,7 +84,6 @@
 					</div>
 				</div>
 			</div>
-
 		</fieldset>
 	</form>
 </div>
@@ -101,23 +105,23 @@
 
 		showDictSelect("sex", "sex");
 		initRoles();/*初始化角色*/
-	
+
 		$('#form').bootstrapValidator();
-		
+
 		function add() {
 			var bootstrapValidator = $("#form").data('bootstrapValidator');
 			bootstrapValidator.validate();
 		    if(!bootstrapValidator.isValid()){
 			   return;
 		    }
-		    
+
 		    var formdata = $("#form").serializeObject();
 		    formdata.roleIds = getCheckedRoleIds();
 
 			$.ajax({
 				type : 'post',
 				url : '/users',
-				contentType: "application/json; charset=utf-8",  
+				contentType: "application/json; charset=utf-8",
 				data : JSON.stringify(formdata),
 				success : function(data) {
 					layer.msg("添加成功", {shift: -1, time: 1000}, function(){
@@ -126,7 +130,7 @@
 				}
 			});
 		}
-		
+
 	</script>
 </body>
 </html>

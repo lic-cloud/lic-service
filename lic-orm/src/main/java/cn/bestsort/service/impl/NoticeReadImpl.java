@@ -1,10 +1,6 @@
 package cn.bestsort.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
 import cn.bestsort.model.entity.NoticeRead;
-import cn.bestsort.model.entity.User;
 import cn.bestsort.model.vo.NoticeReadVO;
 import cn.bestsort.repository.NoticeReadRepository;
 import cn.bestsort.repository.impl.RepositoryEntity;
@@ -12,6 +8,9 @@ import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.NoticeReadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author bestsort

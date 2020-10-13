@@ -47,6 +47,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         SpringUtil.cloneWithoutNullVal(userDto, user);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setStatus(Status.VALID);
+        user.setTotalCapacity(userDto.getTotalCapacity());
         save(user);
         saveUserRoles(user.getId(), userDto.getRoleIds());
         log.debug("新增用户{}", user.getUsername());

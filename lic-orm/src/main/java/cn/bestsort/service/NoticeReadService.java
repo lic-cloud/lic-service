@@ -3,7 +3,6 @@ package cn.bestsort.service;
 import java.util.List;
 
 import cn.bestsort.model.entity.NoticeRead;
-import cn.bestsort.model.entity.User;
 import cn.bestsort.model.vo.NoticeReadVO;
 import cn.bestsort.util.page.Listable;
 

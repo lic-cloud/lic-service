@@ -1,23 +1,15 @@
 package cn.bestsort.controller;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import cn.bestsort.model.entity.Notice;
 import cn.bestsort.model.entity.Notice.Status;
 import cn.bestsort.model.entity.NoticeRead;
 import cn.bestsort.model.entity.User;
-import cn.bestsort.model.vo.DataTable;
-import cn.bestsort.model.vo.NoticeReadVO;
 import cn.bestsort.model.vo.NoticeVO;
 import cn.bestsort.repository.NoticeReadRepository;
 import cn.bestsort.repository.NoticeRepository;
-import cn.bestsort.repository.UserRepository;
 import cn.bestsort.repository.impl.RepositoryEntity;
 import cn.bestsort.service.NoticeReadService;
 import cn.bestsort.service.NoticeService;
-import cn.bestsort.service.UserService;
 import cn.bestsort.util.UserUtil;
 import cn.bestsort.util.page.PageTableHandler;
 import cn.bestsort.util.page.PageTableRequest;
@@ -27,15 +19,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author GoodTime0313
