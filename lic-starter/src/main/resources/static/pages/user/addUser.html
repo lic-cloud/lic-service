@@ -127,6 +127,9 @@
 					layer.msg("添加成功", {shift: -1, time: 1000}, function(){
                         location.href = "userList.html";
                     });
+				},
+				error:function (xhr,status,error) {
+					layer.msg(xhr.responseText, {shift: -1, time: 1000});
 				}
 			});
 		}

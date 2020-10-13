@@ -18,7 +18,7 @@
 			<div class="form-group">
 				<label class="col-md-2 control-label">内容</label>
 				<div class="col-md-10">
-					<textarea class="layui-textarea" id="demo" style="display: none">  
+					<textarea class="layui-textarea" id="demo" style="display: none">
 					</textarea>
 				</div>
 			</div>
@@ -44,9 +44,9 @@
 	<script type="text/javascript" src="../../js/common.js"></script>
 	<script type="text/javascript" src="../../js/jq.js"></script>
 	<script type="text/javascript">
-	
+
 	initData();
-	
+
 	function initData(){
 		var id = getUrlParam("id");
 		if(id != ""){
@@ -62,7 +62,7 @@
 						$("#demo").text(notice.content);
 						$("#updateTime").text(notice.updateTime);
 					}
-					
+
 					var users = data.users;
 					if(users != null){
 						for(var i=0;i<users.length;i++){
@@ -70,12 +70,15 @@
 							$("#users").append("<li>"+u.nickname+"</li>");
 						}
 					}
+				},
+				error:function (xhr,status,error) {
+					layer.msg(xhr.responseText, {shift: -1, time: 1000});
 				}
 			});
-			
+
 		}
 	}
-	
+
 		var layedit, index;
 		layui.use('layedit', function(){
 		  layedit = layui.layedit;
@@ -83,7 +86,7 @@
 			  tool: ['strong']
 		  });
 		});
-		
+
 	</script>
 </body>
 </html>

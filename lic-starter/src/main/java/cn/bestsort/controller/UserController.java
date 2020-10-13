@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 用户相关接口
  *
@@ -48,6 +51,20 @@ public class UserController {
         return userService.saveUser(userDto);
     }
 
+
+    @PostMapping("/register")
+    @ApiOperation(value = "注册用户")
+    public User registerUser(@RequestBody UserDTO userDto) {
+        User u = userService.getUser(userDto.getUsername());
+        if (u != null) {
+            throw new IllegalArgumentException(userDto.getUsername() + "已存在");
+        }
+        userDto.setTotalCapacity(1024);
+        List<Long> list = new ArrayList<>();
+        list.add((long) 2);
+        userDto.setRoleIds(list);
+        return userService.saveUser(userDto);
+    }
 
     @PutMapping
     @ApiOperation(value = "修改用户")

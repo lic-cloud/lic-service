@@ -133,6 +133,9 @@
 					$("#status").val(data.status);
                     $("#usedCapacity").val(data.usedCapacity/ 1024 > 0 ? data.usedCapacity / 1024 + "G" : data.usedCapacity + "MB");
                     $("#totalCapacity").val(data.totalCapacity);
+                },
+                error:function (xhr,status,error) {
+                    layer.msg(xhr.responseText, {shift: -1, time: 1000});
                 }
 			});
 
@@ -161,7 +164,10 @@
 					layer.msg("修改成功", {shift: -1, time: 1000}, function(){
                         location.href = "userList.html";
                     });
-				}
+				},
+                error:function (xhr,status,error) {
+                    layer.msg(xhr.responseText, {shift: -1, time: 1000});
+                }
 			});
 		}
 

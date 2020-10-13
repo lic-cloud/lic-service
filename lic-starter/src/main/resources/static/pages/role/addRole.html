@@ -59,10 +59,10 @@
 	layui.use('layer', function(){
 	    var layer = layui.layer;
 	});
-	
+
 		$.fn.zTree.init($("#treeDemo"), getSettting(), getMenuTree());
 		initData();
-	
+
 		function initData(){
 			var id = getUrlParam("id");
 			if(id != ""){
@@ -74,38 +74,44 @@
 						$("#id").val(data.id);
 						$("#name").val(data.name);
 						$("#description").val(data.description);
+					},
+					error:function (xhr,status,error) {
+						layer.msg(xhr.responseText, {shift: -1, time: 1000});
 					}
 				});
 				initMenuDatas(id);
 			}
 		}
-		
-		
+
+
 		$('#form').bootstrapValidator();
-		
+
 		function add() {
 			var bootstrapValidator = $("#form").data('bootstrapValidator');
 			bootstrapValidator.validate();
 		    if(!bootstrapValidator.isValid()){
 			   return;
 		    }
-		    
+
 		    var formdata = $("#form").serializeObject();
 		    formdata.permissionIds = getCheckedMenuIds();
 
 			$.ajax({
 				type : 'post',
 				url : '/roles',
-				contentType: "application/json; charset=utf-8",  
+				contentType: "application/json; charset=utf-8",
 				data : JSON.stringify(formdata),
 				success : function(data) {
 					layer.msg("成功", {shift: -1, time: 1000}, function(){
                         location.href = "roleList.html";
                     });
+				},
+				error:function (xhr,status,error) {
+					layer.msg(xhr.responseText, {shift: -1, time: 1000});
 				}
 			});
 		}
-		
+
 	</script>
 </body>
 </html>
