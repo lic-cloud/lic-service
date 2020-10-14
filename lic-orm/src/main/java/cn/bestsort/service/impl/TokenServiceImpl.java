@@ -100,7 +100,6 @@ public class TokenServiceImpl implements TokenService {
         if (uuid != null) {
             return cacheHandler.fetchCacheStore().getObj(LoginUserVO.class, getTokenKey(uuid));
         }
-
         return null;
     }
 
@@ -135,9 +134,9 @@ public class TokenServiceImpl implements TokenService {
 
         return KEY;
     }
-
     private String getRandomKey(String jwtToken) {
-        if ("null".equals(jwtToken) || StringUtils.isBlank(jwtToken)) {
+        String isNull = "null";
+        if (isNull.equals(jwtToken) || StringUtils.isBlank(jwtToken)) {
             return null;
         }
 

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author bestsort
+ * @author GoodTime0313
  * @version 1.0
  * @date 2020-09-18 07:57
  */
@@ -41,8 +41,10 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
         String title = (String) params.get("title");
         String isRead = (String) params.get("isRead");
         Long userId = (Long) params.get("userId");
-        /*Time beginTime = (Time) params.get("beginTime");
-        Time endTime = (Time) params.get("endTime");*/
+        /*
+        Time beginTime = (Time) params.get("beginTime");
+        Time endTime = (Time) params.get("endTime");
+        */
         if ("".equals(isRead)) {
             return repo.count(userId.intValue(), title, null);
         }
@@ -54,8 +56,10 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
         String title = (String) params.get("title");
         String isRead = (String) params.get("isRead");
         Long userId = (Long) params.get("userId");
-        /*Time beginTime = (Time) params.get("beginTime");
-        Time endTime = (Time) params.get("endTime");*/
+        /*
+        Time beginTime = (Time) params.get("beginTime");
+        Time endTime = (Time) params.get("endTime");
+        */
         String orderBy = (String) params.get("orderBy");
         if ("".equals(isRead)) {
             return rre.listNoticeRead(userId.intValue(), title, null, orderBy, offset, limit);

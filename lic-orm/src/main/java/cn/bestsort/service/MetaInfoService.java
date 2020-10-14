@@ -26,6 +26,7 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
     public String getMeta(String metaKey) {
         return metaMap.get(metaKey);
     }
+
     public String getMeta(String metaKey, String defaultVal) {
         String value = metaMap.get(metaKey);
         if (value == null) {
@@ -35,6 +36,7 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         }
         return value;
     }
+
     public <T> T getMetaObj(Class<T> clazz, ValueEnum licMetaEnum) {
         String res;
         if ((res = getMeta(licMetaEnum)) != null) {
@@ -46,10 +48,11 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
     public String getMeta(ValueEnum metaKey) {
         return getMeta(metaKey.getVal().toString());
     }
+
     public String getMeta(ValueEnum metaKey, String defaultVal) {
         return getMeta(metaKey.getVal().toString(), defaultVal);
     }
-    
+
     public String getMetaOrDefaultStr(ValueEnum metaKey) {
         return getMeta(metaKey.getVal().toString(), ValueEnum.get(String.class, metaKey));
     }
