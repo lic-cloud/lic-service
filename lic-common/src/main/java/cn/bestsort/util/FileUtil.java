@@ -67,8 +67,7 @@ public class FileUtil {
             if (!arg.startsWith(File.separator)) {
                 builder.append(File.separator);
             }
-            StringUtils.stripEnd(arg, File.separator);
-            builder.append(arg);
+            builder.append(StringUtils.stripEnd(arg, File.separator));
         }
         return builder.toString();
     }

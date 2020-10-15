@@ -40,6 +40,9 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
     public <T> T getMetaObj(Class<T> clazz, ValueEnum licMetaEnum) {
         String res;
         if ((res = getMeta(licMetaEnum)) != null) {
+            if (String.class.equals(clazz)) {
+                return (T)res;
+            }
             return JSON.parseObject(res, clazz);
         }
         return ValueEnum.get(clazz, licMetaEnum);

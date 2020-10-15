@@ -6,6 +6,7 @@ import java.util.Map;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.model.enums.Status;
 import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
 import cn.bestsort.model.vo.UploadTokenVO;
@@ -30,9 +31,10 @@ public interface LicFileManager {
      * 获取文件列表
      * @param dirId 文件夹ID
      * @param user  用户(用作鉴权)
+     * @param status 文件状态
      * @return      文件列表
      */
-    List<FileMapping> listFiles(Long dirId, Long user);
+    List<FileMapping> listFiles(Long dirId, Long user, Status status);
 
     /**
      * 根据分享的url获取文件列表
@@ -51,12 +53,12 @@ public interface LicFileManager {
 
     /**
      * 创建链接以供下载使用， 链接有效期为 expire(单位: S)
-     * @param fileId 需要下载的文件id
+     * @param mappingId 需要下载的文件id
      * @param user   用户
      * @param expire 链接过期时间
      * @return       生成后的链接
      */
-    String createDownloadLink(Long fileId, User user, Long expire);
+    String createDownloadLink(Long mappingId, User user, Long expire);
 
     /**
      * 创建上传所需要的token和相关参数

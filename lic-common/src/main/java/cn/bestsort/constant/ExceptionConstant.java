@@ -23,9 +23,12 @@ public interface ExceptionConstant {
     LicException PASSWORD_ERROR = new LicException("密码错误", 4006);
     LicException NEED_LOGIN = new LicException("未登录", 4007);
     LicException EXPIRED    = new LicException("已过期", 4008);
+    LicException MUST_BE_NOT_DIR = new LicException("必须是非文件夹", 4009);
     /**
      * 5XXX为系统错误
      */
     LicException NOT_FOUND_FILE_SYS = new LicException("未找到对应的文件系统实现", 5001);
     LicException NOT_FOUND_ITEM = new LicException("目标未找到", 4004);
+    LicException NOT_FOUND_SUCH_FILE = new LicException("该文件实体不存在", 4005);
+
 }

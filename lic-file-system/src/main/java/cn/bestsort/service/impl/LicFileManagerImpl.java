@@ -25,6 +25,7 @@ import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.util.TimeUtil;
+import cn.bestsort.util.UrlUtil;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
@@ -48,12 +49,13 @@ public class LicFileManagerImpl implements LicFileManager {
 
 
     @Override
-    public List<FileMapping> listFiles(Long mappingId, Long userId) {
-        FileMapping fileMapping = fileMappingImpl.getById(mappingId);
-
-        if (fileMapping.getIsDir()) {
-            return fileMappingImpl.listUserFiles(mappingId, userId);
+    public List<FileMapping> listFiles(Long mappingId, Long userId, Status status) {
+        FileMapping fileMapping;
+        // 根目录 或者为其他目录时
+        if (mappingId == 0L || (fileMapping = fileMappingImpl.getById(mappingId)).getIsDir()) {
+            return fileMappingImpl.listUserFiles(mappingId, userId, status);
         } else {
+            // 单个文件
             return List.of(fileMapping);
         }
     }
@@ -65,14 +67,19 @@ public class LicFileManagerImpl implements LicFileManager {
         if (fileShare.getExpire().before(TimeUtil.now())) {
             throw ExceptionConstant.EXPIRED;
         }
-        return listFiles(fileShare.getMappingId(), fileShare.getOwnerId());
+        return listFiles(fileShare.getMappingId(), fileShare.getOwnerId(), Status.VALID);
     }
 
     @Override
-    public String createDownloadLink(Long fileId, User user, Long expire) {
-        FileInfo info = fileInfoImp.getById(fileId);
+    public String createDownloadLink(Long mappingId, User user, Long expire) {
+        FileMapping mapping = fileMappingImpl.getById(mappingId);
+        if (mapping.getIsDir()) {
+            throw ExceptionConstant.MUST_BE_NOT_DIR;
+        }
 
-        return manager.handle(info).downloadLink(info.getPath(), expire);
+        FileInfo info = fileInfoImp.getById(mapping.getInfoId());
+        return UrlUtil.appendParam(manager.handle(info).downloadLink(info.getPath(), expire),
+                                   "fileName", mapping.getFileName());
     }
 
     @Override
@@ -145,7 +152,7 @@ public class LicFileManagerImpl implements LicFileManager {
             return;
         }
         if (fileMapping.getIsDir()) {
-            List<FileMapping> fileMappings = listFiles(fileMapping.getId(), user.getId());
+            List<FileMapping> fileMappings = listFiles(fileMapping.getId(), user.getId(), Status.VALID);
             for (FileMapping mapping : fileMappings) {
                 deleteSoftLink(mapping, user, remove, needRemove);
             }

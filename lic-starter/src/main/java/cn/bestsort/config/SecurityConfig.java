@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/pages/**",
                 "/druid/**",
+                "/file/download/server/**",
                 "/statics/**")
             .permitAll()
             .antMatchers(HttpMethod.POST, "/users/register").permitAll()

@@ -2,7 +2,6 @@ package cn.bestsort.model.enums;
 
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
-
 import cn.bestsort.cache.CacheStoreType;
 
 /**

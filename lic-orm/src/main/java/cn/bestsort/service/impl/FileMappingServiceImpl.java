@@ -22,8 +22,8 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
 
 
     @Override
-    public List<FileMapping> listUserFiles(Long dirId, Long userId) {
-        return repo.findAllByPidAndOwnerIdAndStatus(dirId, userId, Status.VALID);
+    public List<FileMapping> listUserFiles(Long dirId, Long userId, Status status) {
+        return repo.findAllByPidAndOwnerIdAndStatus(dirId, userId, status);
     }
 
     @Override

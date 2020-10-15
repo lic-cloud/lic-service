@@ -28,7 +28,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class TokenFilter extends OncePerRequestFilter {
 
     public static final String TOKEN_KEY = "token";
-
     @Autowired
     private TokenService tokenService;
     @Autowired

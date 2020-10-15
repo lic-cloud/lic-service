@@ -13,6 +13,7 @@ import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.model.vo.UploadTokenVO;
 import cn.bestsort.util.FileUtil;
+import cn.bestsort.util.UrlUtil;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,11 +33,10 @@ public class EmptyFileManagerImpl extends AbstractFileManager {
             path);
         String randomKey = UUID.randomUUID().toString();
         cache().put(randomKey, fullPath, expire, TimeUnit.SECONDS);
-        return String.format("%s/%s/%s%s",
-                             metaInfoService.getMetaObj(String.class, LicMetaEnum.HOST),
-                             DOWNLOAD_LINK_PATH,
-                             FileNamespace.LOCALHOST,
-                             randomKey);
+        String url = String.format("%s/%s/server",
+                                   metaInfoService.getMetaObj(String.class, LicMetaEnum.HOST),
+                                   DOWNLOAD_LINK_PATH);
+        return UrlUtil.appendParam(url, "key", randomKey);
     }
 
     @Override
