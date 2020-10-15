@@ -10,8 +10,18 @@ import cn.bestsort.model.entity.Permission;
  * @date 2020/9/15 8:59
  */
 public interface PermissionService extends BaseService<Permission, Long> {
-
+    /**
+     * 依据type获取权限集合
+     *
+     * @param type
+     * @return
+     */
     List<Permission> listByType(Integer type);
 
+    /**
+     * 依据权限id删除权限
+     *
+     * @param id
+     */
     void delete(Long id);
 }

@@ -53,14 +53,29 @@ public class PageTableHandler {
     }
 
     public interface ListHandler {
+        /**
+         * 列表的显示数据
+         * @param request
+         * @return
+         */
         List<?> list(PageTableRequest request);
     }
 
     public interface CountHandler {
+        /**
+         * 列表计数
+         * @param request
+         * @return
+         */
         int count(PageTableRequest request);
     }
 
     public interface OrderHandler {
+        /**
+         * 排序
+         * @param request
+         * @return
+         */
         PageTableRequest order(PageTableRequest request);
     }
 }

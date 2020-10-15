@@ -36,6 +36,7 @@ public interface LicFileManager {
 
     /**
      * 根据分享的url获取文件列表
+     * @param url
      * @return 文件列表
      */
     List<FileMapping> listFilesByShare(String url);

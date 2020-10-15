@@ -16,7 +16,9 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-/** 分页、查询参数解析
+/**
+ * 分页、查询参数解析
+ *
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
@@ -32,15 +34,17 @@ public class PageTableArgumentResolver implements HandlerMethodArgumentResolver 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        String start = "start";
+        String length = "length";
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
         PageTableRequest tableRequest = new PageTableRequest();
         Map<String, String[]> param = request.getParameterMap();
-        if (param.containsKey("start")) {
+        if (param.containsKey(start)) {
             tableRequest.setOffset(Integer.parseInt(request.getParameter("start")));
         }
 
-        if (param.containsKey("length")) {
+        if (param.containsKey(length)) {
             tableRequest.setLimit(Integer.parseInt(request.getParameter("length")));
         }
 
@@ -68,11 +72,13 @@ public class PageTableArgumentResolver implements HandlerMethodArgumentResolver 
      */
     private void removeParam(PageTableRequest tableRequest) {
         Map<String, Object> map = tableRequest.getParams();
-
+        String leftBracket = "[";
+        String rightBracket = "]";
+        String underLine = "_";
         if (!CollectionUtils.isEmpty(map)) {
-            Map<String, Object> param = new HashMap<>();
+            Map<String, Object> param = new HashMap<>(10000);
             map.forEach((k, v) -> {
-                if (k.indexOf("[") < 0 && k.indexOf("]") < 0 && !"_".equals(k)) {
+                if (k.indexOf(leftBracket) < 0 && k.indexOf(rightBracket) < 0 && !underLine.equals(k)) {
                     param.put(k, v);
                 }
             });
@@ -105,7 +111,7 @@ public class PageTableArgumentResolver implements HandlerMethodArgumentResolver 
 
         if (orderBy.length() > 0) {
             tableRequest.getParams().put("orderBy",
-                                         " order by " + StringUtils.substringBeforeLast(orderBy.toString(), ","));
+                " order by " + StringUtils.substringBeforeLast(orderBy.toString(), ","));
         }
 
     }

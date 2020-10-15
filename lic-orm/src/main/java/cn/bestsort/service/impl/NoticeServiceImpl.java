@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author bestsort
+ * @author GoodTime0313
  * @version 1.0
  * @date 2020-09-17 15:18
  */
@@ -32,8 +32,10 @@ public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
     public int count(Map<String, Object> params) {
         String title = (String) params.get("title");
         String status = (String) params.get("status");
-        /*Time beginTime = (Time) params.get("beginTime");
-        Time endTime = (Time) params.get("endTime");*/
+        /*
+        Time beginTime = (Time) params.get("beginTime");
+        Time endTime = (Time) params.get("endTime");
+        */
         if ("".equals(status)) {
             return repo.count(title, null);
         }

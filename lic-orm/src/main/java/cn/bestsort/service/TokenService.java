@@ -5,6 +5,7 @@ import cn.bestsort.model.dto.TokenDTO;
 
 /**
  * Token管理器
+ *
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
@@ -12,6 +13,7 @@ import cn.bestsort.model.dto.TokenDTO;
 public interface TokenService {
     /**
      * 保存token
+     *
      * @param loginUserVO
      * @return
      */
@@ -19,12 +21,14 @@ public interface TokenService {
 
     /**
      * 刷新token
+     *
      * @param loginUserVO
      */
     void refresh(LoginUserVO loginUserVO);
 
     /**
      * 根据token查找用户
+     *
      * @param token
      * @return
      */
@@ -32,6 +36,7 @@ public interface TokenService {
 
     /**
      * 删除token
+     *
      * @param token
      * @return
      */
