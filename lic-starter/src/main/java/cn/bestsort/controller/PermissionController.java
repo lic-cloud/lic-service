@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
-@Api(tags ="权限")
+@Api(tags = "权限")
 @RestController
 @RequestMapping("/permissions")
 public class PermissionController {

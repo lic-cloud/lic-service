@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
-@Api(tags ="字典")
+@Api(tags = "字典")
 @RestController
 @RequestMapping("/dicts")
 public class DictController {
