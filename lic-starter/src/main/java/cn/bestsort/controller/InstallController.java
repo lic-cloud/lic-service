@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-09-09 10:21
  */
 
-@Api("系统初始化")
+@Api(tags ="系统初始化")
 @RestController
 public class InstallController {
     @Autowired

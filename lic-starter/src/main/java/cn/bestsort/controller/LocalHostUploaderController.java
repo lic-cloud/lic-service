@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  * @date 2020-09-15 09:19
  */
-@Api("本地上传接口")
+@Api(tags ="本地上传接口")
 @RestController
 @RequestMapping("/upload")
 public class LocalHostUploaderController {

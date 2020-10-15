@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2020-10-07 10:38
  */
 
-@Api(tags = "文件操作")
+@Api(tags = "文件")
 @Controller
 @RequestMapping("/file")
 public class FileController {

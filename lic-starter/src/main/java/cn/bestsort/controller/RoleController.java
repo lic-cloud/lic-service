@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
-@Api("角色")
+@Api(tags ="角色")
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
