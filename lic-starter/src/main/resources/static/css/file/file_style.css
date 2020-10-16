@@ -42,3 +42,49 @@
     -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
     transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
 }
+
+.focus:hover{
+    cursor: pointer;
+}
+.file-name {
+    isplay: flex;
+    position: relative;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 50px;
+    line-height: 50px;
+    padding: 0;
+}
+.name-text {
+    width: 0;
+    flex-grow: 1;
+    display: flex;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 100%;
+    z-index: 10;
+    padding-right: 20px;
+}
+.file-main-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+}
+.file-extension{
+    -webkit-transition: opacity 300ms;
+    -moz-transition: opacity 300ms;
+    -o-transition: opacity 300ms;
+    transition: opacity 300ms;
+    vertical-align: top;
+}
+
+.file-table {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+.file-table .file-tr {
+    font-size: 18px;
+}

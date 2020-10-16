@@ -8,6 +8,8 @@ import cn.bestsort.model.enums.Status;
 import cn.bestsort.repository.FileMappingRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.FileMappingService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,7 +24,11 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
 
 
     @Override
-    public List<FileMapping> listUserFiles(Long dirId, Long userId, Status status) {
+    public Page<List<FileMapping>> listUserFiles(Pageable page, Long dirId, Long userId, Status status) {
+        return repo.findAllByPidAndOwnerIdAndStatus(page, dirId, userId, status);
+    }
+    @Override
+    public List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status) {
         return repo.findAllByPidAndOwnerIdAndStatus(dirId, userId, status);
     }
 
@@ -47,4 +53,5 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         super(repository);
         repo = repository;
     }
+
 }

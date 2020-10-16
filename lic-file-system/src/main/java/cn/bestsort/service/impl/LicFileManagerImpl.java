@@ -27,6 +27,8 @@ import cn.bestsort.service.LicFileManager;
 import cn.bestsort.util.TimeUtil;
 import cn.bestsort.util.UrlUtil;
 import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,17 +51,25 @@ public class LicFileManagerImpl implements LicFileManager {
 
 
     @Override
-    public List<FileMapping> listFiles(Long mappingId, Long userId, Status status) {
+    public Page<List<FileMapping>> listFiles(Pageable pageable, Long mappingId, Long userId, Status status) {
         FileMapping fileMapping;
         // 根目录 或者为其他目录时
         if (mappingId == 0L || (fileMapping = fileMappingImpl.getById(mappingId)).getIsDir()) {
-            return fileMappingImpl.listUserFiles(mappingId, userId, status);
+            return fileMappingImpl.listUserFiles(pageable, mappingId, userId, status);
         } else {
-            // 单个文件
-            return List.of(fileMapping);
+            throw ExceptionConstant.MUST_BE_DIR;
         }
     }
 
+    private List<FileMapping> listFiles(Long mappingId, Long userId, Status status) {
+        FileMapping fileMapping;
+        // 根目录 或者为其他目录时
+        if (mappingId == 0L || (fileMapping = fileMappingImpl.getById(mappingId)).getIsDir()) {
+            return fileMappingImpl.listUserFilesWithoutPage(mappingId, userId, status);
+        } else {
+            return List.of(fileMapping);
+        }
+    }
     @Override
     public List<FileMapping> listFilesByShare(String url) {
         FileShare fileShare = fileShareImpl.getByUrl(url)

@@ -5,20 +5,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.Status;
 import cn.bestsort.service.FileManagerHandler;
+import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.LicFileManager;
+import cn.bestsort.util.PageUtil;
 import cn.bestsort.util.UserUtil;
+import cn.bestsort.util.page.PageTableResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +40,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class FileController {
     @Autowired
     LicFileManager fileManager;
-
+    @Autowired
+    FileMappingService mappingService;
     @Autowired
     FileManagerHandler handler;
     @Autowired
@@ -46,8 +50,9 @@ public class FileController {
     @ApiOperation("获取文件列表")
     @GetMapping
     @ResponseBody
-    public List<FileMapping> list(@RequestParam(defaultValue = "VALID") Status status) {
-        return fileManager.listFiles(0L, 1L, status);
+    public PageTableResponse list(@RequestParam(defaultValue = "VALID") Status status,
+                                  @PageableDefault(size = 20) Pageable pageable) {
+        return PageUtil.toPageTable(fileManager.listFiles(pageable, 0L, 1L, status));
     }
     @ApiOperation(value = "获取文件下载链接", notes = "默认链接有效期12小时")
     @GetMapping("/download")

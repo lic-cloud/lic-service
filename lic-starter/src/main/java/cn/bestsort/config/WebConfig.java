@@ -1,13 +1,14 @@
 package cn.bestsort.config;
 
+import java.util.List;
+
 import cn.bestsort.util.page.PageTableArgumentResolver;
+import cn.bestsort.util.page.PageableResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
 
 /**
  * @author bestsort
@@ -39,10 +40,14 @@ public class WebConfig implements WebMvcConfigurer {
     public PageTableArgumentResolver tableHandlerMethodArgumentResolver() {
         return new PageTableArgumentResolver();
     }
-
+    @Bean
+    public PageableResolver PageableResolver() {
+        return new PageableResolver();
+    }
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(tableHandlerMethodArgumentResolver());
+        argumentResolvers.add(PageableResolver());
     }
 
 }

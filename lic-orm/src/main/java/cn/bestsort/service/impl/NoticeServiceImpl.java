@@ -32,10 +32,6 @@ public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
     public int count(Map<String, Object> params) {
         String title = (String) params.get("title");
         String status = (String) params.get("status");
-        /*
-        Time beginTime = (Time) params.get("beginTime");
-        Time endTime = (Time) params.get("endTime");
-        */
         if ("".equals(status)) {
             return repo.count(title, null);
         }
@@ -49,8 +45,6 @@ public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
     public List<Notice> list(Map<String, Object> params, int offset, int limit) {
         String title = (String) params.get("title");
         String status = (String) params.get("status");
-        /*Time beginTime = (Time) params.get("beginTime");
-        Time endTime = (Time) params.get("endTime");*/
         String orderBy = (String) params.get("orderBy");
         if ("".equals(status)) {
             return rre.listNotice(title, null, orderBy, offset, limit);

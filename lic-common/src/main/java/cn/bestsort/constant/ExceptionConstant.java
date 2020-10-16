@@ -23,7 +23,9 @@ public interface ExceptionConstant {
     LicException PASSWORD_ERROR = new LicException("密码错误", 4006);
     LicException NEED_LOGIN = new LicException("未登录", 4007);
     LicException EXPIRED    = new LicException("已过期", 4008);
-    LicException MUST_BE_NOT_DIR = new LicException("必须是非文件夹", 4009);
+    LicException MUST_BE_NOT_DIR = new LicException("目标必须是非文件夹", 4009);
+    LicException MUST_BE_DIR = new LicException("目标必须是文件夹", 4010);
+
     /**
      * 5XXX为系统错误
      */

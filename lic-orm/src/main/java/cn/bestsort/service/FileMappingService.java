@@ -4,6 +4,8 @@ import java.util.List;
 
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author bestsort
@@ -18,7 +20,9 @@ public interface FileMappingService extends BaseService<FileMapping, Long> {
      * @param status 状态
      * @return       列表集合
      */
-    List<FileMapping> listUserFiles(Long dirId, Long userId, Status status);
+    Page<List<FileMapping>> listUserFiles(Pageable pageable, Long dirId, Long userId, Status status);
+
+    List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status);
 
     String fullPath(Long dirId);
 
