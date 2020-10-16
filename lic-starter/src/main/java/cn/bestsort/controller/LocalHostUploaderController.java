@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  * @date 2020-09-15 09:19
  */
-@Api("本地上传接口")
+@Api(tags = "本地上传接口")
 @RestController
 @RequestMapping("/upload")
 public class LocalHostUploaderController {
@@ -31,6 +31,7 @@ public class LocalHostUploaderController {
     LocalUploadService service;
     @Autowired
     LicFileManager licFileManager;
+
     @PostMapping("/bigFile")
     public ResponseEntity<Boolean> upload(String name, String md5, Long size,
                                           Integer chunks, Integer chunk,
@@ -54,7 +55,7 @@ public class LocalHostUploaderController {
         param.setNamespace(FileNamespace.LOCALHOST);
         param.setPid(pid);
         // byte -> kb
-        param.setSize((float)(file.getSize() / 1000));
+        param.setSize((float) (file.getSize() / 1000));
         User user1 = new User();
         user1.setUsername("name");
         user1.setId(1L);

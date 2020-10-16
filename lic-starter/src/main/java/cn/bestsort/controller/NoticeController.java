@@ -28,7 +28,7 @@ import java.util.List;
  * @version 1.0
  * @date 2020/9/15 8:59
  */
-@Api("公告")
+@Api(tags = "公告")
 @RestController
 @RequestMapping("/notices")
 public class NoticeController {
