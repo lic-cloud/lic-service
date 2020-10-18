@@ -65,7 +65,7 @@ public class FileUtil {
     public static String unionPath(String...args) {
         StringBuilder builder = new StringBuilder();
         // Windows 系统不需要以文件分割符开头，但是Linux需要
-        boolean needAppendSep = !"Windows".equals(System.getProperty("os.name"));
+        boolean needAppendSep = !System.getProperty("os.name").startsWith("Windows");
         for (String arg : args) {
             if (!arg.startsWith(File.separator)) {
                 if (needAppendSep) {
