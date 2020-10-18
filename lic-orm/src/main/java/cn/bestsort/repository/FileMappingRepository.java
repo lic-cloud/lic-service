@@ -13,10 +13,12 @@ import org.springframework.data.domain.Pageable;
  * @date 2020-09-07 17:39
  */
 public interface FileMappingRepository extends BaseRepository<FileMapping, Long> {
+
     /**
-     * 获取当前目录下用户的文件列表
-     **/
-    Page<List<FileMapping>> findAllByPidAndOwnerIdAndStatus(Pageable page, Long pid, Long userId, Status status);
+     * 只获取用户当前目录下文件/文件夹
+     */
+    List<FileMapping> findAllByPidAndOwnerIdAndStatusAndIsDir(Long pid, Long userId, Status status, Boolean isDir);
     List<FileMapping> findAllByPidAndOwnerIdAndStatus(Long pid, Long userId, Status status);
+    Page<FileMapping> findAllByPidAndOwnerIdAndStatusAndIsDir(Pageable page, Long pid, Long userId, Status status, Boolean isDir);
 
 }

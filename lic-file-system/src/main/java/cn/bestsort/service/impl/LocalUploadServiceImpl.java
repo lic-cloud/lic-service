@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.repository.FileInfoRepository;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.service.LocalUploadService;
 import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.util.FileUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2020-09-15 09:22
  */
 @Service
+@Slf4j
 public class LocalUploadServiceImpl implements LocalUploadService {
     @Autowired
     MetaInfoService metaInfoService;
@@ -36,9 +40,28 @@ public class LocalUploadServiceImpl implements LocalUploadService {
 
     @Override
     public boolean simpleUpload(MultipartFile file) throws IOException {
+        String path = FileUtil.unionPath(
+            metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH),
+            file.getOriginalFilename()
+        );
+        checkPath(path, file);
+        return true;
+    }
 
-        String path = metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH) +
-                metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR) + file.getOriginalFilename();
+    @Override
+    public boolean uploadResource(MultipartFile file) throws IOException {
+        String path = FileUtil.unionPath(
+            metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH),
+            metaInfoService.getMetaOrDefaultStr(LicMetaEnum.RESOURCE_DIR),
+            RandomStringUtils.randomNumeric(
+                metaInfoService.getMetaObj(Integer.class, LicMetaEnum.RESOURCE_DIR_TITLE_LENGTH)),
+            file.getOriginalFilename());
+        checkPath(path, file);
+
+        return true;
+    }
+
+    private void checkPath(String path, MultipartFile file) throws IOException {
         File localFile = new File(path);
         int cnt = 0;
         while (localFile.exists() || localFile.isDirectory()) {
@@ -49,9 +72,8 @@ public class LocalUploadServiceImpl implements LocalUploadService {
         // 防止因为文件夹未创建而造成的 IOException, 不 care 创建结果
         dir.mkdirs();
         FileUtil.write(localFile, file.getInputStream());
-        return true;
+        log.info("文件上传成功, 文件名:[{}], ；路径:[{}] ", file.getOriginalFilename(), path);
     }
-
     @Override
     public boolean uploadWithBlock(String md5, Long size,
                                    Integer chunks, Integer chunk,

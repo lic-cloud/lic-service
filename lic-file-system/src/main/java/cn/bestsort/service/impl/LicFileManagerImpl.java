@@ -27,8 +27,6 @@ import cn.bestsort.service.LicFileManager;
 import cn.bestsort.util.TimeUtil;
 import cn.bestsort.util.UrlUtil;
 import org.apache.commons.lang.RandomStringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,8 +38,8 @@ import org.springframework.stereotype.Service;
 public class LicFileManagerImpl implements LicFileManager {
 
     final FileManagerHandler    manager;
-    final FileInfoService     fileInfoImp;
-    final FileMappingService fileMappingImpl;
+    final FileInfoService    fileInfoImp;
+    final FileMappingService mappingService;
     final FileShareService   fileShareImpl;
 
     @Override
@@ -49,27 +47,6 @@ public class LicFileManagerImpl implements LicFileManager {
         return fileInfoImp.getByMd5(md5, fileNamespace) != null;
     }
 
-
-    @Override
-    public Page<List<FileMapping>> listFiles(Pageable pageable, Long mappingId, Long userId, Status status) {
-        FileMapping fileMapping;
-        // 根目录 或者为其他目录时
-        if (mappingId == 0L || (fileMapping = fileMappingImpl.getById(mappingId)).getIsDir()) {
-            return fileMappingImpl.listUserFiles(pageable, mappingId, userId, status);
-        } else {
-            throw ExceptionConstant.MUST_BE_DIR;
-        }
-    }
-
-    private List<FileMapping> listFiles(Long mappingId, Long userId, Status status) {
-        FileMapping fileMapping;
-        // 根目录 或者为其他目录时
-        if (mappingId == 0L || (fileMapping = fileMappingImpl.getById(mappingId)).getIsDir()) {
-            return fileMappingImpl.listUserFilesWithoutPage(mappingId, userId, status);
-        } else {
-            return List.of(fileMapping);
-        }
-    }
     @Override
     public List<FileMapping> listFilesByShare(String url) {
         FileShare fileShare = fileShareImpl.getByUrl(url)
@@ -77,12 +54,12 @@ public class LicFileManagerImpl implements LicFileManager {
         if (fileShare.getExpire().before(TimeUtil.now())) {
             throw ExceptionConstant.EXPIRED;
         }
-        return listFiles(fileShare.getMappingId(), fileShare.getOwnerId(), Status.VALID);
+        return null;
     }
 
     @Override
     public String createDownloadLink(Long mappingId, User user, Long expire) {
-        FileMapping mapping = fileMappingImpl.getById(mappingId);
+        FileMapping mapping = mappingService.getById(mappingId);
         if (mapping.getIsDir()) {
             throw ExceptionConstant.MUST_BE_NOT_DIR;
         }
@@ -113,34 +90,22 @@ public class LicFileManagerImpl implements LicFileManager {
     @Override
     public void uploadSuccess(User user, UploadSuccessCallbackParam param) {
         FileInfo info = fileInfoImp.getByMd5(param.getMd5(), param.getNamespace());
-        FileMapping fileMapping = new FileMapping();
         if (info != null) {
             info.setReference(info.getReference() + 1);
         } else {
-            info = new FileInfo();
-            info.setPath(fileMappingImpl.fullPath(param.getPid()));
-            info.setReference(1);
-            info.setFileName(param.getName());
-            info.setMd5(param.getMd5());
-            info.setNamespace(param.getNamespace());
-            info.setOwner(user.getUsername());
-            info.setSize(param.getSize());
+            info = new FileInfo(mappingService.fullPath(param.getPid()), user.getUsername(),
+                                param.getName(), 1, param.getMd5(), param.getSize(),
+                                param.getNamespace(), null);
             info = fileInfoImp.save(info);
         }
-        fileMapping.setInfoId(info.getId());
-        fileMapping.setFileName(param.getName());
-        fileMapping.setIsDir(false);
-        fileMapping.setOwnerId(user.getId());
-        fileMapping.setPid(param.getPid());
-        fileMapping.setShare(false);
-        fileMapping.setSize(param.getSize());
-        fileMapping.setStatus(Status.VALID);
-        fileMappingImpl.save(fileMapping);
+        FileMapping fileMapping = new FileMapping(param.getName(), info.getId(), user.getId(), param.getSize(),
+                                                  param.getPid(), false, false, Status.VALID);
+        mappingService.save(fileMapping);
     }
 
     @Override
     public void deleteFile(Long fileId, User user, boolean remove) {
-        Optional<FileMapping>             fileMapping = fileMappingImpl.fetchById(fileId);
+        Optional<FileMapping>             fileMapping = mappingService.fetchById(fileId);
         Map<FileNamespace, List<FileDTO>> map         = new TreeMap<>();
         fileMapping.ifPresent(mapping -> deleteSoftLink(mapping, user, remove, map));
         // 部分OSS支持删除文件列表, 防止多次创建连接造成的时间消耗
@@ -162,7 +127,8 @@ public class LicFileManagerImpl implements LicFileManager {
             return;
         }
         if (fileMapping.getIsDir()) {
-            List<FileMapping> fileMappings = listFiles(fileMapping.getId(), user.getId(), Status.VALID);
+            List<FileMapping> fileMappings = null;
+            //TODO listFiles(fileMapping.getId(), user.getId(), Status.VALID);
             for (FileMapping mapping : fileMappings) {
                 deleteSoftLink(mapping, user, remove, needRemove);
             }
@@ -187,7 +153,7 @@ public class LicFileManagerImpl implements LicFileManager {
             }
         }
         fileMapping.setStatus(Status.INVALID);
-        fileMappingImpl.save(fileMapping);
+        mappingService.save(fileMapping);
     }
 
     private FileManager handle(FileNamespace nameSpace) {
@@ -196,10 +162,10 @@ public class LicFileManagerImpl implements LicFileManager {
 
 
     public LicFileManagerImpl(FileManagerHandler manager, FileInfoService fileInfoImp,
-                              FileMappingService fileMappingImpl, FileShareService fileShareImpl) {
-        this.manager = manager;
-        this.fileInfoImp = fileInfoImp;
-        this.fileMappingImpl = fileMappingImpl;
-        this.fileShareImpl = fileShareImpl;
+                              FileMappingService mappingService, FileShareService fileShareImpl) {
+        this.manager        = manager;
+        this.fileInfoImp    = fileInfoImp;
+        this.mappingService = mappingService;
+        this.fileShareImpl  = fileShareImpl;
     }
 }

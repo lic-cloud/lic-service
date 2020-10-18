@@ -67,7 +67,7 @@ public class UrlUtil {
         } else if (StringUtils.isBlank(name)) {
             return url.trim();
         } else {
-            Map<String, String> params = new HashMap<String, String>();
+            Map<String, String> params = new HashMap<>();
             params.put(name, value);
             return appendParams(url, params);
         }

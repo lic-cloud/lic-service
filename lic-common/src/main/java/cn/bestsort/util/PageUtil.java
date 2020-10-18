@@ -87,10 +87,10 @@ public class PageUtil {
         }
         return sortObj;
     }
-    public static PageTableResponse toPageTable(Page page) {
+    public static PageTableResponse toPageTable(Page page, long total) {
         //TODO 筛选后统计
         return new PageTableResponse(
-            (int)page.getTotalElements(),
+            (int)total,
             (int)page.getTotalElements(),
             page.getContent());
     }

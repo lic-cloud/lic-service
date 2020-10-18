@@ -4,8 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import cn.bestsort.model.enums.Status;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 用于存储文件虚拟地址，根据虚拟地址映射至具体的文件
@@ -16,6 +18,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileMapping extends BaseEntityWithDeleteAt {
 
     @Column

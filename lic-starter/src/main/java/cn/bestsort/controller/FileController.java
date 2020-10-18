@@ -1,15 +1,9 @@
 package cn.bestsort.controller;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import cn.bestsort.cache.CacheHandler;
-import cn.bestsort.constant.ExceptionConstant;
+import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.Status;
 import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
@@ -22,11 +16,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author bestsort
@@ -34,8 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2020-10-07 10:38
  */
 
-@Api(tags = "文件")
-@Controller
+@Api(tags = "文件映射")
+@RestController
 @RequestMapping("/file")
 public class FileController {
     @Autowired
@@ -47,56 +41,23 @@ public class FileController {
     @Autowired
     CacheHandler cache;
 
-    @ApiOperation("获取文件列表")
-    @GetMapping
-    @ResponseBody
+    @ApiOperation("获取文件列表(返回PageTableResponse)")
+    @GetMapping("/page")
     public PageTableResponse list(@RequestParam(defaultValue = "VALID") Status status,
-                                  @PageableDefault(size = 20) Pageable pageable) {
-        return PageUtil.toPageTable(fileManager.listFiles(pageable, 0L, 1L, status));
-    }
-    @ApiOperation(value = "获取文件下载链接", notes = "默认链接有效期12小时")
-    @GetMapping("/download")
-    @ResponseBody
-    public String download(@RequestParam(required = false, defaultValue = "43200") Long expire,
-                           @RequestParam Long mappingId) {
-
-        return fileManager.createDownloadLink(mappingId, UserUtil.getLoginUser(), expire);
+                                  @RequestParam(defaultValue = "0") Long pid,
+                                  @RequestParam(defaultValue = "false") Boolean onlyDir,
+                                  @ApiIgnore @PageableDefault(size = 20) Pageable pageable) {
+        return PageUtil.toPageTable(
+            mappingService.listUserFiles(pageable, pid, UserUtil.getLoginUser().getId(), status, onlyDir),
+            mappingService.count());
     }
 
-    @ApiOperation(value = "LOCALHOST文件下载", notes = "默认链接有效期12小时")
-    @GetMapping("/download/server")
-    @ResponseBody
-    public void downloadFile(@RequestParam(required = true) String key,
-                             @RequestParam(required = false) String fileName,
-                             HttpServletResponse response) throws IOException {
-        String path = cache.fetchCacheStore().get(key);
-        if (path == null) {
-            throw ExceptionConstant.NOT_FOUND_ITEM;
-        }
-        File file = new File(path);
-        if (!file.exists()) {
-            throw ExceptionConstant.NOT_FOUND_SUCH_FILE;
-        }
-        response.setContentType("application/force-download");
-        if (fileName != null) {
-            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
-        }
-        byte[] buffer = new byte[1024];
-
-        FileInputStream fis = new FileInputStream(file);
-        BufferedInputStream bis = new BufferedInputStream(fis);
-        OutputStream outputStream = response.getOutputStream();
-        int i = bis.read(buffer);
-        while (i != -1) {
-            outputStream.write(buffer, 0, i);
-            i = bis.read(buffer);
-        }
-        try {
-            bis.close();
-        } catch (IOException ignore) { }
-        try {
-            fis.close();
-        } catch (IOException ignore) { }
+    @ApiOperation("获取文件列表(返回List)")
+    @GetMapping("/list")
+    public List<FileMapping> list(@RequestParam(defaultValue = "VALID") Status status,
+                                  @RequestParam(defaultValue = "0") Long pid,
+                                  @RequestParam(defaultValue = "false") Boolean onlyDir) {
+        return mappingService.listUserFilesWithoutPage(pid, UserUtil.getLoginUser().getId(), status, onlyDir);
     }
 
 }

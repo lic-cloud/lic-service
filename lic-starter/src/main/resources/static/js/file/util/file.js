@@ -66,7 +66,7 @@ function buildOperation(id) {
 /// <param name="filesize">文件的大小,传入的是一个bytes为单位的参数</param>
 /// <returns>格式化后的值</returns>
 function renderSize(value){
-    if(null==value||value===''){
+    if(null==value||value===''||value===0){
         return "0 Bytes";
     }
     var unitArr = ["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"];

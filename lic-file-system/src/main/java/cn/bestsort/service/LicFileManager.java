@@ -6,12 +6,9 @@ import java.util.Map;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
-import cn.bestsort.model.enums.Status;
 import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
 import cn.bestsort.model.vo.UploadTokenVO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,14 +26,6 @@ public interface LicFileManager {
      */
     boolean canSuperUpload(String md5, FileNamespace fileNamespace);
 
-    /**
-     * 获取文件列表
-     * @param dirId 文件夹ID
-     * @param user  用户(用作鉴权)
-     * @param status 文件状态
-     * @return      文件列表
-     */
-    Page<List<FileMapping>> listFiles(Pageable pageable, Long dirId, Long user, Status status);
 
     /**
      * 根据分享的url获取文件列表

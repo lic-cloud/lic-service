@@ -1,7 +1,9 @@
 package cn.bestsort.model.param;
 
 import cn.bestsort.model.enums.FileNamespace;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author bestsort
@@ -9,6 +11,8 @@ import lombok.Data;
  * @date 2020-09-15 09:56
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UploadSuccessCallbackParam {
     Float size;
     String name;

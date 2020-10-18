@@ -12,7 +12,11 @@ import cn.bestsort.cache.CacheStoreType;
  */
 @SuppressWarnings("checkstyle:Indentation")
 public enum LicMetaEnum implements ValueEnum<Object> {
-
+    /**
+     * 静态资源目录
+     */
+    RESOURCE_DIR("resource"),
+    RESOURCE_DIR_TITLE_LENGTH(2),
     /**
      * 版本号
      */

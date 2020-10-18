@@ -18,7 +18,7 @@ public interface LocalUploadService {
      */
     boolean simpleUpload(MultipartFile file) throws IOException;
 
-
+    boolean uploadResource(MultipartFile file) throws IOException;
 
     /**
      * 分块上传文件(适用于大文件上传)

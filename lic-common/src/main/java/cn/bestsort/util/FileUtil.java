@@ -61,11 +61,17 @@ public class FileUtil {
         randomAccessFile.close();
     }
 
+
     public static String unionPath(String...args) {
         StringBuilder builder = new StringBuilder();
+        // Windows 系统不需要以文件分割符开头，但是Linux需要
+        boolean needAppendSep = !"Windows".equals(System.getProperty("os.name"));
         for (String arg : args) {
             if (!arg.startsWith(File.separator)) {
-                builder.append(File.separator);
+                if (needAppendSep) {
+                    builder.append(File .separator);
+                }
+                needAppendSep = true;
             }
             builder.append(StringUtils.stripEnd(arg, File.separator));
         }

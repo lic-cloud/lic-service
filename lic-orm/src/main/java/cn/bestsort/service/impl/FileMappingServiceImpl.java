@@ -22,18 +22,21 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
 
     final FileMappingRepository repo;
 
+    @Override
+    public Page<FileMapping> listUserFiles(Pageable page, Long pid, Long userId,
+                                                 Status status, Boolean onlyDir) {
+        return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, userId, status, onlyDir);
+    }
 
     @Override
-    public Page<List<FileMapping>> listUserFiles(Pageable page, Long dirId, Long userId, Status status) {
-        return repo.findAllByPidAndOwnerIdAndStatus(page, dirId, userId, status);
+    public List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status, Boolean onlyDir) {
+        return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(dirId, userId, status, onlyDir);
     }
-    @Override
-    public List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status) {
-        return repo.findAllByPidAndOwnerIdAndStatus(dirId, userId, status);
-    }
+
 
     @Override
     public String fullPath(Long dirId) {
+
         if (dirId == 0) {
             return File.separator;
         }

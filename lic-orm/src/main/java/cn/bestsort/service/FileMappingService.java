@@ -18,11 +18,12 @@ public interface FileMappingService extends BaseService<FileMapping, Long> {
      * @param dirId  文件夹id
      * @param userId 用户id
      * @param status 状态
+     * @param onlyDir 只列出文件夹
      * @return       列表集合
      */
-    Page<List<FileMapping>> listUserFiles(Pageable pageable, Long dirId, Long userId, Status status);
+    Page<FileMapping> listUserFiles(Pageable pageable, Long dirId, Long userId, Status status, Boolean onlyDir);
 
-    List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status);
+    List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status, Boolean onlyDir);
 
     String fullPath(Long dirId);
 

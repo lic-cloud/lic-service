@@ -4,8 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import cn.bestsort.model.enums.FileNamespace;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 用于存储文件真实信息和实际地址
@@ -17,6 +19,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileInfo extends BaseEntity {
 
     @Column(length = 512)
