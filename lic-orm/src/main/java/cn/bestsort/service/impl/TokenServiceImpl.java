@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import cn.bestsort.util.TimeUtil;
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.cache.CacheHandler;
@@ -52,6 +53,11 @@ public class TokenServiceImpl implements TokenService {
      */
     @Value("${token.jwtSecret}")
     private String jwtSecret;
+    /**
+     * token过期秒数
+     */
+    @Value("${token.expire.seconds}")
+    private Integer expireSeconds;
 
     private static Key KEY = null;
 
@@ -79,8 +85,8 @@ public class TokenServiceImpl implements TokenService {
 
     private void cacheLoginUser(LoginUserVO loginUserVO) {
         loginUserVO.setLoginTime(System.currentTimeMillis());
-        long expire = metaInfoService.getMetaObj(Long.class, LicMetaEnum.CACHE_EXPIRE) * 100;
-        loginUserVO.setExpireTime(loginUserVO.getLoginTime());
+        long expire = metaInfoService.getMetaObj(Long.class, LicMetaEnum.CACHE_EXPIRE) * 60;
+        loginUserVO.setExpireTime(loginUserVO.getLoginTime() + expireSeconds * 1000);
         // 根据uuid将loginUser缓存
         cacheHandler.fetchCacheStore().put(getTokenKey(loginUserVO.getToken()), JSON.toJSONString(loginUserVO),
             expire, TimeUnit.MINUTES);
@@ -131,7 +137,6 @@ public class TokenServiceImpl implements TokenService {
                 }
             }
         }
-
         return KEY;
     }
     private String getRandomKey(String jwtToken) {
