@@ -24,9 +24,9 @@ public class User extends BaseEntity {
     private String headImgUrl;
     private String phone;
     private String telephone;
-    private String    email;
+    private String email;
     private Timestamp birthday;
-    private Integer   sex;
+    private Integer sex;
     private Integer status;
     private float totalCapacity;
     private float usedCapacity;

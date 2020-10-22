@@ -2,40 +2,74 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--清除页面缓存-->
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>登录</title>
     <link href="css/login.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
 </head>
 <body>
-
 <div class="login">
     <div class="message">LIC系统</div>
     <div id="darkbannerwrap"></div>
+    <form id="login-form" method="post" onsubmit="return false;"
+          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+        <div class="form-group">
+            <input id="username" name="username" class="form-control" placeholder="用户名" type="text"
+                   autocomplete="off"
 
-    <form id="login-form" method="post" onsubmit="return false;">
-        <input id="username" name="username" placeholder="用户名" type="text"
-               autocomplete="off">
+                   data-bv-notempty="true"
+                   data-bv-notempty-message="用户名不能为空"
+
+                   data-bv-regexp="true"
+                   data-bv-regexp-regexp="^[a-zA-Z][a-zA-Z0-9_]{4,15}$"
+                   data-bv-regexp-message="字母开头，5-16位，允许字母数字下划线">
+        </div>
         <hr class="hr15">
-        <input id="password" name="password" placeholder="密码" type="password"
-               autocomplete="off">
+        <div class="form-group">
+            <input id="password" class="form-control" name="password" placeholder="密码" type="password"
+                   autocomplete="off"
+
+                   data-bv-notempty="true"
+                   data-bv-notempty-message="密码不能为空"
+
+                   data-bv-regexp="true"
+                   data-bv-regexp-regexp="^[a-zA-Z]\w{5,17}$"
+                   data-bv-regexp-message="字母开头，6-18位，允许字母数字下划线">
+        </div>
+        <div class="form-group">
+            <label id="captchaOperation" style="font-size: 20px;margin-left:10%;margin-top: 2%"></label>
+            <input type="text" class="form-control" style="width: 50%;display:inline-block;float: right;"
+                   name="captcha"/>
+        </div>
         <hr class="hr20">
-        <hr class="hr15">
-        <hr class="hr20">
-        <div class="button1" style="display:inline-block;float: left;margin-left:10%">
-            <button style="width: 125%;" type="submit" onclick="login(this)">登录</button></div>
+        <div class="button1" style="display:inline-block;float: left;margin-left:10%;">
+            <button style="width: 125%;color: white" type="submit" onclick="login(this)">登录</button>
+        </div>
         <div class="button2" style="display:inline-block;float: right;margin-right:15%">
-            <button style="width: 125%;" type="button" onclick = "window.location.href = '/register.html'" >注册</button></div>
-
-        <hr class="hr20">
-        <!--显示错误信息等-->
-        <span id="info" style="color: red"></span>
+            <button style="width: 125%;color: white" type="button" onclick="window.location.href = '/register.html'">
+                注册
+            </button>
+        </div>
+        <hr class="hr15">
     </form>
 </div>
 </body>
+<script type="text/javascript" src="layui/layui.js"></script>
 <script src="js/libs/jquery-2.1.1.min.js"></script>
+<script src="js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
 <script type="text/javascript">
+    /*生成 [1,max]，max=10 的随机数*/
+    $("#captchaOperation").html(Math.ceil(10 * Math.random()) + " + " + Math.ceil(10 * Math.random()));
+    layui.use('layer', function () {
+        var layer = layui.layer;
+    });
     //判断当前用户页面是不是最外面的页面
     if (top != self) {
         parent.location.href = '/login.html';
@@ -63,35 +97,51 @@
             }
         });
     }
+    //表单校验规则
+    $('#login-form').bootstrapValidator({
+        fields: {
+            captcha: {
+                validators: {
+                    callback: {
+                        message: 'Wrong answer',
+                        callback: function (value, validator) {
+                            var items = $('#captchaOperation').html().split(' '),
+                                sum = parseInt(items[0]) + parseInt(items[2]);
+                            return value == sum;
+                        }
+                    }
+                }
+            }
+        }
+    });
 
     function login(obj) {
         //把按钮禁用掉
         $(obj).attr("disabled", true);
-        //获取值 trim-jquery的方法去掉空格
-        var username = $.trim($('#username').val());
-        var password = $.trim($('#password').val());
-
-        if (username == "" || password == "") {
-            $("#info").html('用户名或者密码不能为空');
+        //触发全部验证
+        var bootstrapValidator = $("#login-form").data('bootstrapValidator');
+        bootstrapValidator.validate();
+        //获取当前表单验证状态
+        if (!bootstrapValidator.isValid()) {
             $(obj).attr("disabled", false);
-        } else {
-            $.ajax({
-                type: 'post',
-                url: '/login',
-                data: $("#login-form").serialize(),
-                success: function (data) {
-                    //token存到前端里面
-                    localStorage.setItem("token", data.token);
-                    location.href = '/index.html';
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    var msg = xhr.responseText;
-                    var response = JSON.parse(msg);
-                    $("#info").html(response.message);
-                    $(obj).attr("disabled", false);
-                }
-            });
+            return;
         }
+        $.ajax({
+            type: 'post',
+            url: '/login',
+            data: $("#login-form").serialize(),
+            success: function (data) {
+                //token存到前端里面
+                localStorage.setItem("token", data.token);
+                location.href = '/index.html';
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                var msg = xhr.responseText;
+                var response = JSON.parse(msg);
+                layer.msg(response.message, {shift: -1, time: 1000});
+                $(obj).attr("disabled", false);
+            }
+        });
     }
 </script>
 </html>

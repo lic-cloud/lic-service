@@ -1,117 +1,83 @@
-/*
- Navicat Premium Data Transfer
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (1, null, null, 'fa-users', '', '用户管理', 0, '', 1, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (2, null, null, 'fa-user', 'pages/user/userList.html', '用户查询', 1, '', 2, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (3, null, null, '', '', '查询', 2, 'sys:user:query', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (4, null, null, '', '', '新增', 2, 'sys:user:add', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (6, null, null, 'fa-pencil-square-o', 'pages/user/changePassword.html', '修改密码', 0, 'sys:user:password', 4, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (7, null, null, 'fa-gears', '', '系统设置', 0, '', 5, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (8, null, null, 'fa-cog', 'pages/menu/menuList.html', '菜单', 7, '', 6, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (9, null, null, '', '', '查询', 8, 'sys:menu:query', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (10, null, null, '', '', '新增', 8, 'sys:menu:add', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (11, null, null, '', '', '删除', 8, 'sys:menu:del', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (12, null, null, 'fa-user-secret', 'pages/role/roleList.html', '角色', 7, '', 7, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (13, null, null, '', '', '查询', 12, 'sys:role:query', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (14, null, null, '', '', '新增', 12, 'sys:role:add', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (15, null, null, '', '', '删除', 12, 'sys:role:del', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (19, null, null, 'fa-eye', 'druid/index.html', '数据源监控', 0, '', 9, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (20, null, null, 'fa-file-pdf-o', 'swagger-ui.html', '接口swagger', 0, '', 10, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (22, null, null, 'fa-book', 'pages/notice/noticeList.html', '公告管理', 0, '', 12, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (23, null, null, '', '', '查询', 22, 'notice:query', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (24, null, null, '', '', '添加', 22, 'notice:add', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (25, null, null, '', '', '删除', 22, 'notice:del', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (37, null, null, 'fa-reddit', 'pages/dict/dictList.html', '字典管理', 0, '', 17, 1);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (38, null, null, '', '', '查询', 37, 'dict:query', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (39, null, null, '', '', '新增', 37, 'dict:add', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (40, null, null, '', '', '删除', 37, 'dict:del', 100, 2);
+insert into lic.sys_permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (41, '2020-10-11 12:10:24', '2020-10-11 12:11:05', 'fa-file', 'pages/file/test.html	', '文件列表', 0, '', 100, 1);
 
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 80018
- Source Host           : localhost:3306
- Source Schema         : boot_security2
+insert into lic.sys_role (id, create_at, update_at, description, name) values (1, null, null, '管理员', 'ADMIN');
+insert into lic.sys_role (id, create_at, update_at, description, name) values (2, null, null, '', 'USER');
 
- Target Server Type    : MySQL
- Target Server Version : 80018
- File Encoding         : 65001
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (25, null, null, 1, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (26, null, null, 2, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (27, null, null, 3, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (28, null, null, 4, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (29, null, null, 6, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (30, null, null, 7, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (31, null, null, 8, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (32, null, null, 9, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (33, null, null, 10, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (34, null, null, 11, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (35, null, null, 12, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (36, null, null, 13, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (37, null, null, 14, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (38, null, null, 15, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (39, null, null, 19, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (40, null, null, 20, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (41, null, null, 22, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (42, null, null, 23, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (43, null, null, 24, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (44, null, null, 25, 2);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (45, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 1, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (46, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 2, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (47, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 3, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (48, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 4, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (49, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 6, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (50, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 7, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (51, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 8, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (52, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 9, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (53, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 10, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (54, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 11, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (55, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 12, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (56, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 13, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (57, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 14, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (58, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 15, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (59, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 19, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (60, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 20, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (61, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 22, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (62, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 23, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (63, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 24, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (64, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 25, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (65, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 37, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (66, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 38, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (67, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 39, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (68, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 40, 1);
+insert into lic.sys_role_permission (id, create_at, update_at, permission_id, role_id) values (69, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 41, 1);
 
- Date: 16/09/2020 08:39:38
-*/
+insert into lic.sys_role_user (id, create_at, update_at, role_id, user_id) values (1, null, null, 1, 1);
+insert into lic.sys_role_user (id, create_at, update_at, role_id, user_id) values (2, null, null, 2, 2);
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
-
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (1, 0, '用户管理', 'fa-users', '', 1, '', 1);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (2, 1, '用户查询', 'fa-user', 'pages/user/userList.html', 1, '', 2);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (3, 2, '查询', '', '', 2, 'sys:user:query', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (4, 2, '新增', '', '', 2, 'sys:user:add', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (6, 0, '修改密码', 'fa-pencil-square-o', 'pages/user/changePassword.html', 1, 'sys:user:password', 4);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (7, 0, '系统设置', 'fa-gears', '', 1, '', 5);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (8, 7, '菜单', 'fa-cog', 'pages/menu/menuList.html', 1, '', 6);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (9, 8, '查询', '', '', 2, 'sys:menu:query', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (10, 8, '新增', '', '', 2, 'sys:menu:add', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (11, 8, '删除', '', '', 2, 'sys:menu:del', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (12, 7, '角色', 'fa-user-secret', 'pages/role/roleList.html', 1, '', 7);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (13, 12, '查询', '', '', 2, 'sys:role:query', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (14, 12, '新增', '', '', 2, 'sys:role:add', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (15, 12, '删除', '', '', 2, 'sys:role:del', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (19, 0, '数据源监控', 'fa-eye', 'druid/index.html', 1, '', 9);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (20, 0, '接口swagger', 'fa-file-pdf-o', 'swagger-ui.html', 1, '', 10);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (22, 0, '公告管理', 'fa-book', 'pages/notice/noticeList.html', 1, '', 12);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (23, 22, '查询', '', '', 2, 'notice:query', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (24, 22, '添加', '', '', 2, 'notice:add', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (25, 22, '删除', '', '', 2, 'notice:del', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (37, 0, '字典管理', 'fa-reddit', 'pages/dict/dictList.html', 1, '', 17);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (38, 37, '查询', '', '', 2, 'dict:query', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (39, 37, '新增', '', '', 2, 'dict:add', 100);
-INSERT INTO sys_permission(id, parent_id, name, css, href, type, permission, sort)  VALUES (40, 37, '删除', '', '', 2, 'dict:del', 100);
-
--- ----------------------------
--- Records of sys_role
--- ----------------------------
-INSERT INTO `sys_role`(name, description) VALUES ('ADMIN', '管理员');
-INSERT INTO `sys_role`(name, description) VALUES ('USER', '');
-
-
--- ----------------------------
--- Records of sys_role_permission
--- ----------------------------
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 1);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 2);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 3);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 4);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 6);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 7);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 8);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 9);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 10);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 11);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 12);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 13);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 14);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 15);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 19);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 20);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 22);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 23);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 24);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 25);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 37);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 38);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 39);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (1, 40);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 1);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 2);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 3);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 4);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 6);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 7);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 8);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 9);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 10);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 11);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 12);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 13);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 14);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 15);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 19);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 20);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 22);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 23);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 24);
-INSERT INTO `sys_role_permission`(role_id, permission_id) VALUES (2, 25);
-
--- ----------------------------
--- Records of sys_role_user
--- ----------------------------
-INSERT INTO `sys_role_user`(role_id, user_id) VALUES (1, 1);
-INSERT INTO `sys_role_user`(role_id, user_id) VALUES (2, 2);
-
--- ----------------------------
--- Records of sys_user
--- ----------------------------
-INSERT INTO `sys_user`(id, username, password, nickname, status, total_capacity, used_capacity)
-VALUES (1, 'admin', '$2a$10$iYM/H7TrSaLs7XyIWQdGwe1xf4cdmt3nwMja6RT0wxG5YY1RjN0EK', '管理员', 1,-1, 0);
-INSERT INTO `sys_user`(id, username, password, nickname, status, total_capacity, used_capacity)
-VALUES (2, 'user', '$2a$10$ooGb4wjT7Hg3zgU2RhZp6eVu3jvG29i/U4L6VRwiZZ4.DZ0OOEAHu', '用户', 1,10, 0);
-
+INSERT INTO `sys_user` VALUES (1, NULL, '2020-10-22 08:20:38', NULL, '1824461232@qq.com', NULL, '管理员', '$2a$10$9V2.oDeVu3HCYYQBaXYfvOBcWyzizspGd/LCAOaj2l1Zb2lqdoJti', '1211111111', 1, 1, '', -1, 0, 'admin');
+INSERT INTO `sys_user` VALUES (2, NULL, '2020-10-22 08:27:43', NULL, '', NULL, '用户', '$2a$10$lohKtwPh4pmymJ/jT1OdjudHzjP7duYNuMRfoXCPdHnJmVNcYWmIe', '', NULL, 1, '', 1030, 0, 'user1');
 
 INSERT INTO `t_dict`(id, type, k, val, create_at, update_at) VALUES (1, 'sex', '0', '女', '2017-11-17 09:58:24', '2017-11-18 14:21:05');
 INSERT INTO `t_dict`(id, type, k, val, create_at, update_at) VALUES (2, 'sex', '1', '男', '2017-11-17 10:03:46', '2020-09-14 20:41:15');
@@ -123,11 +89,6 @@ INSERT INTO `t_dict`(id, type, k, val, create_at, update_at) VALUES (7, 'noticeS
 INSERT INTO `t_dict`(id, type, k, val, create_at, update_at) VALUES (8, 'isRead', '0', '未读', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
 INSERT INTO `t_dict`(id, type, k, val, create_at, update_at) VALUES (9, 'isRead', '1', '已读', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
 
-
-
 INSERT INTO `t_notice`(id, title, content, status, create_at, update_at) VALUES (1, '知识星球交流圈', '1232131231', 1, '2020-09-14 18:05:44', '2020-09-14 18:05:44');
 
-
 INSERT INTO `t_notice_read`(notice_id, user_id, create_at) VALUES (1, 1, '2020-09-14 19:34:11');
-
-SET FOREIGN_KEY_CHECKS = 1;
