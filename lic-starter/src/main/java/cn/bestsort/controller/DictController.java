@@ -65,12 +65,6 @@ public class DictController {
     public PageTableResponse list(PageTableRequest request) {
         return PageTableHandler.handlePage(request, dictService);
     }
-   /* public DataTable<Dict> list(@RequestParam int draw,
-                           @RequestParam int start,
-                           @RequestParam int length) {
-        Page<Dict> pageable = dictService.listAll(DataTableUtil.toPageable(start, length));
-        return DataTable.build(pageable, draw, start);
-    }*/
 
     @PreAuthorize("hasAuthority('dict:del')")
     @DeleteMapping("/{id}")

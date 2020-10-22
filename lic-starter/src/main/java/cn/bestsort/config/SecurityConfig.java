@@ -74,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/statics/**")
             .permitAll()
             .antMatchers(HttpMethod.POST, "/users/register").permitAll()
+            .antMatchers(HttpMethod.GET, "/dicts").permitAll()
             .anyRequest().authenticated();
         //配置登录的核心代码 登录成功失败异常的处理器SecurityHandlerConfig
         //对应html登录的时候提交表单的url
