@@ -7,7 +7,6 @@
     <meta http-equiv="Expires" content="0">
     <title>登录</title>
     <link href="css/login.css" type="text/css" rel="stylesheet">
-
 </head>
 <body>
 
@@ -33,25 +32,19 @@
         <!--显示错误信息等-->
         <span id="info" style="color: red"></span>
     </form>
-
-
-
 </div>
 </body>
-
 <script src="js/libs/jquery-2.1.1.min.js"></script>
 <script type="text/javascript">
     //判断当前用户页面是不是最外面的页面
     if (top != self) {
         parent.location.href = '/login.html';
     }
-
     //当用户登录后 访问登录页面默认不会跳转 设置跳转到主页面
     //获取登录成功后存入的token
     var token = localStorage.getItem("token");
-    //判断有没有？有 登录过了 没有 未登录不走这个流程
+    //登录过了走这个流程
     if (token != null && token.trim().length != 0) {
-        //
         $.ajax({
             type: 'get',
             url: '/users/current?token=' + token,//获取当前登录用户 看是否为空
@@ -63,7 +56,7 @@
                 var response = JSON.parse(msg);
                 var code = response.code;
                 var message = response.message;
-                //如果过期去除token
+                //如果过期,去除token
                 if (code == 401) {
                     localStorage.removeItem("token");
                 }
@@ -72,7 +65,8 @@
     }
 
     function login(obj) {
-        $(obj).attr("disabled", true);//把按钮禁用掉
+        //把按钮禁用掉
+        $(obj).attr("disabled", true);
         //获取值 trim-jquery的方法去掉空格
         var username = $.trim($('#username').val());
         var password = $.trim($('#password').val());
@@ -86,14 +80,15 @@
                 url: '/login',
                 data: $("#login-form").serialize(),
                 success: function (data) {
-                    localStorage.setItem("token", data.token);//存到前端页面里面
-                    location.href = '/index.html';//跳转到主页面
+                    //token存到前端里面
+                    localStorage.setItem("token", data.token);
+                    location.href = '/index.html';
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    var msg = xhr.responseText;//msg就是整个后端返回的错误字符串
-                    var response = JSON.parse(msg);//转换成json
-                    $("#info").html(response.message);//将错误的json信息显示到页面
-                    $(obj).attr("disabled", false);//将登录按钮禁用打开
+                    var msg = xhr.responseText;
+                    var response = JSON.parse(msg);
+                    $("#info").html(response.message);
+                    $(obj).attr("disabled", false);
                 }
             });
         }

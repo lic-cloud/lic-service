@@ -53,7 +53,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         //UserDetails是一个接口 定义一个LoginUser实现这个接口
         LoginUserVO loginUserVO = new LoginUserVO();
-        //进行对象之间属性的赋值
         BeanUtils.copyProperties(sysUser, loginUserVO);
 
         //list all permission about user

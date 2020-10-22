@@ -44,9 +44,9 @@ public class SecurityHandlerConfig {
         return (request, response, authentication) -> {
             //当前登录用户
             LoginUserVO loginUser = (LoginUserVO) authentication.getPrincipal();
-            //用LoginUser去生成token
+            //用LoginUserVO去生成token
             TokenDTO token = tokenService.saveToken(loginUser);
-            //登录成功之后我们需要返回token到前端，以JSON的形式
+            //登录成功将token以JSON的形式返回到前端，
             responseJson(response, HttpStatus.OK.value(), token);
         };
     }
@@ -87,10 +87,8 @@ public class SecurityHandlerConfig {
     public LogoutSuccessHandler logoutSussHandler() {
         return (request, response, authentication) -> {
             ResponseInfo info = ResponseInfo.of(HttpStatus.OK, "退出成功");
-
             String token = TokenFilter.getToken(request);
             tokenService.deleteToken(token);
-
             responseJson(response, HttpStatus.OK.value(), info);
         };
 

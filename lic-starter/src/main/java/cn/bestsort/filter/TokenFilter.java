@@ -32,29 +32,27 @@ public class TokenFilter extends OncePerRequestFilter {
     private TokenService tokenService;
     @Autowired
     private UserDetailsService userDetailsService;
-
     private static final Long MINUTES_10 = 10 * 60 * 1000L;
-    //10分种
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
-        String token = getToken(request);
         //获取token
+        String token = getToken(request);
         if (StringUtils.isNotBlank(token)) {
-            LoginUserVO loginUserVO = tokenService.getLoginUser(token);
             //根据token获取当前登录用户
+            LoginUserVO loginUserVO = tokenService.getLoginUser(token);
             if (loginUserVO != null) {
-                loginUserVO = checkLoginTime(loginUserVO);
                 //检查登录时间的方法
+                loginUserVO = checkLoginTime(loginUserVO);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     loginUserVO,
                     null, loginUserVO.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
                 //把凭证设置过来 可以获取当前登录用户在上下文 package com.boot.security.server.utils;
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-
         filterChain.doFilter(request, response);
     }
 
@@ -69,12 +67,12 @@ public class TokenFilter extends OncePerRequestFilter {
         //当前时间
         if (expireTime - currentTime <= MINUTES_10) {
             String token = loginUserVO.getToken();
-            loginUserVO = (LoginUserVO) userDetailsService.loadUserByUsername(loginUserVO.getUsername());
             //根据用户名找到当前的登录用户
-            loginUserVO.setToken(token);
+            loginUserVO = (LoginUserVO) userDetailsService.loadUserByUsername(loginUserVO.getUsername());
             //把老的token再给新查出来的用户设置
-            tokenService.refresh(loginUserVO);
+            loginUserVO.setToken(token);
             //刷新
+            tokenService.refresh(loginUserVO);
         }
         return loginUserVO;
     }

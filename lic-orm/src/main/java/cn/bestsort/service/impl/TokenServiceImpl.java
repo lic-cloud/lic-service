@@ -65,9 +65,7 @@ public class TokenServiceImpl implements TokenService {
     public TokenDTO saveToken(LoginUserVO loginUserVO) {
         loginUserVO.setToken(UUID.randomUUID().toString());
         cacheLoginUser(loginUserVO);
-
         String jwtToken = createToken(loginUserVO);
-
         return new TokenDTO(jwtToken, loginUserVO.getLoginTime());
     }
 
@@ -78,7 +76,6 @@ public class TokenServiceImpl implements TokenService {
         Map<String, Object> claims = new HashMap<>(4);
         // 放入一个随机字符串，通过该串可找到登陆用户
         claims.put(CachePrefix.LOGIN_USER_KEY, loginUserVO.getToken());
-
         return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256, getKeyInstance())
             .compact();
     }
@@ -120,7 +117,6 @@ public class TokenServiceImpl implements TokenService {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -144,7 +140,6 @@ public class TokenServiceImpl implements TokenService {
         if (isNull.equals(jwtToken) || StringUtils.isBlank(jwtToken)) {
             return null;
         }
-
         try {
             Map<String, Object> jwtClaims = Jwts.parser().setSigningKey(getKeyInstance()).parseClaimsJws(jwtToken).getBody();
             return MapUtils.getString(jwtClaims, CachePrefix.LOGIN_USER_KEY);
@@ -153,7 +148,6 @@ public class TokenServiceImpl implements TokenService {
         } catch (Exception e) {
             log.error("token: {}", jwtToken, e);
         }
-
         return null;
     }
 }

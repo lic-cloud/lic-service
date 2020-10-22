@@ -19,12 +19,10 @@ public class UserUtil {
             if (authentication instanceof AnonymousAuthenticationToken) {
                 return null;
             }
-
             if (authentication instanceof UsernamePasswordAuthenticationToken) {
                 return (LoginUserVO) authentication.getPrincipal();
             }
         }
-
         return null;
     }
 
