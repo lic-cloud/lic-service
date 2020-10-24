@@ -25,7 +25,9 @@
                                     状态：
                                     <select class="form-control input-sm" id="isRead">
                                     </select>
-                                    <button id="searchBt" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe615;</i>搜索</button>
+                                    <button id="searchBt" class="layui-btn layui-btn-sm"><i
+                                            class="layui-icon">&#xe615;</i>搜索
+                                    </button>
                                 </div>
                             </form>
                         </td>
@@ -65,9 +67,9 @@
 <script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="../../js/dict.js"></script>
 <script type="text/javascript">
-    layui.use(['layer','laydate'], function(){
-        var layer = layui.layer;
-        var laydate = layui.laydate;
+    layui.use(['layer', 'laydate'], function () {
+        const layer = layui.layer;
+        const laydate = layui.laydate;
         laydate.render({
             elem: '#beginTime'
         });
@@ -76,22 +78,23 @@
         });
     });
 
-    var isRead = showDictSelect("isRead", "isRead", true);
+    const isRead = showDictSelect("isRead", "isRead", true);
 
-    var example;
-    function init(){
+    let example;
+
+    function init() {
         example =
             $('#dt-table').DataTable({
                 "searching": false,
                 "processing": false,
-                "serverSide" : true,
+                "serverSide": true,
                 "language": {
                     "url": "/js/plugin/datatables/Chinese.lang"
                 },
                 "ajax": {
-                    "url" : "/notices/published",
-                    "type":"get",
-                    "data":function(d){
+                    "url": "/notices/published",
+                    "type": "get",
+                    "data": function (d) {
                         d.title = $('#title').val();
                         d.beginTime = $('#beginTime').val();
                         d.endTime = $('#endTime').val();
@@ -100,40 +103,48 @@
                 },
                 "dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",
                 "columns": [
-                    { "data": "title", "defaultContent": ""},
-                    { "data": "update_at", "defaultContent": ""},
+                    {"data": "title", "defaultContent": ""},
+                    {
+                        "data": "create_at",
+                        "defaultContent": "",
+                        "orderable": false,
+                        "render": function (data, type, row) {
+                            return row['createAt'];
+                        }
+                    },
                     {
                         "data": "",
                         "defaultContent": "",
+                        "orderable": false,
                         "render": function (data, type, row) {
-                            var isRead = row['isRead'];
-                            if(isRead){
+                            const isRead = row['isRead'];
+                            if (isRead) {
                                 return "已读";
                             }
                             return "<span style='color:red'>未读</span>";
                         }
                     },
-                    { "data": "readTime", "defaultContent": ""},
+                    {"data": "readTime", "defaultContent": "","orderable": false},
                     {
                         "data": "",
                         "defaultContent": "",
-                        "orderable":false,
+                        "orderable": false,
                         "render": function (data, type, row) {
-                            var id = row['id'];
-                            return "<button class='layui-btn layui-btn-xs' title='详情' onclick='showDetail(this,\"" + id +"\")'><i class='layui-icon'>&#xe65f;</i></button>";
+                            const id = row['id'];
+                            return "<button class='layui-btn layui-btn-xs' title='详情' onclick='showDetail(this,\"" + id + "\")'><i class='layui-icon'>&#xe65f;</i></button>";
                         }
                     },
                 ],
-                "order": [[ 2, "asc" ],[1, "desc"]]
-            } );
+                "order": [0, "desc"]
+            });
     }
 
-    function showDetail(obj,id){
-        var tr = $(obj).parents("tr")[0];
-        var td = $(tr).find("td").eq(2);
-        var v = $(td).text();
-        var isRead = (v == "已读");
-        if(!isRead){
+    function showDetail(obj, id) {
+        const tr = $(obj).parents("tr")[0];
+        const td = $(tr).find("td").eq(2);
+        const v = $(td).text();
+        const isRead = (v === "已读");
+        if (!isRead) {
             $(td).text("已读");
         }
 
@@ -142,17 +153,17 @@
             title: false,
             area: ['800px', '400px'],
             shadeClose: true,
-            content: ['detail.html?id='+id]
+            content: ['detail.html?id=' + id]
         });
 
-        if(!isRead) {
-            parent.$("[unreadNotice]").each(function(){
-                var n = $(this).text();
-                if(!isNaN(n) && n>0) {
-                    n = n-1;
-                    if(n>0){
-                        $(this).html("<span class='layui-badge'>"+n+"</span>");
-                    }else{
+        if (!isRead) {
+            parent.$("[unreadNotice]").each(function () {
+                let n = $(this).text();
+                if (!isNaN(n) && n > 0) {
+                    n = n - 1;
+                    if (n > 0) {
+                        $(this).html("<span class='layui-badge'>" + n + "</span>");
+                    } else {
                         $(this).html("");
                     }
                 }
@@ -160,18 +171,18 @@
         }
     }
 
-    function del(id){
+    function del(id) {
         layer.confirm('确定要删除吗？', {
-            btn : [ '确定', '取消' ]
-        }, function() {
+            btn: ['确定', '取消']
+        }, function () {
             $.ajax({
-                type : 'delete',
-                url : '/notices/'+id,
-                success : function(data) {
+                type: 'delete',
+                url: '/notices/' + id,
+                success: function (data) {
                     example.ajax.reload();
                     layer.msg("删除成功");
                 },
-                error:function (xhr,status,error) {
+                error: function (xhr, status, error) {
                     layer.msg(xhr.responseText, {shift: -1, time: 1000});
                 }
             });
@@ -180,7 +191,7 @@
         });
     }
 
-    $("#searchBt").click(function(){
+    $("#searchBt").click(function () {
         example.ajax.reload();
     });
 

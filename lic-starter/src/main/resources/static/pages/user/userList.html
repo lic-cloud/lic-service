@@ -11,16 +11,18 @@
 <div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <header style="height: 100%">
-            <div align="left">
+            <div style="text-align:left">
                 <table style="width: 100%">
                     <tr>
                         <td>
                             <form class="form-inline" onsubmit="return false">
                                 <div class="form-group">
                                     用户名：
-                                    <input id="username" type="text" class="form-control" placeholder="用户名">
+                                    <input id="username" name="username" type="text" class="form-control"
+                                           placeholder="用户名">
                                     昵称：
-                                    <input id="nickname" type="text" class="form-control" placeholder="昵称">
+                                    <input id="nickname" name="nickname" type="text" class="form-control"
+                                           placeholder="昵称">
                                     状态：
                                     <select class="form-control input-sm" id="status">
                                     </select>
@@ -30,7 +32,7 @@
                                 </div>
                             </form>
                         </td>
-                        <td align="right">
+                        <td style="text-align: right">
                             <button class="layui-btn layui-btn-sm" onclick="location.href='addUser.html'"
                                     permission="sys:user:add">
                                 <i class="layui-icon">&#xe608;</i> 添加
@@ -67,23 +69,22 @@
 </div>
 </body>
 </html>
-
 <script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/dict.js"></script>
 <script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="../../js/my/permission.js"></script>
 <script type="text/javascript" src="../../layui/layui.js"></script>
-<script type="text/javascript" src="../../js/dict.js"></script>
 <script type="text/javascript">
     layui.use(['layer'], function () {
-        var layer = layui.layer;
+        const layer = layui.layer;
     });
-    var userStatus = showDictSelect("status", "userStatus", true);
+    const userStatus = showDictSelect("status", "userStatus", true);
 
-    var pers = checkPermission();
+    const pers = checkPermission();
 
-    var example;
+    let example;
 
     function init() {
         example =
@@ -103,22 +104,22 @@
                         d.status = $('#status').val();
                     },
                     "error": function (xhr, textStatus, errorThrown) {
-                        var msg = xhr.responseText;
+                        const msg = xhr.responseText;
                         console.log(msg);
-                        var response = JSON.parse(msg);
-                        var code = response.code;
-                        var message = response.message;
-                        if (code == 400) {
+                        const response = JSON.parse(msg);
+                        const code = response.code;
+                        const message = response.message;
+                        if (code === 400) {
                             layer.msg(message);
-                        } else if (code == 401) {
+                        } else if (code === 401) {
                             localStorage.removeItem("token");
                             layer.msg("token过期，请先登录", {shift: -1, time: 1000}, function () {
                                 location.href = '/login.html';
                             });
-                        } else if (code == 403) {
+                        } else if (code === 403) {
                             console.log("未授权:" + message);
                             layer.msg('未授权');
-                        } else if (code == 500) {
+                        } else if (code === 500) {
                             layer.msg('系统错误：' + message);
                         }
                     }
@@ -132,6 +133,7 @@
                     {
                         "data": "status",
                         "defaultContent": "",
+                        "orderable":false,
                         "render": function (data, type, row) {
                             return userStatus[data];
                         }
@@ -139,6 +141,7 @@
                     {
                         "data": "usedCapacity",
                         "defaultContent": "",
+                        "orderable":false,
                         "render": function (data, type, row) {
                             return data / 1024 > 0 ? data / 1024 + "G" : data + "MB";
                         }
@@ -146,6 +149,7 @@
                     {
                         "data": "totalCapacity",
                         "defaultContent": "",
+                        "orderable":false,
                         "render": function (data, type, row) {
                             return data / 1024 > 0 ? data / 1024 + "G" : data + "MB";
                         }
@@ -155,10 +159,9 @@
                         "defaultContent": "",
                         "orderable": false,
                         "render": function (data, type, row) {
-                            var id = row['id'];
-                            var href = "updateUser.html?id=" + id;
-                            var edit = buttonEdit(href, "sys:user:add", pers);
-                            return edit;
+                            const id = row['id'];
+                            const href = "updateUser.html?id=" + id;
+                            return buttonEdit(href, "sys:user:add", pers);
                         }
                     },
 

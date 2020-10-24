@@ -29,6 +29,16 @@ public interface UserService extends BaseService<User, Long>, Listable<User> {
     User getUser(String username);
 
     /**
+     * 根据用户名、手机号、邮箱获取用户
+     *
+     * @param username
+     * @param phone
+     * @param email
+     * @return
+     */
+    StringBuffer getUsers(String username, String phone, String telephone, String email);
+
+    /**
      * 修改密码
      *
      * @param username

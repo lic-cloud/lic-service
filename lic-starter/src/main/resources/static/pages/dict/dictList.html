@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
 </head>
 <body>
-    <div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div>
-                <header style="height: 100%">
-                    <div align="left">
-	                    <table style="width: 100%">
-	                   		<tr>
-	                   			<td>
-		                   			<form class="form-inline" onsubmit="return false">
-										<div class="form-group">
-											type：
-											<input id="type" type="text" class="form-control" placeholder="type">
-											<button id="searchBt" class="layui-btn layui-btn-sm" permission="dict:query"><i class="layui-icon">&#xe615;</i>搜索</button>
-										</div>
-									</form>
-	                   			</td>
-	                   			<td align="right">
-	                   				<button class="layui-btn layui-btn-sm" onclick="location.href='addDict.html'" permission="dict:add">
-                                      <i class="layui-icon">&#xe608;</i> 添加
-                                    </button>
-	                   			</td>
-	                   		</tr>
-	                    </table>
-					</div>
-                </header>
+<div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div>
+            <header style="height: 100%">
+                <div style="text-align: left">
+                    <table style="width: 100%">
+                        <tr>
+                            <td>
+                                <form class="form-inline" onsubmit="return false">
+                                    <div class="form-group">
+                                        type：
+                                        <input id="type" type="text" class="form-control" placeholder="type">
+                                        <button id="searchBt" class="layui-btn layui-btn-sm" permission="dict:query"><i
+                                                class="layui-icon">&#xe615;</i>搜索
+                                        </button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td style="text-align: right">
+                                <button class="layui-btn layui-btn-sm" onclick="location.href='addDict.html'"
+                                        permission="dict:add">
+                                    <i class="layui-icon">&#xe608;</i> 添加
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </header>
 
-                <div>
-                    <div class="widget-body no-padding">
-                        <table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">
-                            <thead>
-                                <tr>
-                                </tr>
-                                <tr>
-									<th>id</th>
-									<th>type</th>
-									<th>k</th>
-									<th>val</th>
-									<th>createTime</th>
-									<th>updateTime</th>
-									<th>操作</th>
-                                </tr>
-                            </thead>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+            <div>
+                <div class="widget-body no-padding">
+                    <table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">
+                        <thead>
+                        <tr>
+                        </tr>
+                        <tr>
+                            <th>id</th>
+                            <th>type</th>
+                            <th>k</th>
+                            <th>val</th>
+                            <th>createTime</th>
+                            <th>updateTime</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
 
@@ -69,98 +72,113 @@
 <script type="text/javascript" src="../../layui/layui.js"></script>
 <script type="text/javascript" src="../../js/my/permission.js"></script>
 <script type="text/javascript">
-var pers = checkPermission();
+    const pers = checkPermission();
 
-var example;
-function init(){
-	example =
-    	$('#dt-table').DataTable({
-        	"searching": false,
-        	"processing": false,
-        	"serverSide" : true,
-        	"language": {
-                "url": "/js/plugin/datatables/Chinese.lang"
-            },
-        	"ajax": {
-        		"url" : "/dicts",
-        		"type":"get",
-        		"data":function(d){
-    				d.type = $("#type").val();
-    			},
-    			"error":function(xhr, textStatus, errorThrown){
-    				var msg = xhr.responseText;
-    				console.log(msg);
-    				var response = JSON.parse(msg);
-    				var code = response.code;
-    				var message = response.message;
-    				if (code == 400) {
-    					layer.msg(message);
-    				} else if (code == 401) {
-    					localStorage.removeItem("token");
-    					layer.msg("token过期，请先登录", {shift: -1, time: 1000}, function(){
-    						location.href = '/login.html';
-                        });
-    				} else if (code == 403) {
-    					console.log("未授权:" + message);
-    					layer.msg('未授权');
-    				} else if (code == 500) {
-    					layer.msg('系统错误：' + message);
-    				}
-    			}
-        	},
-        	"dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",
-            "columns": [
-				{"data" : "id", "defaultContent" : ""},
-				{"data" : "type", "defaultContent" : ""},
-				{"data" : "k", "defaultContent" : ""},
-				{"data" : "val", "defaultContent" : ""},
-				{"data" : "create_at", "defaultContent" : ""},
-				{"data" : "update_at", "defaultContent" : ""},
-				{
-					"data": "",
-					"defaultContent": "",
-					"orderable":false,
-			        "render": function (data, type, row) {
-             		           var id = row['id'];
-             		           var href = "updateDict.html?id=" + id;
-                                var edit = buttonEdit(href, "dict:add", pers);
-             		            var del = buttonDel(id, "dict:del", pers);
-                                return edit + del;
-               	            }
-				},
+    let example;
 
-            ],
-           "order": [[ 0, "asc" ]]
-        } );
-}
+    function init() {
+        example =
+            $('#dt-table').DataTable({
+                "searching": false,
+                "processing": false,
+                "serverSide": true,
+                "language": {
+                    "url": "/js/plugin/datatables/Chinese.lang"
+                },
+                "ajax": {
+                    "url": "/dicts",
+                    "type": "get",
+                    "data": function (d) {
+                        d.type = $("#type").val();
+                    },
+                    "error": function (xhr, textStatus, errorThrown) {
+                        const msg = xhr.responseText;
+                        console.log(msg);
+                        const response = JSON.parse(msg);
+                        const code = response.code;
+                        const message = response.message;
+                        if (code === 400) {
+                            layer.msg(message);
+                        } else if (code === 401) {
+                            localStorage.removeItem("token");
+                            layer.msg("token过期，请先登录", {shift: -1, time: 4000}, function () {
+                                location.href = '/login.html';
+                            });
+                        } else if (code === 403) {
+                            console.log("未授权:" + message);
+                            layer.msg('未授权');
+                        } else if (code === 500) {
+                            layer.msg('系统错误：' + message);
+                        }
+                    }
+                },
+                "dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",
+                "columns": [
+                    {"data": "id", "defaultContent": ""},
+                    {"data": "type", "defaultContent": ""},
+                    {"data": "k", "defaultContent": ""},
+                    {"data": "val", "defaultContent": ""},
+                    {
+                        "data": "",
+                        "defaultContent": "",
+                        "orderable":false,
+                        "render": function (data, type, row) {
+                            return row['createAt']
+                        }
+                    },
+                    {
+                        "data": "",
+                        "defaultContent": "",
+                        "orderable":false,
+                        "render": function (data, type, row) {
+                            return row['updateAt']
+                        }
+                    },
+                    {
+                        "data": "",
+                        "defaultContent": "",
+                        "orderable": false,
+                        "render": function (data, type, row) {
+                            const id = row['id'];
+                            const href = "updateDict.html?id=" + id;
+                            const edit = buttonEdit(href, "dict:add", pers);
+                            const del = buttonDel(id, "dict:del", pers);
+                            return edit + del;
+                        }
+                    },
 
-layui.use('layer', function(){
-    var layer = layui.layer;
-});
+                ],
+                "order": [[0, "asc"]]
+            });
+    }
 
-function del(id){
-	layer.confirm('确定要删除吗？', {
-        btn : [ '确定', '取消' ]
-    }, function() {
-    	$.ajax({
-            type : 'delete',
-            url : '/dicts/'+id,
-            success : function(data) {
-                example.ajax.reload();
-                layer.msg("删除成功");
-            },
-            error:function (xhr,status,error) {
-                layer.msg(xhr.responseText, {shift: -1, time: 1000});
-            }
-        });
-
-        layer.close(1);
+    layui.use('layer', function () {
+        const layer = layui.layer;
     });
-}
 
-$("#searchBt").click(function(){
-	example.ajax.reload();
-});
+    function del(id) {
+        layer.confirm('确定要删除吗？', {
+            btn: ['确定', '取消']
+        }, function () {
+            $.ajax({
+                type: 'delete',
+                url: '/dicts/' + id,
+                success: function (data) {
+                    example.ajax.reload();
+                    layer.msg("删除成功");
+                },
+                error: function (xhr, status, error) {
+                    layer.msg(xhr.responseText, {shift: -1, time: 4000});
+                }
+            });
 
-init();
+            layer.close(1);
+        });
+    }
+
+    $("#searchBt").click(function () {
+        example.ajax.reload();
+    });
+
+    init();
 </script>

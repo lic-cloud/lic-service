@@ -44,9 +44,9 @@ public class UserController {
     @ApiOperation(value = "保存用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
     public User saveUser(@RequestBody UserDTO userDto) {
-        User u = userService.getUser(userDto.getUsername());
-        if (u != null) {
-            throw new IllegalArgumentException(userDto.getUsername() + "已存在");
+        StringBuffer message = userService.getUsers(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
+        if (!"".contentEquals(message)) {
+            throw new IllegalArgumentException(message + "已存在");
         }
         return userService.saveUser(userDto);
     }
@@ -55,9 +55,9 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation(value = "注册用户")
     public User registerUser(@RequestBody UserDTO userDto) {
-        User u = userService.getUser(userDto.getUsername());
-        if (u != null) {
-            throw new IllegalArgumentException(userDto.getUsername() + "已存在");
+        StringBuffer message = userService.getUsers(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
+        if (!"".contentEquals(message)) {
+            throw new IllegalArgumentException(message + "已存在");
         }
         userDto.setTotalCapacity(1024);
         List<Long> list = new ArrayList<>();
@@ -72,7 +72,6 @@ public class UserController {
     public User updateUser(@RequestBody UserDTO userDto) {
         return userService.updateUser(userDto);
     }
-
 
     @PutMapping(params = "headImgUrl")
     @ApiOperation(value = "修改头像")
@@ -101,7 +100,7 @@ public class UserController {
         return PageTableHandler.handlePage(request, userService);
     }
 
-
+    // TODO: 2020/10/24 修改个人信息后不实时更新
     @ApiOperation(value = "当前登录用户")
     @GetMapping("/current")
     public User currentUser() {

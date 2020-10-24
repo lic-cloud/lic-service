@@ -4,82 +4,132 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <form class="form-horizontal" onsubmit="return false" id="form">
+    <form class="form-horizontal" onsubmit="return false" id="form"
+          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
         <fieldset>
             <div class="form-group">
                 <label class="col-md-2 control-label">用户名</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="用户名" type="text" name="username"
+                    <input class="form-control" placeholder="用户名" type="text" name="username" id="username"
                            data-bv-notempty="true"
-                           data-bv-notempty-message="用户名 不能为空">
+                           data-bv-notempty-message="用户名不能为空"
+
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="^[a-zA-Z][a-zA-Z0-9_]{4,15}$"
+                           data-bv-regexp-message="字母开头，5-16位，允许字母数字下划线"
+
+                           data-bv-different="true"
+                           data-bv-different-field="nickname"
+                           data-bv-different-message="用户名与昵称不能相同">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-md-2 control-label">密码</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="密码" type="text" value="88888888" name="password"
+                    <input class="form-control" placeholder="密码" type="text" name="password" id="password"
                            data-bv-notempty="true"
-                           data-bv-notempty-message="密码 不能为空">
+                           data-bv-notempty-message="密码不能为空"
+
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="^[a-zA-Z]\w{5,17}$"
+                           data-bv-regexp-message="字母开头，6-18位，允许字母数字下划线">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">昵称</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="昵称" type="text" name="nickname">
+                    <input class="form-control" placeholder="昵称" type="text" name="nickname" id="nickname"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="昵称不能为空"
+
+                           data-bv-stringlength="true"
+                           data-bv-stringlength-min="3"
+                           data-bv-stringlength-max="10"
+                           data-bv-stringlength-message="昵称的长度为3-10位"
+
+                           data-bv-different="true"
+                           data-bv-different-field="username"
+                           data-bv-different-message="用户名与昵称不能相同">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">手机号</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="手机号" type="text" maxlength="11" name="phone">
+                    <input class="form-control" placeholder="手机号" type="text" maxlength="11" name="phone" id="phone"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="手机号不能为空"
+
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$"
+                           data-bv-regexp-message="手机号格式错误">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">电话</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="电话" type="text" maxlength="20" name="telephone">
+                    <input class="form-control" placeholder="电话可以为空" type="text" maxlength="20" name="telephone"
+                           id="telephone"
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="\d{3}-\d{8}|\d{4}-\d{7}"
+                           data-bv-regexp-message="国内电话格式错误">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">邮箱</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="邮箱" type="text" maxlength="50" name="email">
+                    <input class="form-control" placeholder="邮箱" type="text" maxlength="50" name="email" id="email"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="电子邮箱不能为空"
+
+                           data-bv-emailaddress="true"
+                           data-bv-emailaddress-message="邮箱格式错误">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">生日</label>
                 <div class="col-xs-2">
-                    <input type="text" class="form-control" placeholder="生日" id="birthday" name='birthday'>
+                    <input type="text" class="form-control" placeholder="生日" id="birthday" name='birthday'
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="生日不能为空"
+
+                           data-bv-date="true"
+                           data-bv-date-format="YYYY-MM-DD"
+                           data-bv-date-message="日期格式错误,要求YYYY-MM-DD">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">性别</label>
                 <div class="col-md-10" style="width: 100px">
-                    <select class="form-control input-sm" name="sex" id="sex">
-                    </select>
+                    <select class="form-control input-sm" name="sex" id="sex"></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">角色</label>
-                <div class="checkbox" id="roles">
-                </div>
+                <div class="checkbox" id="roles"></div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label">总容量(MB)</label>
                 <div class="col-md-10">
-                    <input class="form-control" placeholder="总容量(MB)" type="text" maxlength="50" value="1024"
-                           name="totalCapacity">
+                    <input class="form-control" placeholder="总容量(MB)" type="text" value="1024"
+                           name="totalCapacity" id="totalCapacity"
+                           data-bv-stringlength="true"
+                           data-bv-stringlength-min="1"
+                           data-bv-stringlength-max="50"
+                           data-bv-stringlength-message="长度为1-50位">
                 </div>
             </div>
             <div class="form-actions">
-                <div class="row" align="center">
+                <div class="row" style="text-align: center">
                     <div class="col-md-12">
                         <button class="btn btn-primary" onclick="location.href='userList.html'">返回</button>
-                        <button class="btn btn-primary" type="submit" onclick="add()">
+                        <button class="btn btn-primary" type="submit" onclick="add(this)">
                             <i class="fa fa-save"></i> 保存
                         </button>
                     </div>
@@ -95,45 +145,47 @@
 <script type="text/javascript" src="../../js/my/roles/role.js"></script>
 <script type="text/javascript" src="../../layui/layui.js"></script>
 <script type="text/javascript" src="../../js/dict.js"></script>
-
+<script src="../../js/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript">
+    $('#form').bootstrapValidator();
     layui.use(['layer', 'laydate'], function () {
-        var layer = layui.layer;
-        var laydate = layui.laydate;
-        laydate.render({
+        const layer = layui.layer;
+        const playdate = layui.laydate;
+        playdate.render({
             elem: '#birthday'
         });
     });
 
     showDictSelect("sex", "sex");
     initRoles();/*初始化角色*/
-
-    function add() {
-        //表单校验规则-声明性
-        $('#form').bootstrapValidator();
+    function add(obj) {
+        $(obj).attr("disabled", true);
+        const bootstrapValidator = $("#form").data('bootstrapValidator');
         //触发全部验证
-        var bootstrapValidator = $("#form").data('bootstrapValidator');
         bootstrapValidator.validate();
         //获取当前表单验证状态
         if (!bootstrapValidator.isValid()) {
+            $(obj).attr("disabled", false);
             return;
         }
 
-        var formdata = $("#form").serializeObject();
-        formdata.roleIds = getCheckedRoleIds();
-
+        const format = $("#form").serializeObject();
+        format.roleIds = getCheckedRoleIds();
+        const date = new Date(format.birthday);
+        format.birthday = date.valueOf();
         $.ajax({
             type: 'post',
             url: '/users',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(formdata),
+            data: JSON.stringify(format),
             success: function (data) {
                 layer.msg("添加成功", {shift: -1, time: 1000}, function () {
                     location.href = "userList.html";
                 });
             },
             error: function (xhr, status, error) {
-                layer.msg(xhr.responseText, {shift: -1, time: 1000});
+                $(obj).attr("disabled", false);
+                layer.msg(xhr.responseText, {shift: -1, time: 4000});
             }
         });
     }

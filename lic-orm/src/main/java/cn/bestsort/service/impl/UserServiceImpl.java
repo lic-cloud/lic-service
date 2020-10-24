@@ -71,6 +71,26 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     }
 
     @Override
+    public StringBuffer getUsers(String username, String phone, String telephone, String email) {
+        StringBuffer message = new StringBuffer();
+        if (userRepo.findByUsername(username) != null) {
+            message.append(username).append(";");
+        }
+        if (userRepo.findByPhone(phone) != null) {
+            message.append(phone).append(";");
+        }
+        if (!"".equals(telephone)) {
+            if (userRepo.findFirstByTelephone(telephone) != null) {
+                message.append(telephone).append(";");
+            }
+        }
+        if (userRepo.findByEmail(email) != null) {
+            message.append(email).append(";");
+        }
+        return message;
+    }
+
+    @Override
     public void changePassword(String username, String oldPassword, String newPassword) {
         User u = userRepo.findByUsername(username);
         if (u == null) {

@@ -1,8 +1,8 @@
 function getMenuTree() {
-	var root = {
-		id : 0,
-		name : "root",
-		open : true,
+	const root = {
+		id: 0,
+		name: "root",
+		open: true,
 	};
 
 	$.ajax({
@@ -11,12 +11,11 @@ function getMenuTree() {
 		contentType : "application/json; charset=utf-8",
 		async : false,
 		success : function(data) {
-			var length = data.length;
-			var children = [];
-			for (var i = 0; i < length; i++) {
-				var d = data[i];
-				var node = createNode(d);
-				children[i] = node;
+			const length = data.length;
+			const children = [];
+			for (let i = 0; i < length; i++) {
+				const d = data[i];
+				children[i] = createNode(d);
 			}
 
 			root.children = children;
@@ -33,63 +32,64 @@ function initMenuDatas(roleId){
 		success : function(data) {
 			var length = data.length;
 			var ids = [];
-			for(var i=0; i<length; i++){
+			for(let i=0; i<length; i++){
 				ids.push(data[i]['id']);
 			}
-			
+
 			initMenuCheck(ids);
 		}
 	});
 }
 
 function initMenuCheck(ids) {
-	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-	var length = ids.length;
+	let node;
+	const treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	const length = ids.length;
 	if(length > 0){
-		var node = treeObj.getNodeByParam("id", 0, null);
+		node = treeObj.getNodeByParam("id", 0, null);
 		treeObj.checkNode(node, true, false);
 	}
-	
-	for(var i=0; i<length; i++){
-		var node = treeObj.getNodeByParam("id", ids[i], null);
+
+	for(let i=0; i<length; i++){
+		node = treeObj.getNodeByParam("id", ids[i], null);
 		treeObj.checkNode(node, true, false);
 	}
-	
+
 }
 
 function getCheckedMenuIds(){
-	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-	var nodes = treeObj.getCheckedNodes(true);
-	
-	var length = nodes.length;
-	var ids = [];
-	for(var i=0; i<length; i++){
-		var n = nodes[i];
-		var id = n['id'];
+	const treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	const nodes = treeObj.getCheckedNodes(true);
+
+	const length = nodes.length;
+	const ids = [];
+	for(let i=0; i<length; i++){
+		const n = nodes[i];
+		const id = n['id'];
 		ids.push(id);
 	}
-	
+
 	return ids;
 }
 
 function createNode(d) {
-	var id = d['id'];
-	var pId = d['parentId'];
-	var name = d['name'];
-	var child = d['child'];
+	const id = d['id'];
+	const pId = d['parentId'];
+	const name = d['name'];
+	const child = d['child'];
 
-	var node = {
-		open : true,
-		id : id,
-		name : name,
-		pId : pId,
+	const node = {
+		open: true,
+		id: id,
+		name: name,
+		pId: pId,
 	};
 
 	if (child != null) {
-		var length = child.length;
+		const length = child.length;
 		if (length > 0) {
-			var children = [];
-			for (var i = 0; i < length; i++) {
+			const children = [];
+			for (let i = 0; i < length; i++) {
 				children[i] = createNode(child[i]);
 			}
 
@@ -106,45 +106,43 @@ function initParentMenuSelect(){
         url : '/permissions/parents',
         async : false,
         success : function(data) {
-            var select = $("#parentId");
-            select.append("<option value='0'>root</option>");
-            for(var i=0; i<data.length; i++){
-                var d = data[i];
-                var id = d['id'];
-                var name = d['name'];
-                
-                select.append("<option value='"+ id +"'>" +name+"</option>");
+			const select = $("#parentId");
+			select.append("<option value='0'>root</option>");
+            for(let i=0; i<data.length; i++){
+				const d = data[i];
+				const id = d['id'];
+				const name = d['name'];
+
+				select.append("<option value='"+ id +"'>" +name+"</option>");
             }
         }
     });
 }
 
 function getSettting() {
-	var setting = {
-		check : {
-			enable : true,
-			chkboxType : {
-				"Y" : "ps",
-				"N" : "ps"
+	return {
+		check: {
+			enable: true,
+			chkboxType: {
+				"Y": "ps",
+				"N": "ps"
 			}
 		},
-		async : {
-			enable : true,
+		async: {
+			enable: true,
 		},
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "id",
-				pIdKey : "pId",
-				rootPId : 0
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",
+				pIdKey: "pId",
+				rootPId: 0
 			}
 		},
-		callback : {
-			onCheck : zTreeOnCheck
+		callback: {
+			onCheck: zTreeOnCheck
 		}
 	};
-
-	return setting;
 }
 
 function zTreeOnCheck(event, treeId, treeNode) {

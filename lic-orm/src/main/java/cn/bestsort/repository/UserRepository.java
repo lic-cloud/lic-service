@@ -38,4 +38,25 @@ public interface UserRepository extends BaseRepository<User, Long> {
      * @return
      */
     List<User> findAllByIdIn(Collection lists);
+
+    /**
+     * 根据手机号获取用户
+     * @param phone
+     * @return
+     */
+    User findByPhone(String phone);
+
+    /**
+     * 根据电话获取用户
+     * @param telephone
+     * @return
+     */
+    User findFirstByTelephone(String telephone);
+
+    /**
+     * 根据邮件获取用户
+     * @param email
+     * @return
+     */
+    User findByEmail(String email);
 }

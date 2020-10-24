@@ -1,9 +1,8 @@
 //form序列化为json
-$.fn.serializeObject = function()
-{
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
+$.fn.serializeObject = function () {
+    const o = {};
+    const a = this.serializeArray();
+    $.each(a, function () {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
@@ -18,21 +17,20 @@ $.fn.serializeObject = function()
 
 //获取url后的参数值
 function getUrlParam(key) {
-	var href = window.location.href;
-	var url = href.split("?");
-	if(url.length <= 1){
-		return "";
-	}
-	var params = url[1].split("&");
-	
-	for(var i=0; i<params.length; i++){
-		var param = params[i].split("=");
-		if(key == param[0]){
-			return param[1];
-		}
-	}
-}
+    const href = window.location.href;
+    const url = href.split("?");
+    if (url.length <= 1) {
+        return "";
+    }
+    const params = url[1].split("&");
 
+    for (let i = 0; i < params.length; i++) {
+        const param = params[i].split("=");
+        if (key === param[0]) {
+            return param[1];
+        }
+    }
+}
 
 
 /**
@@ -41,8 +39,7 @@ function getUrlParam(key) {
  * @param style 提示样式，有alert-info-success、alert-info-danger、alert-info-warning、alert-info-info
  * @param time 消失时间
  */
-function prompt(message, style, time)
-{
+function prompt(message, style, time) {
     style = (style === undefined) ? 'alert-info-success' : style;
     time = (time === undefined) ? 1200 : time;
     $('<div>')
@@ -55,31 +52,27 @@ function prompt(message, style, time)
 };
 
 // 成功提示
-function success_prompt(message, time)
-{
+function success_prompt(message, time) {
     prompt(message, 'alert-info-success', time);
 };
 
 // 失败提示
-function fail_prompt(message, time)
-{
+function fail_prompt(message, time) {
     prompt(message, 'alert-info-danger', time);
 };
 
 // 提醒
-function warning_prompt(message, time)
-{
+function warning_prompt(message, time) {
     prompt(message, 'alert-info-warning', time);
 };
 
 // 信息提示
-function info_prompt(message, time)
-{
+function info_prompt(message, time) {
     prompt(message, 'alert-info-info', time);
 }
 
-function open_loading(){
-    if($("#loading").length === 0) {
+function open_loading() {
+    if ($("#loading").length === 0) {
         let loading =
             '<div id="loading" class="loader"><div class="loading">' +
             '<div></div>' +
@@ -89,48 +82,53 @@ function open_loading(){
             '<div></div>' +
             '</div></div>';
         $("body").append(loading);
-    }else {
+    } else {
         $("#loading").removeClass("hide-all");
     }
 }
+
 function close_loading() {
     $("#loading").addClass("hide-all");
 }
 
-function ajax_function(url,data,success_function,method,fail_function,complete) {
+function ajax_function(url, data, success_function, method, fail_function, complete) {
     $.ajax({
         type: method,
         url: url,
         data: data,
         beforeSend: open_loading(),
-        success:function (data, textStatus, xhr) {
-            if (xhr.status === 200){
+        success: function (data, textStatus, xhr) {
+            if (xhr.status === 200) {
                 success_function(data);
             } else {
-                if (fail_function !== undefined){
+                if (fail_function !== undefined) {
                     fail_function(data);
+                } else {
+                    fail_prompt(data);
                 }
-                else {fail_prompt(data);}
             }
         },
 
         complete: function () {
-            if (complete !== undefined){
+            if (complete !== undefined) {
                 complete(data.responseJSON);
             }
             close_loading();
         },
         error: function (data) {
-            if (fail_function !== undefined){
+            if (fail_function !== undefined) {
                 fail_function(data);
+            } else {
+                fail_prompt(data);
             }
-            else {fail_prompt(data);}
         }
     });
 }
-function ajax_get(url,data,success,fail,complete) {
-    ajax_function(url,data,success,"GET",fail,complete);
+
+function ajax_get(url, data, success, fail, complete) {
+    ajax_function(url, data, success, "GET", fail, complete);
 }
-function ajax_post(url,data,success,fail,complete) {
-    ajax_function(url,data,success,"POST",fail,complete);
+
+function ajax_post(url, data, success, fail, complete) {
+    ajax_function(url, data, success, "POST", fail, complete);
 }

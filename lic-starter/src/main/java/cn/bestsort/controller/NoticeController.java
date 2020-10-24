@@ -89,6 +89,7 @@ public class NoticeController {
         return notice;
     }
 
+    // TODO: 2020/10/24  按时间区域搜索未实现 已读未读排序未实现。
     @GetMapping
     @ApiOperation(value = "公告管理列表")
     @PreAuthorize("hasAuthority('notice:query')")
@@ -115,7 +116,7 @@ public class NoticeController {
         return i;
     }
 
-
+    //TODO: 2020/10/24  按时间区域搜索未实现 已读未读排序未实现。
     @GetMapping("/published")
     @ApiOperation(value = "公告列表")
     public PageTableResponse listNoticeReadVO(PageTableRequest request) {
