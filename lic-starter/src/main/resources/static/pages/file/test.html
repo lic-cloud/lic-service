@@ -39,7 +39,7 @@
 </html>
 
 <!--分片上传 断点续传js,具体见js/file/upload-->
-<script src="../../js/file/upload/fcup.min.js"></script>
+<script src="../../js/file/upload/fcup.min.js?v=2.1"></script>
 <script>
     // 进度条
     function Progress(value) {
@@ -48,11 +48,11 @@
         mySpan.innerText = value + "%";
         myProgress.value = value;
     }
-    // 上传
+    // 上传 https://www.liuzhi.org.cn/fcup2/test/server/php/file.php
     let up = new fcup({
         id: "upid", // 绑定id
-        url: "", // url地址      php案例：js/file/upload/后端处理案例/upload.php
-        checkurl: "", // 检查上传url地址   php案例：js/file/upload/后端处理案例/check.php
+        url: "", // url地址 /file.php
+        checkurl: "", // 检查上传url地址 /check.php
         type: "", // 限制上传类型，为空不限制 如:jpg,png,jpeg,gif
         shardsize: "0.005", // 每次分片大小，单位为M，默认1M
         minsize: '', // 最小文件上传M数，单位为M，默认为无
