@@ -38,7 +38,7 @@
 </body>
 </html>
 
-<!--分片上传 断点续传js,具体见js/file/upload-->
+<!--分片上传 断点续传js-->
 <script src="../../js/file/upload/fcup.min.js?v=2.1"></script>
 <script>
     // 进度条
@@ -48,7 +48,7 @@
         mySpan.innerText = value + "%";
         myProgress.value = value;
     }
-    // 上传 https://www.liuzhi.org.cn/fcup2/test/server/php/file.php
+    // 上传
     let up = new fcup({
         id: "upid", // 绑定id
         url: "", // url地址 /file.php
