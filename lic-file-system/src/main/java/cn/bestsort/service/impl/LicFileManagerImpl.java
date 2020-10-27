@@ -11,11 +11,9 @@ import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.entity.FileMapping;
-import cn.bestsort.model.entity.FileShare;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.Status;
-import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
 import cn.bestsort.model.vo.UploadTokenVO;
 import cn.bestsort.service.FileInfoService;
@@ -24,9 +22,7 @@ import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.LicFileManager;
-import cn.bestsort.util.TimeUtil;
 import cn.bestsort.util.UrlUtil;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -47,15 +43,6 @@ public class LicFileManagerImpl implements LicFileManager {
         return fileInfoImp.getByMd5(md5, fileNamespace) != null;
     }
 
-    @Override
-    public List<FileMapping> listFilesByShare(String url) {
-        FileShare fileShare = fileShareImpl.getByUrl(url)
-            .orElseThrow(() -> ExceptionConstant.NOT_FOUND_ITEM);
-        if (fileShare.getExpire().before(TimeUtil.now())) {
-            throw ExceptionConstant.EXPIRED;
-        }
-        return null;
-    }
 
     @Override
     public String createDownloadLink(Long mappingId, User user, Long expire) {
@@ -72,19 +59,6 @@ public class LicFileManagerImpl implements LicFileManager {
     @Override
     public UploadTokenVO createUploadToken(FileNamespace namespace, Map<String, String> config) {
         return manager.handle(namespace).generatorUploadVO(config);
-    }
-
-    @Override
-    public String createShareLink(ShareParam param, User user) {
-        String url;
-        do {
-            // 防止生成的url产生碰撞
-            url = RandomStringUtils.randomAlphanumeric(16);
-        } while (fileShareImpl.existsByUrl(url));
-
-        fileShareImpl.save(new FileShare(param.getFileId(), user.getUsername(),
-            user.getId(), param.getPassword(), url, param.getExpire()));
-        return url;
     }
 
     @Override

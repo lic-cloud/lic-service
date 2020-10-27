@@ -25,7 +25,7 @@ public interface ExceptionConstant {
     LicException EXPIRED    = new LicException("已过期", 4008);
     LicException MUST_BE_NOT_DIR = new LicException("目标必须是非文件夹", 4009);
     LicException MUST_BE_DIR = new LicException("目标必须是文件夹", 4010);
-
+    LicException PARAM_ILLEGAL = new LicException("参数不合法，请检查", 4011);
     /**
      * 5XXX为系统错误
      */
