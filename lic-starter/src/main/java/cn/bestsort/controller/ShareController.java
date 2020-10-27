@@ -4,11 +4,13 @@ import java.util.List;
 
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.service.LicFileManager;
+import cn.bestsort.service.ShareManager;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author bestsort
@@ -22,8 +24,12 @@ public class ShareController {
     @Autowired
     LicFileManager fileManager;
 
-    @GetMapping("/view/{url}")
-    public List<FileMapping> listShare(@PathVariable String url) {
-        return fileManager.listFilesByShare(url);
+    @Autowired
+    ShareManager shareManager;
+    @GetMapping("/{url}/")
+    public List<FileMapping> listShare(@PathVariable String url,
+                                       @RequestParam(required = false) Long pid) {
+        return shareManager.listFilesByShare(url, pid);
     }
+
 }

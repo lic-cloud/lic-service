@@ -1,12 +1,10 @@
 package cn.bestsort.service;
 
-import java.util.List;
 import java.util.Map;
 
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
-import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
 import cn.bestsort.model.vo.UploadTokenVO;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +25,6 @@ public interface LicFileManager {
     boolean canSuperUpload(String md5, FileNamespace fileNamespace);
 
 
-    /**
-     * 根据分享的url获取文件列表
-     * @param url
-     * @return 文件列表
-     */
-    List<FileMapping> listFilesByShare(String url);
     /**
      * 逻辑删除文件
      * @param fileId    文件映射 Id
@@ -58,14 +50,7 @@ public interface LicFileManager {
      * @return          VO
      */
     UploadTokenVO createUploadToken(FileNamespace namespace, Map<String, String> config);
-    /**
-     * 创建分享链接, 返回结果为链接地址, 类似如下:
-     * https://{host}/share/{randomKey}/{path}
-     * @param param 参数
-     * @param user  创建者
-     * @return      如上
-     */
-    String  createShareLink(ShareParam param, User user);
+
 
     /**
      * 上传成功， 数据库插入对应数据

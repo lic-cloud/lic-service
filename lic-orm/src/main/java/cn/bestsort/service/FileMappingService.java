@@ -23,6 +23,12 @@ public interface FileMappingService extends BaseService<FileMapping, Long> {
      */
     Page<FileMapping> listUserFiles(Pageable pageable, Long dirId, Long userId, Status status, Boolean onlyDir);
 
+    /**
+     * 只根据pid获取用户文件列表，仅用于文件分享查看
+     * @param pid parent id
+     * @return 文件列表
+     */
+    List<FileMapping> listFiles(Long pid);
     List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status, Boolean onlyDir);
 
     String fullPath(Long dirId);
