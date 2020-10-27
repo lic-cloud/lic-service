@@ -21,7 +21,6 @@ public class AsycTaskExecutorConfig {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(Runtime.getRuntime().availableProcessors());
         taskExecutor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 2);
-
         return taskExecutor;
     }
 }
