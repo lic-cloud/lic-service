@@ -1,5 +1,6 @@
 package cn.bestsort.util;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.vo.LoginUserVO;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,4 +27,11 @@ public class UserUtil {
         return null;
     }
 
+    public static LoginUserVO mustGetLoginUser() {
+        LoginUserVO res = getLoginUser();
+        if (res == null) {
+            throw ExceptionConstant.UNAUTHORIZED;
+        }
+        return res;
+    }
 }

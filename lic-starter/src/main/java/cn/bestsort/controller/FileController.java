@@ -41,14 +41,14 @@ public class FileController {
     @Autowired
     CacheHandler cache;
 
-    @ApiOperation("获取文件列表(返回PageTableResponse)")
+    @ApiOperation("获取文件列表(返回PageTableResponse, 用于表格渲染)")
     @GetMapping("/page")
     public PageTableResponse list(@RequestParam(defaultValue = "VALID") Status status,
                                   @RequestParam(defaultValue = "0") Long pid,
                                   @RequestParam(defaultValue = "false") Boolean onlyDir,
                                   @ApiIgnore @PageableDefault(size = 20) Pageable pageable) {
         return PageUtil.toPageTable(
-            mappingService.listUserFiles(pageable, pid, UserUtil.getLoginUser().getId(), status, onlyDir),
+            mappingService.listUserFiles(pageable, pid, UserUtil.mustGetLoginUser().getId(), status, onlyDir),
             mappingService.count());
     }
 
@@ -57,7 +57,7 @@ public class FileController {
     public List<FileMapping> list(@RequestParam(defaultValue = "VALID") Status status,
                                   @RequestParam(defaultValue = "0") Long pid,
                                   @RequestParam(defaultValue = "false") Boolean onlyDir) {
-        return mappingService.listUserFilesWithoutPage(pid, UserUtil.getLoginUser().getId(), status, onlyDir);
+        return mappingService.listUserFilesWithoutPage(pid, UserUtil.mustGetLoginUser().getId(), status, onlyDir);
     }
 
 }

@@ -15,6 +15,7 @@ import cn.bestsort.service.ShareManager;
 import cn.bestsort.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,8 +31,6 @@ public class ShareManagerImpl implements ShareManager {
     final FileInfoService    fileInfoImp;
     final FileMappingService mappingService;
     final FileShareService   fileShareImpl;
-
-
 
     @Override
     public List<FileMapping> listFilesByShare(String url, Long pid) {
@@ -60,15 +59,25 @@ public class ShareManagerImpl implements ShareManager {
 
     @Override
     public String createShareLink(ShareParam param, User user) {
-        String url;
-        do {
+        mappingService.mustExistById(param.getMappingId());
+        FileShare fileShare;
+        // url不为空时，表示更新
+        if (StringUtils.isNotBlank(param.getUrl())) {
+            fileShare = fileShareImpl.getByUrl(param.getUrl())
+                .orElseThrow(() -> ExceptionConstant.UNAUTHORIZED);
+            fileShare.setPassword(param.getPassword());
+            fileShare.setExpire(param.getExpire());
+        }
+        else {
+            String url;
             // 防止生成的url产生碰撞
-            url = RandomStringUtils.randomAlphanumeric(16);
-        } while (fileShareImpl.existsByUrl(url));
-
-        fileShareImpl.save(new FileShare(param.getFileId(), user.getUsername(),
-                                         user.getId(), param.getPassword(), url, param.getExpire()));
-        return url;
+            do {
+                url = RandomStringUtils.randomAlphanumeric(16);
+            } while (fileShareImpl.existsByUrl(url));
+            fileShare = new FileShare(param.getMappingId(), user.getUsername(),
+                          user.getId(), param.getPassword(), url, param.getExpire());
+        }
+        return fileShareImpl.save(fileShare).getUrl();
     }
 
 
