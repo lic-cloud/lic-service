@@ -4,9 +4,9 @@ layui.use('layer', function () {
     const layer = layui.layer;
 });
 //判断当前用户页面是不是最外面的页面
-if (top != self) {
+/*if (top !== self) {
     parent.location.href = '/login.html';
-}
+}*/
 //当用户登录后 访问登录页面默认不会跳转 设置跳转到主页面
 //获取登录成功后存入的token
 const token = localStorage.getItem("token");

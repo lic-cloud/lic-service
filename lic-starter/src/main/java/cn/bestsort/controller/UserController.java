@@ -105,6 +105,12 @@ public class UserController {
         return userService.getById(id);
     }
 
+    @ApiOperation(value = "是否存在用户")
+    @GetMapping("/count")
+    public int user() {
+        long count = userService.count();
+        return count >= 1 ? 1 : 0;
+    }
 
     @ApiOperation(value = "当前登录用户")
     @GetMapping("/current")

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统初始化界面</title>
+    <script type="text/javascript" src="js/libs/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript">
+        initInterface()
+        function initInterface() {
+            $.ajax({
+                type: 'get',
+                url: '/users/count',
+                success: function (data) {
+                    if (data === 1) {
+                            location.href = '/login.html';
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+初始化页面 : 判断条件 用户表内是否有用户
+</body>
+</html>
