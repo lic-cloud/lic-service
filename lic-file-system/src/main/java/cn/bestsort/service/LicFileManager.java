@@ -59,4 +59,10 @@ public interface LicFileManager {
      */
     @Transactional(rollbackFor = Exception.class)
     void uploadSuccess(User user, UploadSuccessCallbackParam param);
+
+    /**
+     * 创建文件映射
+     * @param mapping 对应映射
+     */
+    void createMapping(FileMapping mapping, User user);
 }

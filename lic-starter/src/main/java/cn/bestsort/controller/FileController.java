@@ -16,7 +16,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,10 +56,23 @@ public class FileController {
 
     @ApiOperation("获取文件列表(返回List)")
     @GetMapping("/list")
-    public List<FileMapping> list(@RequestParam(defaultValue = "VALID") Status status,
+    public ResponseEntity<List<FileMapping>> list(@RequestParam(defaultValue = "VALID") Status status,
                                   @RequestParam(defaultValue = "0") Long pid,
                                   @RequestParam(defaultValue = "false") Boolean onlyDir) {
-        return mappingService.listUserFilesWithoutPage(pid, UserUtil.mustGetLoginUser().getId(), status, onlyDir);
+        return ResponseEntity.ok(
+            mappingService.listUserFilesWithoutPage(pid, UserUtil.mustGetLoginUser().getId(), status, onlyDir)
+        );
+    }
+
+    @ApiOperation("创建mapping, 用于文件夹创建")
+    @PutMapping
+    public ResponseEntity<FileMapping> create(Long pid, String name) {
+        FileMapping mapping = new FileMapping(
+            name, null, UserUtil.mustGetLoginUser().getId(),
+            Float.parseFloat("0"), pid, true, false, Status.VALID
+        );
+        fileManager.createMapping(mapping, UserUtil.mustGetLoginUser());
+        return ResponseEntity.ok(mapping);
     }
 
 }

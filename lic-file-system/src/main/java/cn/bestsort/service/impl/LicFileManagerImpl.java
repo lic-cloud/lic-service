@@ -78,6 +78,12 @@ public class LicFileManagerImpl implements LicFileManager {
     }
 
     @Override
+    public void createMapping(FileMapping mapping, User user) {
+        checkPid(mapping.getId(), user.getId());
+        mappingService.create(mapping);
+    }
+
+    @Override
     public void deleteFile(Long fileId, User user, boolean remove) {
         Optional<FileMapping>             fileMapping = mappingService.fetchById(fileId);
         Map<FileNamespace, List<FileDTO>> map         = new TreeMap<>();
@@ -134,6 +140,16 @@ public class LicFileManagerImpl implements LicFileManager {
         return manager.handle(nameSpace);
     }
 
+    private void checkPid(Long userId, Long pid) {
+        // 0为根目录
+        if (pid == 0L) {
+            return;
+        }
+        if (mappingService.getById(pid).getOwnerId().equals(userId)) {
+            return;
+        }
+        throw ExceptionConstant.UNAUTHORIZED;
+    }
 
     public LicFileManagerImpl(FileManagerHandler manager, FileInfoService fileInfoImp,
                               FileMappingService mappingService, FileShareService fileShareImpl) {

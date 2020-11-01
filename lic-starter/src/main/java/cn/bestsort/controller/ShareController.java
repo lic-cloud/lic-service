@@ -4,7 +4,6 @@ import java.util.List;
 
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.param.ShareParam;
-import cn.bestsort.model.vo.LoginUserVO;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.service.ShareManager;
 import cn.bestsort.util.UserUtil;
@@ -45,8 +44,7 @@ public class ShareController {
     @ApiOperation("新建/更新文件分享")
     @PostMapping
     public ResponseEntity<String> createShareLink(ShareParam shareParam) {
-        LoginUserVO userVO = UserUtil.getLoginUser();
-        return ResponseEntity.ok(shareManager.createShareLink(shareParam, userVO));
+        return ResponseEntity.ok(shareManager.createShareLink(shareParam, UserUtil.mustGetLoginUser()));
     }
 
     @ApiOperation("取消文件分享")
@@ -54,6 +52,4 @@ public class ShareController {
     public ResponseEntity<Boolean> cancelShareLink(@RequestParam Long mappingId) {
         return ResponseEntity.ok(shareManager.cancelShareLink(mappingId, UserUtil.mustGetLoginUser()));
     }
-
-
 }
