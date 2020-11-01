@@ -29,8 +29,8 @@ function init() {
                 "data": function (d) {
                     d.title = $('#title').val();
                     d.status = $('#status').val();
-                    d.beginTime = $('#beginTime').val();
-                    d.endTime = $('#endTime').val();
+                    d.beginTime =new Date($('#beginTime').val()).valueOf();
+                    d.endTime =new Date($('#endTime').val()).valueOf();
                 },
                 "error": function (xhr, textStatus, errorThrown) {
                     const msg = xhr.responseText;
@@ -38,17 +38,17 @@ function init() {
                     const response = JSON.parse(msg);
                     const code = response.code;
                     const message = response.message;
-                    if (code === 400) {
+                    if (code == 400) {
                         layer.msg(message);
-                    } else if (code === 401) {
+                    } else if (code == 401) {
                         localStorage.removeItem("token");
                         layer.msg("token过期，请先登录", {shift: -1, time: 4000}, function () {
                             location.href = '/login.html';
                         });
-                    } else if (code === 403) {
+                    } else if (code == 403) {
                         console.log("未授权:" + message);
                         layer.msg('未授权');
-                    } else if (code === 500) {
+                    } else if (code == 500) {
                         layer.msg('系统错误：' + message);
                     }
                 }
@@ -81,7 +81,7 @@ function init() {
                         const status = row['status'];
                         const href = "updateNotice.html?id=" + id;
                         let edit = buttonEdit(href, "notice:add", pers);
-                        if (status === 1) {
+                        if (status == 1) {
                             edit = "<button class='layui-btn layui-btn-xs' style='background-color:#c2c2c2;' title='不可编辑'><i class='layui-icon' style='color: #F0F0F0;'>&#xe642;</i></button>";
                         }
                         const del = buttonDel(id, "notice:del", pers);

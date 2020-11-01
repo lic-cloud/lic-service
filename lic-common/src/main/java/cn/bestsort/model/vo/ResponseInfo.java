@@ -3,13 +3,15 @@ package cn.bestsort.model.vo;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+import java.io.Serializable;
+
 /**
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
  */
 @Data
-public class ResponseInfo {
+public class ResponseInfo implements Serializable {
 
     private Integer code;
     private String message;

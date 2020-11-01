@@ -2,6 +2,7 @@ package cn.bestsort.controller;
 
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.entity.User;
+import cn.bestsort.model.vo.LoginUserVO;
 import cn.bestsort.service.UserService;
 import cn.bestsort.util.UserUtil;
 import cn.bestsort.util.page.PageTableHandler;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class UserController {
     @PostMapping
     @ApiOperation(value = "保存用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
-    public User saveUser(@RequestBody UserDTO userDto) {
+    public User saveUser(@RequestBody @Valid UserDTO userDto) {
         StringBuffer message = userService.getUsers(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
         if (!"".contentEquals(message)) {
             throw new IllegalArgumentException(message + "已存在");
@@ -54,11 +56,13 @@ public class UserController {
 
     @PostMapping("/register")
     @ApiOperation(value = "注册用户")
-    public User registerUser(@RequestBody UserDTO userDto) {
-        StringBuffer message = userService.getUsers(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
+    public User registerUser(@RequestBody @Valid User user) {
+        UserDTO userDto = new UserDTO();
+        StringBuffer message = userService.getUsers(user.getUsername(), user.getPhone(), user.getTelephone(), user.getEmail());
         if (!"".contentEquals(message)) {
             throw new IllegalArgumentException(message + "已存在");
         }
+        BeanUtils.copyProperties(user, userDto);
         userDto.setTotalCapacity(1024);
         List<Long> list = new ArrayList<>();
         list.add((long) 2);
@@ -69,22 +73,16 @@ public class UserController {
     @PutMapping
     @ApiOperation(value = "修改用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
-    public User updateUser(@RequestBody UserDTO userDto) {
+    public User updateUser(@RequestBody @Valid UserDTO userDto) {
         return userService.updateUser(userDto);
     }
 
-    @PutMapping(params = "headImgUrl")
-    @ApiOperation(value = "修改头像")
-    public void updateHeadImgUrl(String headImgUrl) {
-        User user = UserUtil.getLoginUser();
-        UserDTO userDto = new UserDTO();
-        BeanUtils.copyProperties(user, userDto);
-        userDto.setHeadImgUrl(headImgUrl);
-
-        userService.updateUser(userDto);
-        log.debug("{}修改了头像", user.getUsername());
+    @PutMapping("/updateMyself")
+    @ApiOperation(value = "修改用户自身")
+    @PreAuthorize("hasAuthority('sys:user:add')")
+    public User updateMyself(@RequestBody @Valid User user) {
+        return userService.update(user, user.getId());
     }
-
 
     @PutMapping("/{username}")
     @ApiOperation(value = "修改密码")
@@ -100,13 +98,6 @@ public class UserController {
         return PageTableHandler.handlePage(request, userService);
     }
 
-    // TODO: 2020/10/24 修改个人信息后不实时更新
-    @ApiOperation(value = "当前登录用户")
-    @GetMapping("/current")
-    public User currentUser() {
-        return UserUtil.getLoginUser();
-    }
-
     @ApiOperation(value = "根据用户id获取用户")
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:user:query')")
@@ -114,4 +105,31 @@ public class UserController {
         return userService.getById(id);
     }
 
+
+    @ApiOperation(value = "当前登录用户")
+    @GetMapping("/current")
+    public User currentUser() {
+        LoginUserVO userVO = UserUtil.getLoginUser();
+        assert userVO != null;
+        User user = userService.getById(userVO.getId());
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
+    }
+
+    /**
+     * TODO  未实现使用
+     *
+     * @param headImgUrl
+     */
+    @PutMapping(params = "headImgUrl")
+    @ApiOperation(value = "修改头像")
+    public void updateHeadImgUrl(String headImgUrl) {
+        User user = UserUtil.getLoginUser();
+        UserDTO userDto = new UserDTO();
+        BeanUtils.copyProperties(user, userDto);
+        userDto.setHeadImgUrl(headImgUrl);
+
+        userService.updateUser(userDto);
+        log.debug("{}修改了头像", user.getUsername());
+    }
 }

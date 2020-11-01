@@ -18,15 +18,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DictServiceImpl extends AbstractBaseService<Dict, Long> implements DictService {
-    DictRepository repo;
-
+    @Autowired
+    private DictRepository repo;
+    @Autowired
+    private RepositoryEntity rre;
     @Override
     public Dict findByTypeAndKey(String type, String key) {
         return repo.findByTypeAndK(type, key);
     }
 
+
     @Override
-    public List<Dict> findAllByKey(String type) {
+    public List<Dict> findAllByType(String type) {
         return repo.findAllByType(type);
     }
 
@@ -35,9 +38,6 @@ public class DictServiceImpl extends AbstractBaseService<Dict, Long> implements 
         String type = (String) params.get("type");
         return repo.count(type);
     }
-
-    @Autowired
-    private RepositoryEntity rre;
 
     @Override
     public List<Dict> list(Map<String, Object> params, int offset, int limit) {

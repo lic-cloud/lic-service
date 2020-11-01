@@ -5,16 +5,15 @@ layui.use(['layer', 'laydate'], function () {
         elem: '#birthday'
     });
 });
-
-showDictSelect("sex", "sex");
-showDictSelect("status", "userStatus");
+showDictSelect("sex","sex");
+showDictSelect("status","userStatus");
 initRoles();
 initData();
 $('#form').bootstrapValidator();
 
 function initData() {
     const id = getUrlParam("id");
-    if (id !== "") {
+    if (id != "") {
         $.ajax({
             type: 'get',
             url: '/users/' + id,

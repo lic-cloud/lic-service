@@ -1,33 +1,32 @@
 initMenu();
-
-function initMenu() {
+function initMenu(){
     $.ajax({
-        url: "/permissions/current",
-        type: "get",
-        async: false,
-        success: function (data) {
-            if (!$.isArray(data)) {
-                location.href = '/login.html';
+        url:"/permissions/current",
+        type:"get",
+        async:false,
+        success:function(data){
+            if(!$.isArray(data)){
+                location.href='/login.html';
                 return;
             }
-            const menu = $("#menu");
-            $.each(data, function (i, item) {
-                const a = $("<a href='javascript:;'></a>");
+            var menu = $("#menu");
+            $.each(data, function(i,item){
+                var a = $("<a href='javascript:;'></a>");
 
-                const css = item.css;
-                if (css != null && css !== "") {
-                    a.append("<i aria-hidden='true' class='fa " + css + "'></i>");
+                var css = item.css;
+                if(css!=null && css!=""){
+                    a.append("<i aria-hidden='true' class='fa " + css +"'></i>");
                 }
-                a.append("<cite>" + item.name + "</cite>");
+                a.append("<cite>"+item.name+"</cite>");
                 a.attr("lay-id", item.id);
 
-                const href = item.href;
-                if (href != null && href !== "") {
+                var href = item.href;
+                if(href != null && href != ""){
                     a.attr("data-url", href);
                 }
 
-                const li = $("<li class='layui-nav-item'></li>");
-                if (i === 0) {/*展开第一个菜单*/
+                var li = $("<li class='layui-nav-item'></li>");
+                if (i == 0) {/*展开第一个菜单*/
                     li.addClass("layui-nav-itemed");
                 }
 
@@ -42,24 +41,24 @@ function initMenu() {
     });
 }
 
-function setChild(parentElement, child) {
-    if (child != null && child.length > 0) {
-        $.each(child, function (j, item2) {
-            const ca = $("<a href='javascript:;'></a>");
+function setChild(parentElement, child){
+    if(child != null && child.length > 0){
+        $.each(child, function(j,item2){
+            var ca = $("<a href='javascript:;'></a>");
             ca.attr("data-url", item2.href);
             ca.attr("lay-id", item2.id);
 
-            const css2 = item2.css;
-            if (css2 != null && css2 !== "") {
-                ca.append("<i aria-hidden='true' class='fa " + css2 + "'></i>");
+            var css2 = item2.css;
+            if(css2!=null && css2!=""){
+                ca.append("<i aria-hidden='true' class='fa " + css2 +"'></i>");
             }
 
-            ca.append("<cite>" + item2.name + "</cite>");
+            ca.append("<cite>"+item2.name+"</cite>");
 
-            const dd = $("<dd></dd>");
+            var dd = $("<dd></dd>");
             dd.append(ca);
 
-            const dl = $("<dl class='layui-nav-child'></dl>");
+            var dl = $("<dl class='layui-nav-child'></dl>");
             dl.append(dd);
 
             parentElement.append(dl);
@@ -72,48 +71,47 @@ function setChild(parentElement, child) {
 
 // 登陆用户头像昵称
 showLoginInfo();
-
-function showLoginInfo() {
+function showLoginInfo(){
     $.ajax({
-        type: 'get',
-        url: '/users/current',
-        async: false,
-        success: function (data) {
+        type : 'get',
+        url : '/users/current',
+        async : false,
+        success : function(data) {
             $(".admin-header-user span").text(data.nickname);
 
-            const pro = window.location.protocol;
-            const host = window.location.host;
-            const domain = pro + "//" + host;
+            var pro = window.location.protocol;
+            var host = window.location.host;
+            var domain = pro + "//" + host;
 
-            const sex = data.sex;
-            let url = data.headImgUrl;
-            if (url == null || url === "") {
-                if (sex === 1) {
+            var sex = data.sex;
+            var url = data.headImgUrl;
+            if(url == null || url == ""){
+                if(sex == 1){
                     url = "/img/avatars/sunny.png";
                 } else {
                     url = "/img/avatars/1.png";
                 }
+
                 url = domain + url;
             } else {
                 url = domain + "/statics" + url;
             }
-            const img = $(".admin-header-user img");
+            var img = $(".admin-header-user img");
             img.attr("src", url);
         }
     });
 }
 
 showUnreadNotice();
-
-function showUnreadNotice() {
+function showUnreadNotice(){
     $.ajax({
-        type: 'get',
-        url: '/notices/count-unread',
-        success: function (data) {
-            $("[unreadNotice]").each(function () {
-                if (data > 0) {
-                    $(this).html("<span class='layui-badge'>" + data + "</span>");
-                } else {
+        type : 'get',
+        url : '/notices/count-unread',
+        success : function(data) {
+            $("[unreadNotice]").each(function(){
+                if(data>0){
+                    $(this).html("<span class='layui-badge'>"+data+"</span>");
+                }else{
                     $(this).html("");
                 }
             });
@@ -122,32 +120,32 @@ function showUnreadNotice() {
     });
 }
 
-function logout() {
+function logout(){
     $.ajax({
-        type: 'get',
-        url: '/logout',
-        success: function (data) {
+        type : 'get',
+        url : '/logout',
+        success : function(data) {
             localStorage.removeItem("token");
-            location.href = '/login.html';
+            location.href='/login.html';
         }
     });
 }
 
-let active;
+var active;
 
-layui.use(['layer', 'element'], function () {
-    const $ = layui.jquery,
+layui.use(['layer', 'element'], function() {
+    var $ = layui.jquery,
         layer = layui.layer;
-    const element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-    element.on('nav(demo)', function (elem) {
+    var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+    element.on('nav(demo)', function(elem){
         //layer.msg(elem.text());
     });
 
     //触发事件
     active = {
-        tabAdd: function (obj) {
-            const lay_id = $(this).attr("lay-id");
-            const title = $(this).html() + '<i class="layui-icon" data-id="' + lay_id + '"></i>';
+        tabAdd: function(obj){
+            var lay_id = $(this).attr("lay-id");
+            var title = $(this).html() + '<i class="layui-icon" data-id="' + lay_id + '"></i>';
             //新增一个Tab项
             element.tabAdd('admin-tab', {
                 title: title,
@@ -156,23 +154,23 @@ layui.use(['layer', 'element'], function () {
             });
             element.tabChange("admin-tab", lay_id);
         },
-        tabDelete: function (lay_id) {
+        tabDelete: function(lay_id){
             element.tabDelete("admin-tab", lay_id);
         },
-        tabChange: function (lay_id) {
+        tabChange: function(lay_id){
             element.tabChange('admin-tab', lay_id);
         }
     };
     //添加tab
-    $(document).on('click', 'a', function () {
-        if (!$(this)[0].hasAttribute('data-url') || $(this).attr('data-url') === '') {
+    $(document).on('click','a',function(){
+        if(!$(this)[0].hasAttribute('data-url') || $(this).attr('data-url')===''){
             return;
         }
-        const tabs = $(".layui-tab-title").children();
-        const lay_id = $(this).attr("lay-id");
+        var tabs = $(".layui-tab-title").children();
+        var lay_id = $(this).attr("lay-id");
 
-        for (let i = 0; i < tabs.length; i++) {
-            if ($(tabs).eq(i).attr("lay-id") === lay_id) {
+        for(var i = 0; i < tabs.length; i++) {
+            if($(tabs).eq(i).attr("lay-id") == lay_id) {
                 active.tabChange(lay_id);
                 return;
             }
@@ -182,26 +180,25 @@ layui.use(['layer', 'element'], function () {
     });
 
     //iframe自适应
-    function resize() {
-        const $content = $('.admin-nav-card .layui-tab-content');
+    function resize(){
+        var $content = $('.admin-nav-card .layui-tab-content');
         $content.height($(this).height() - 147);
-        $content.find('iframe').each(function () {
+        $content.find('iframe').each(function() {
             $(this).height($content.height());
         });
     }
-
-    $(window).on('resize', function () {
-        const $content = $('.admin-nav-card .layui-tab-content');
+    $(window).on('resize', function() {
+        var $content = $('.admin-nav-card .layui-tab-content');
         $content.height($(this).height() - 147);
-        $content.find('iframe').each(function () {
+        $content.find('iframe').each(function() {
             $(this).height($content.height());
         });
     }).resize();
 
     //toggle左侧菜单
-    $('.admin-side-toggle').on('click', function () {
-        const sideWidth = $('#admin-side').width();
-        if (sideWidth === 200) {
+    $('.admin-side-toggle').on('click', function() {
+        var sideWidth = $('#admin-side').width();
+        if(sideWidth === 200) {
             $('#admin-body').animate({
                 left: '0'
             });
@@ -225,7 +222,7 @@ layui.use(['layer', 'element'], function () {
     });
 
     //手机设备的简单适配
-    const treeMobile = $('.site-tree-mobile'),
+    var treeMobile = $('.site-tree-mobile'),
         shadeMobile = $('.site-mobile-shade');
     treeMobile.on('click', function () {
         $('body').addClass('site-mobile');

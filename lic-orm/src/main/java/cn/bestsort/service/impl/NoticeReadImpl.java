@@ -41,10 +41,6 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
         String title = (String) params.get("title");
         String isRead = (String) params.get("isRead");
         Long userId = (Long) params.get("userId");
-        /*
-        Time beginTime = (Time) params.get("beginTime");
-        Time endTime = (Time) params.get("endTime");
-        */
         if ("".equals(isRead)) {
             return repo.count(userId.intValue(), title, null);
         }
@@ -56,10 +52,6 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
         String title = (String) params.get("title");
         String isRead = (String) params.get("isRead");
         Long userId = (Long) params.get("userId");
-        /*
-        Time beginTime = (Time) params.get("beginTime");
-        Time endTime = (Time) params.get("endTime");
-        */
         String orderBy = (String) params.get("orderBy");
         if ("".equals(isRead)) {
             return rre.listNoticeRead(userId.intValue(), title, null, orderBy, offset, limit);

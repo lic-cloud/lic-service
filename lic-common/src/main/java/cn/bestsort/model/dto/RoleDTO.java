@@ -8,6 +8,8 @@ import cn.bestsort.util.SpringUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * @author GoodTime0313
  * @version 1.0
@@ -16,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RoleDTO extends Role {
-
+    @NotEmpty(message = "权限不能为空")
     private List<Long> permissionIds;
     public  Role supperRole() {
         Role role = new Role();

@@ -3,7 +3,7 @@ initData();
 
 function initData() {
     const id = getUrlParam("id");
-    if (id !== "") {
+    if (id != "") {
         $.ajax({
             type: 'get',
             url: '/notices/' + id,
@@ -40,10 +40,9 @@ layui.use('layedit', function () {
 
 
 function update(obj) {
-    //TODO 内容未进行判断
     const title = $("#title").val();
     const status = $("#status").val();
-    if (title.trim() === "") {
+    if (title.trim() == "") {
         layer.msg("title不能为空")
         return;
     }
@@ -51,7 +50,7 @@ function update(obj) {
         layer.msg("title的长度为3-50")
         return;
     }
-    if (status.trim() === "") {
+    if (status.trim() == "") {
         layer.msg("状态不能为空")
         return;
     }

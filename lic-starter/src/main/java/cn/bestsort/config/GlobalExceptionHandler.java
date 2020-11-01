@@ -56,7 +56,16 @@ public class GlobalExceptionHandler {
                 .build()
         );
     }
-
+    @ExceptionHandler(LicException.class)
+    public ResponseEntity<ErrorResponse> handleCustomExceptions(LicException e) {
+        log.debug("exception type: {}, http status: {}, message: {}", e.getClass(), e.getCode(), e.getMsg());
+        return ResponseEntity.status(e.getCode())
+            .body(ErrorResponse.builder()
+                .errors(e.getMsg())
+                .code(e.getCode())
+                .build()
+            );
+    }
 
     @ExceptionHandler({IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -77,14 +86,9 @@ public class GlobalExceptionHandler {
         return ResponseInfo.of(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(LicException.class)
-    public ResponseEntity<ErrorResponse> handleCustomExceptions(LicException e) {
-        log.debug("exception type: {}, http status: {}, message: {}", e.getClass(), e.getCode(), e.getMsg());
-        return ResponseEntity.status(e.getCode())
-            .body(ErrorResponse.builder()
-                .errors(e.getMsg())
-                .code(e.getCode())
-                .build()
-            );
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseInfo exception(Throwable throwable) {
+        return ResponseInfo.of(HttpStatus.INTERNAL_SERVER_ERROR, throwable.getMessage());
     }
 }

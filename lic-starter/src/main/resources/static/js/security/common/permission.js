@@ -1,5 +1,5 @@
 function checkPermission() {
-    let pers = [];
+    var pers = [];
     $.ajax({
         type: 'get',
         url: '/permissions/owns',
@@ -9,7 +9,7 @@ function checkPermission() {
             /*检测到permission这个标签就与用户的权限进行比较，若没有就隐藏标签*/
             pers = data;
             $("[permission]").each(function () {
-                const per = $(this).attr("permission");
+                var per = $(this).attr("permission");
                 if ($.inArray(per, data) < 0) {
                     $(this).hide();
                 }

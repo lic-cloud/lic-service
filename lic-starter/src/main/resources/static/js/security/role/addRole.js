@@ -7,7 +7,7 @@ initData();
 
 function initData() {
     const id = getUrlParam("id");
-    if (id !== "") {
+    if (id != "") {
         $.ajax({
             type: 'get',
             url: '/roles/' + id,

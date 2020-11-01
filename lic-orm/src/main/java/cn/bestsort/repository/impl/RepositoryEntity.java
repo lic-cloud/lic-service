@@ -56,28 +56,25 @@ public class RepositoryEntity {
 
     public List<Role> listRole(String name, String orderBy, Integer offset, Integer limit) {
         String sql = String.format(LIST_ROLE_SQL, name, name);
-        List<Role> resultList = entityManager.createNativeQuery(page(sql, orderBy, offset, limit), Role.class).getResultList();
-        return resultList;
+        return (List<Role>) entityManager.createNativeQuery(page(sql, orderBy, offset, limit), Role.class).getResultList();
     }
 
     public List<Dict> listDict(String type, String orderBy, Integer offset, Integer limit) {
         String sql = String.format(LIST_DICT_SQL, type, type);
-        List<Dict> resultList = entityManager.createNativeQuery(page(sql, orderBy, offset, limit), Dict.class).getResultList();
-        return resultList;
+        return (List<Dict>) entityManager.createNativeQuery(page(sql, orderBy, offset, limit), Dict.class).getResultList();
     }
+
+    public List<User> listReadUsers(Long noticeId) {
+        String sql = String.format(LIST_READ_USERS, noticeId);
+        return (List<User>) entityManager.createNativeQuery(sql, User.class).getResultList();
+    }
+
 
     public List<Notice> listNotice(String title, Integer status, String orderBy, Integer offset, Integer limit) {
         String sql = status == null ?
             String.format(LIST_NOTICE_WITHOUT_STATUS_SQL, title, title) :
             String.format(LIST_NOTICE_SQL, title, title, status);
-        List<Notice> resultList = entityManager.createNativeQuery(page(sql, orderBy, offset, limit), Notice.class).getResultList();
-        return resultList;
-    }
-
-    public List<User> listReadUsers(Long noticeId) {
-        String sql = String.format(LIST_READ_USERS, noticeId);
-        List<User> resultList = entityManager.createNativeQuery(sql, User.class).getResultList();
-        return resultList;
+        return (List<Notice>) entityManager.createNativeQuery(page(sql, orderBy, offset, limit), Notice.class).getResultList();
     }
 
     public List<NoticeReadVO> listNoticeRead(Integer userId, String title, Integer isRead, String orderBy, Integer offset, Integer limit) {
@@ -88,11 +85,7 @@ public class RepositoryEntity {
             NoticeReadVO vo = new NoticeReadVO();
             SpringUtil.cloneWithoutNullVal(i, vo);
             List<NoticeRead> all = noticeReadRepository.findAllByUserIdAndNoticeId((long) userId, i.getId());
-            if (all.isEmpty()) {
-                vo.setIsRead(false);
-            } else {
-                vo.setIsRead(true);
-            }
+            vo.setIsRead(!all.isEmpty());
             vo.setUserId((long) userId);
             vo.setReadTime(i.getCreateAt());
             vos.add(vo);

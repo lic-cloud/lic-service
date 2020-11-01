@@ -4,14 +4,14 @@ layui.use('layer', function () {
     const layer = layui.layer;
 });
 //判断当前用户页面是不是最外面的页面
-if (top !== self) {
+if (top != self) {
     parent.location.href = '/login.html';
 }
 //当用户登录后 访问登录页面默认不会跳转 设置跳转到主页面
 //获取登录成功后存入的token
 const token = localStorage.getItem("token");
 //登录过了走这个流程
-if (token != null && token.trim().length !== 0) {
+if (token != null && token.trim().length != 0) {
     $.ajax({
         type: 'get',
         url: '/users/current?token=' + token,//获取当前登录用户 看是否为空
@@ -24,7 +24,7 @@ if (token != null && token.trim().length !== 0) {
             const code = response.code;
             const message = response.message;
             //如果过期,去除token
-            if (code === 401) {
+            if (code == 401) {
                 localStorage.removeItem("token");
             }
         }

@@ -47,7 +47,7 @@ function update(obj) {
     format.birthday = date.valueOf();
     $.ajax({
         type: 'put',
-        url: '/users',
+        url: '/users/updateMyself',
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(format),
         success: function (data) {

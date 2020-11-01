@@ -1,16 +1,16 @@
 layui.use(['layer', 'laydate'], function () {
-    const layer = layui.layer;
+    var layer = layui.layer;
 });
 $('#form').bootstrapValidator();
 function add(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    var bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);
         return;
     }
-    const format = $("#form").serializeObject();
+    var format = $("#form").serializeObject();
     $.ajax({
         type: 'post',
         url: '/dicts',

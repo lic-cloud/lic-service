@@ -26,6 +26,6 @@ public interface DictService extends BaseService<Dict, Long>, Listable<Dict> {
      * @param type
      * @return
      */
-    List<Dict> findAllByKey(String type);
+    List<Dict> findAllByType(String type);
 
 }

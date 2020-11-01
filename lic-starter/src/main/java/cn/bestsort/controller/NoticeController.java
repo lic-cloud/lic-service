@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * @author GoodTime0313
  * @version 1.0
@@ -54,7 +56,7 @@ public class NoticeController {
     @PostMapping
     @ApiOperation(value = "保存公告")
     @PreAuthorize("hasAuthority('notice:add')")
-    public Notice saveNotice(@RequestBody Notice notice) {
+    public Notice saveNotice(@RequestBody @Valid Notice notice) {
         return noticeService.save(notice);
     }
 
@@ -87,21 +89,13 @@ public class NoticeController {
     @PutMapping
     @ApiOperation(value = "修改公告")
     @PreAuthorize("hasAuthority('notice:add')")
-    public Notice updateNotice(@RequestBody Notice notice) {
+    public Notice updateNotice(@RequestBody @Valid Notice notice) {
         Notice no = noticeService.getById(notice.getId());
         if (no.getStatus() == Status.PUBLISH) {
             throw new IllegalArgumentException("发布状态的不能修改");
         }
         noticeService.update(notice, notice.getId());
         return notice;
-    }
-
-    // TODO: 2020/10/24  按时间区域搜索未实现 已读未读排序未实现。
-    @GetMapping
-    @ApiOperation(value = "公告管理列表")
-    @PreAuthorize("hasAuthority('notice:query')")
-    public PageTableResponse listNotice(PageTableRequest request) {
-        return PageTableHandler.handlePage(request, noticeService);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -113,17 +107,23 @@ public class NoticeController {
         noticeReadRepository.deleteAllByNoticeId(id);
     }
 
-
     @ApiOperation(value = "未读公告数")
     @GetMapping("/count-unread")
     public Integer countUnread() {
         User user = UserUtil.getLoginUser();
         assert user != null;
-        int i = noticeReadRepository.countUnread(user.getId());
-        return i;
+        return noticeReadRepository.countUnread(user.getId());
     }
 
-    //TODO: 2020/10/24  按时间区域搜索未实现 已读未读排序未实现。
+    //TODO: 2020/10/24  按时间区域搜索未实现
+    @GetMapping
+    @ApiOperation(value = "公告管理列表")
+    @PreAuthorize("hasAuthority('notice:query')")
+    public PageTableResponse listNotice(PageTableRequest request) {
+        return PageTableHandler.handlePage(request, noticeService);
+    }
+
+    //TODO: 2020/10/24  按时间区域搜索未实现
     @GetMapping("/published")
     @ApiOperation(value = "公告列表")
     public PageTableResponse listNoticeReadVO(PageTableRequest request) {

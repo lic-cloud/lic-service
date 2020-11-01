@@ -21,6 +21,8 @@ public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
     implements NoticeService {
 
     NoticeRepository repo;
+    @Autowired
+    private RepositoryEntity rre;
 
     protected NoticeServiceImpl(
         NoticeRepository repository) {
@@ -38,9 +40,6 @@ public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
         return repo.count(title, Integer.valueOf(status));
     }
 
-    @Autowired
-    private RepositoryEntity rre;
-
     @Override
     public List<Notice> list(Map<String, Object> params, int offset, int limit) {
         String title = (String) params.get("title");
@@ -50,5 +49,6 @@ public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
             return rre.listNotice(title, null, orderBy, offset, limit);
         }
         return rre.listNotice(title, Integer.valueOf(status), orderBy, offset, limit);
+
     }
 }

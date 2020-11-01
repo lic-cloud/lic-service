@@ -2,7 +2,7 @@ initData();
 
 function initData() {
     var id = getUrlParam("id");
-    if (id !== "") {
+    if (id != "") {
         $.ajax({
             type: 'get',
             url: '/notices?id=' + id,

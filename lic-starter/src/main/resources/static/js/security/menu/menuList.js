@@ -32,7 +32,7 @@ function initMenuList() {
                 tr += td3;
 
                 let sort = d['sort'];
-                if (sort === 0) {
+                if (sort == 0) {
                     sort = "";
                 }
 

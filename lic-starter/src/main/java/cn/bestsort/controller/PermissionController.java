@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * 权限相关接口
  *
@@ -186,7 +188,7 @@ public class PermissionController {
     @PostMapping
     @ApiOperation(value = "保存菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
-    public void save(@RequestBody Permission permission) {
+    public void save(@RequestBody @Valid Permission permission) {
         permissionService.save(permission);
     }
 
@@ -201,7 +203,7 @@ public class PermissionController {
     @PutMapping
     @ApiOperation(value = "修改菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
-    public void update(@RequestBody Permission permission) {
+    public void update(@RequestBody @Valid Permission permission) {
         permissionService.update(permission, permission.getId());
     }
 

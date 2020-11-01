@@ -2,9 +2,13 @@ package cn.bestsort.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * @author bestsort
@@ -17,11 +21,18 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "sys_permission")
 public class Permission extends BaseEntity {
-    private Long                parentId;
-    private String              name;
-    private String              css;
-    private String              href;
-    private Integer             type;
-    private String              permission;
-    private Integer             sort;
+    @NotNull(message = "parentId不能为空")
+    private Long parentId;
+    @NotBlank(message = "name不能为空")
+    @Length(min = 3, max = 50, message = "名称的长度为3-50位")
+    private String name;
+    @NotBlank(message = "css不能为空")
+    private String css;
+    private String href;
+    @NotNull(message = "type不能为空")
+    private Integer type;
+    private String permission;
+    @NotNull(message = "sort不能为空")
+    @Range(min = 0, max = 1000, message = "排序的范围为0-1000")
+    private Integer sort;
 }

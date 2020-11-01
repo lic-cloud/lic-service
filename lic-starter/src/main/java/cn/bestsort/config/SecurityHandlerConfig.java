@@ -99,13 +99,7 @@ public class SecurityHandlerConfig {
             //跨域问题
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Methods", "*");
-            response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, " +
-                "WG-App-Version, WG-Device-Id, WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model, WG-CPU, WG-Sid, WG-App-Id, WG-Token");
-            response.setHeader("Access-Control-Allow-Methods", "POST, GET");
-            response.setHeader("Access-Control-Allow-Credentials", "true");
-            //能否为前端返回token看下面的代码
             response.setContentType("application/json;charset=UTF-8");
-            //http的状态码
             response.setStatus(status);
             //data转换为json返回到前端
             response.getWriter().write(JSONObject.toJSONString(data));

@@ -1,6 +1,6 @@
 const pers = checkPermission();
 
-let example;
+var example;
 
 function init() {
     example =
@@ -23,17 +23,17 @@ function init() {
                     const response = JSON.parse(msg);
                     const code = response.code;
                     const message = response.message;
-                    if (code === 400) {
+                    if (code == 400) {
                         layer.msg(message);
-                    } else if (code === 401) {
+                    } else if (code == 401) {
                         localStorage.removeItem("token");
                         layer.msg("token过期，请先登录", {shift: -1, time: 4000}, function () {
                             location.href = '/login.html';
                         });
-                    } else if (code === 403) {
+                    } else if (code == 403) {
                         console.log("未授权:" + message);
                         layer.msg('未授权');
-                    } else if (code === 500) {
+                    } else if (code == 500) {
                         layer.msg('系统错误：' + message);
                     }
                 }

@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * 角色相关接口
  *
@@ -43,7 +45,7 @@ public class RoleController {
     @PostMapping
     @ApiOperation(value = "保存角色")
     @PreAuthorize("hasAuthority('sys:role:add')")
-    public void saveRole(@RequestBody RoleDTO roleDto) {
+    public void saveRole(@RequestBody @Valid RoleDTO roleDto) {
         roleService.saveRole(roleDto);
     }
 

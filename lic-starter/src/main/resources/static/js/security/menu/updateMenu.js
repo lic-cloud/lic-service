@@ -8,7 +8,7 @@ initData();
 $('#form').bootstrapValidator();
 
 function initData() {
-    if (id !== "") {
+    if (id != "") {
         $.ajax({
             type: 'get',
             url: '/permissions/' + id,
@@ -23,7 +23,7 @@ function initData() {
                 $("#type").val(data.type);
                 $("#permission").val(data.permission);
                 $("#sort").val(data.sort);
-                if (css !== "") {
+                if (css != "") {
                     $("#cssImg").addClass("fa");
                     $("#cssImg").addClass(css);
                 }
@@ -48,7 +48,7 @@ function selectCss() {
 
 function update(obj) {
     $(obj).attr("disabled", true);
-    if ($("#parentId").val() === id) {
+    if ($("#parentId").val() == id) {
         layer.msg("父级菜单不能是自己");
         return;
     }

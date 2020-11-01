@@ -1,8 +1,9 @@
 //form序列化为json
-$.fn.serializeObject = function () {
-    const o = {};
-    const a = this.serializeArray();
-    $.each(a, function () {
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
@@ -17,16 +18,16 @@ $.fn.serializeObject = function () {
 
 //获取url后的参数值
 function getUrlParam(key) {
-    const href = window.location.href;
-    const url = href.split("?");
-    if (url.length <= 1) {
+    var href = window.location.href;
+    var url = href.split("?");
+    if(url.length <= 1){
         return "";
     }
-    const params = url[1].split("&");
+    var params = url[1].split("&");
 
-    for (let i = 0; i < params.length; i++) {
-        const param = params[i].split("=");
-        if (key === param[0]) {
+    for(var i=0; i<params.length; i++){
+        var param = params[i].split("=");
+        if(key == param[0]){
             return param[1];
         }
     }

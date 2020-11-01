@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +21,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
  */
 @Api(tags = "字典")
+@Validated
 @RestController
 @RequestMapping("/dicts")
 public class DictController {
@@ -36,7 +40,7 @@ public class DictController {
     @PreAuthorize("hasAuthority('dict:add')")
     @PostMapping
     @ApiOperation(value = "保存")
-    public Dict save(@RequestBody Dict dict) {
+    public Dict save(@RequestBody @Valid Dict dict) {
         Dict d = dictService.findByTypeAndKey(dict.getType(), dict.getK());
         if (d != null) {
             throw new IllegalArgumentException("类型和key已存在");
@@ -54,7 +58,7 @@ public class DictController {
     @PreAuthorize("hasAuthority('dict:add')")
     @PutMapping
     @ApiOperation(value = "修改")
-    public Dict update(@RequestBody Dict dict) {
+    public Dict update(@RequestBody @Valid Dict dict) {
         dictService.update(dict, dict.getId());
         return dict;
     }
@@ -74,7 +78,8 @@ public class DictController {
     }
 
     @GetMapping(params = "type")
+    @ApiOperation(value = "根据type获取")
     public List<Dict> listByType(String type) {
-        return dictService.findAllByKey(type);
+        return dictService.findAllByType(type);
     }
 }

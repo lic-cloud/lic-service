@@ -17,18 +17,17 @@ layui.use(['layedit', 'upload'], function () {
 });
 
 function add(obj) {
-    //TODO 内容未进行判断
     const title = $("#title").val();
     const status = $("#status").val();
-    if (title.trim() === "" ) {
+    if (title.trim() == "" ) {
         layer.msg("title不能为空")
         return;
     }
     if (title.trim().length < 3 || title.trim().length > 50) {
-        layer.msg("title的长度为3-50")
+        layer.msg("title的长度为3-50位")
         return;
     }
-    if (status.trim() === "") {
+    if (status.trim() == "") {
         layer.msg("状态不能为空")
         return;
     }
@@ -50,6 +49,8 @@ function add(obj) {
             });
         },
         error: function (xhr, status, error) {
+            $(obj).attr("disabled", false);
+            console.log(xhr)
             layer.msg(xhr.responseText, {shift: -1, time: 4000});
         }
     });

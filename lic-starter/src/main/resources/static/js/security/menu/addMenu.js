@@ -10,7 +10,7 @@ function add(obj) {
     const bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
-        $(obj).attr("disabled", false);
+        $(obj).attr("disabled", true);
         return;
     }
     const format = $("#form").serializeObject();

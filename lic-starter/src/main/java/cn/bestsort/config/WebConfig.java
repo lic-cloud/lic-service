@@ -49,5 +49,4 @@ public class WebConfig implements WebMvcConfigurer {
         argumentResolvers.add(tableHandlerMethodArgumentResolver());
         argumentResolvers.add(PageableResolver());
     }
-
 }

@@ -39,6 +39,8 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     private UserRepository userRepo;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private RepositoryEntity ure;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -50,8 +52,17 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         user.setTotalCapacity(userDto.getTotalCapacity());
         save(user);
         saveUserRoles(user.getId(), userDto.getRoleIds());
-        log.debug("新增用户{}", user.getUsername());
         return user;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public User updateUser(UserDTO userDto) {
+        User user = new User();
+        SpringUtil.cloneWithoutNullVal(userDto, user);
+        update(user, user.getId());
+        saveUserRoles(userDto.getId(), userDto.getRoleIds());
+        return userDto;
     }
 
     private void saveUserRoles(Long userId, List<Long> roleIds) {
@@ -101,18 +112,8 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         }
         u.setPassword(passwordEncoder.encode(newPassword));
         update(u, u.getId());
-        log.debug("修改{}的密码", username);
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public User updateUser(UserDTO userDto) {
-        User user = new User();
-        SpringUtil.cloneWithoutNullVal(userDto, user);
-        update(user, user.getId());
-        saveUserRoles(userDto.getId(), userDto.getRoleIds());
-        return userDto;
-    }
 
     @Override
     public int count(Map<String, Object> params) {
@@ -124,9 +125,6 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         }
         return userRepo.count(username, nickname, Integer.valueOf(status));
     }
-
-    @Autowired
-    private RepositoryEntity ure;
 
     @Override
     public List<User> list(Map<String, Object> params, int offset, int limit) {

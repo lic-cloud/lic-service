@@ -16,7 +16,7 @@ INSERT INTO `sys_permission` VALUES (13, NULL, NULL, '', '', '查询', 12, 'sys:
 INSERT INTO `sys_permission` VALUES (14, NULL, NULL, '', '', '新增', 12, 'sys:role:add', 100, 2);
 INSERT INTO `sys_permission` VALUES (15, NULL, NULL, '', '', '删除', 12, 'sys:role:del', 100, 2);
 INSERT INTO `sys_permission` VALUES (19, NULL, NULL, 'fa-eye', 'druid/index.html', '数据源监控', 0, '', 9, 1);
-INSERT INTO `sys_permission` VALUES (20, NULL, NULL, 'fa-file-pdf-o', 'swagger-ui.html', '接口swagger', 0, '', 10, 1);
+INSERT INTO `sys_permission` VALUES (20, NULL, NULL, 'fa-file-pdf-o', 'doc.html', '接口knife4j', 0, '', 10, 1);
 INSERT INTO `sys_permission` VALUES (22, NULL, NULL, 'fa-book', 'pages/notice/noticeList.html', '公告管理', 0, '', 12, 1);
 INSERT INTO `sys_permission` VALUES (23, NULL, NULL, '', '', '查询', 22, 'notice:query', 100, 2);
 INSERT INTO `sys_permission` VALUES (24, NULL, NULL, '', '', '添加', 22, 'notice:add', 100, 2);
