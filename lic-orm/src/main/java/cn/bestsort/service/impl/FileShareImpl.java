@@ -29,6 +29,11 @@ public class FileShareImpl extends AbstractBaseService<FileShare, Long>
         return repo.getFileShareByUrl(url);
     }
 
+    @Override
+    public Optional<FileShare> getByMappingId(Long mappingId) {
+        return repo.getByMappingId(mappingId);
+    }
+
     protected FileShareImpl(
         FileShareRepository repository) {
         super(repository);

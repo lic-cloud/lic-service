@@ -29,4 +29,12 @@ public interface ShareManager {
      * @return 文件列表
      */
     List<FileMapping> listFilesByShare(String url, Long pid);
+
+    /**
+     * 取消文件分享
+     * @param mappingId 文件映射
+     * @param owner 映射所有者
+     * @return 是否成功
+     */
+    Boolean cancelShareLink(Long mappingId, User owner);
 }

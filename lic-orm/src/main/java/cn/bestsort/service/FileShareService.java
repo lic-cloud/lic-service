@@ -12,4 +12,5 @@ import cn.bestsort.model.entity.FileShare;
 public interface FileShareService extends BaseService<FileShare, Long> {
     boolean existsByUrl(String url);
     Optional<FileShare> getByUrl(String url);
+    Optional<FileShare> getByMappingId(Long mappingId);
 }

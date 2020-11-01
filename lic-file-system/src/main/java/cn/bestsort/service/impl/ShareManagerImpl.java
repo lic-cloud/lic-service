@@ -56,6 +56,15 @@ public class ShareManagerImpl implements ShareManager {
         throw ExceptionConstant.PARAM_ILLEGAL;
     }
 
+    @Override
+    public Boolean cancelShareLink(Long mappingId, User owner) {
+        FileShare fileShare = fileShareImpl.getByMappingId(mappingId).orElseThrow(() -> ExceptionConstant.NOT_FOUND_ITEM);
+        if (!fileShare.getOwnerId().equals(owner.getId())) {
+            throw ExceptionConstant.UNAUTHORIZED;
+        }
+        fileShareImpl.remove(fileShare);
+        return true;
+    }
 
     @Override
     public String createShareLink(ShareParam param, User user) {
