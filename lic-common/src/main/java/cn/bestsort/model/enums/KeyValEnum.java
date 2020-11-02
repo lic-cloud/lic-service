@@ -9,13 +9,13 @@ import org.springframework.util.Assert;
  * @version 1.0
  * @date 2020-09-10 17:11
  */
-public interface ValueEnum<T> {
+public interface KeyValEnum<T> {
 
     /**
-     * 根据Enum获取对应的结果
-     * @return 对应的val
+     * 根据Enum获取对应的key
+     * @return 对应的key
      */
-    T getVal();
+    T getKey();
 
     /**
      * 获取默认值
@@ -24,13 +24,13 @@ public interface ValueEnum<T> {
     T getDefault();
 
     /**
-     * 获取对应枚举类的默认值
-     * @param valueEnum 对应枚举
+     * 获取其枚举类的默认值
+     * @param keyValEnum 对应枚举
      * @param <T>       对应枚举的类型
      * @return          默认值
      */
-    static <T> T getDefault(ValueEnum<T> valueEnum) {
-        return valueEnum.getDefault();
+    static <T> T getDefault(KeyValEnum<T> keyValEnum) {
+        return keyValEnum.getDefault();
     }
     /**
      * 将enum中的default值转换为对应类型
@@ -39,7 +39,7 @@ public interface ValueEnum<T> {
      * @param <V>       结果值
      * @return          内容为enumType中存储的默认值, 类型为clazz对应的类型
      */
-    static <V> V get(Class<V> clazz, ValueEnum enumType) {
+    static <V> V get(Class<V> clazz, KeyValEnum enumType) {
         return clazz.cast(enumType.getDefault());
     }
     /**
@@ -50,13 +50,13 @@ public interface ValueEnum<T> {
      * @param <E>      enum generic
      * @return corresponding enum
      */
-    static <V, E extends ValueEnum<V>> E valueToEnum(Class<E> enumType, V value) {
+    static <V, E extends KeyValEnum<V>> E valueToEnum(Class<E> enumType, V value) {
         Assert.notNull(enumType, "enum type must not be null");
         Assert.notNull(value, "value must not be null");
         Assert.isTrue(enumType.isEnum(), "type must be an enum type");
 
         return Stream.of(enumType.getEnumConstants())
-            .filter(item -> item.getVal().equals(value))
+            .filter(item -> item.getKey().equals(value))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("unknown database value: " + value));
     }

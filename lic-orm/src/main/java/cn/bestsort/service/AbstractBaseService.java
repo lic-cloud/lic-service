@@ -53,7 +53,7 @@ public abstract class AbstractBaseService<DOMAIN extends BaseEntity, ID> impleme
     }
 
     private User fetchUserFromSession(boolean nullable, HttpSession session) {
-        User userEntity = (User) session.getAttribute(LicMetaEnum.USER_SESSION.getVal());
+        User userEntity = (User) session.getAttribute(LicMetaEnum.USER_SESSION.getKey());
         if (!nullable && userEntity == null) {
             throw ExceptionConstant.UNAUTHORIZED;
         }

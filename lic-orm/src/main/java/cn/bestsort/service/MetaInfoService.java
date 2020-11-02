@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.model.entity.MetaInfo;
-import cn.bestsort.model.enums.ValueEnum;
+import cn.bestsort.model.enums.KeyValEnum;
 import cn.bestsort.repository.MetaInfoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         return value;
     }
 
-    public <T> T getMetaObj(Class<T> clazz, ValueEnum licMetaEnum) {
+    public <T> T getMetaObj(Class<T> clazz, KeyValEnum licMetaEnum) {
         String res;
         if ((res = getMeta(licMetaEnum)) != null) {
             if (String.class.equals(clazz)) {
@@ -45,19 +45,19 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
             }
             return JSON.parseObject(res, clazz);
         }
-        return ValueEnum.get(clazz, licMetaEnum);
+        return KeyValEnum.get(clazz, licMetaEnum);
     }
 
-    public String getMeta(ValueEnum metaKey) {
-        return getMeta(metaKey.getVal().toString());
+    public String getMeta(KeyValEnum metaKey) {
+        return getMeta(metaKey.getKey().toString());
     }
 
-    public String getMeta(ValueEnum metaKey, String defaultVal) {
-        return getMeta(metaKey.getVal().toString(), defaultVal);
+    public String getMeta(KeyValEnum metaKey, String defaultVal) {
+        return getMeta(metaKey.getKey().toString(), defaultVal);
     }
 
-    public String getMetaOrDefaultStr(ValueEnum metaKey) {
-        return getMeta(metaKey.getVal().toString(), ValueEnum.get(String.class, metaKey));
+    public String getMetaOrDefaultStr(KeyValEnum metaKey) {
+        return getMeta(metaKey.getKey().toString(), KeyValEnum.get(String.class, metaKey));
     }
 
     /**
@@ -72,8 +72,8 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateMeta(ValueEnum licMetaEnum, Object metaVal) {
-        String metaKey = licMetaEnum.getVal().toString();
+    public void updateMeta(KeyValEnum licMetaEnum, Object metaVal) {
+        String metaKey = licMetaEnum.getKey().toString();
         Optional<MetaInfo> metaInfoOpt = metaInfoRepo.findByMetaKey(metaKey);
         MetaInfo metaInfo;
         if (metaInfoOpt.isEmpty()) {

@@ -27,7 +27,7 @@ public class LoginUserVO extends User implements UserDetails {
     private List<PermissionDTO> permissions;
     private String              token;
     /**
-     * 登陆时间戳（毫秒）
+     * 登陆时间戳（毫秒）    
      */
     private Long loginTime;
     /**

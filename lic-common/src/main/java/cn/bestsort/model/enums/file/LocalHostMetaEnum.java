@@ -1,13 +1,13 @@
 package cn.bestsort.model.enums.file;
 
-import cn.bestsort.model.enums.ValueEnum;
+import cn.bestsort.model.enums.KeyValEnum;
 
 /**
  * @author bestsort
  * @version 1.0
  * @date 2020-09-10 17:29
  */
-public enum  LocalHostMetaEnum implements ValueEnum<String> {
+public enum  LocalHostMetaEnum implements KeyValEnum<String> {
     /**
      * 文件存储地址
      */
@@ -28,7 +28,7 @@ public enum  LocalHostMetaEnum implements ValueEnum<String> {
     }
 
     @Override
-    public String getVal() {
+    public String getKey() {
         return this.value;
     }
 
