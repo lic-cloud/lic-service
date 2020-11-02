@@ -22,11 +22,11 @@ public class InstallController {
     MetaInfoService metaInfoService;
 
     ResponseEntity<Boolean> install(CacheSettingParam param) {
-        if (metaInfoService.getMetaObj(Boolean.class, LicMetaEnum.INSTALLED)) {
+        if (metaInfoService.getMetaObj(Boolean.class, LicMetaEnum.INIT_STATUS)) {
             throw ExceptionConstant.LIC_INSTALLED;
         }
         // TODO install
-        metaInfoService.updateMeta(LicMetaEnum.INSTALLED, Boolean.TRUE);
+        metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, Boolean.TRUE);
         return ResponseEntity.ok(true);
     }
 }

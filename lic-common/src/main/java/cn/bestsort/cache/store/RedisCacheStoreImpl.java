@@ -97,11 +97,11 @@ public class RedisCacheStoreImpl extends AbstractCacheStore<String, String> impl
 
     @Override
     public void clearCachePool() {
-
+        //TODO 销毁相关bean
     }
 
     @Override
     public void init() {
-
+        //TODO 加载相关bean
     }
 }

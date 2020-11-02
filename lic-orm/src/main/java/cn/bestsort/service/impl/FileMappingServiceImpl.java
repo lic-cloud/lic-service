@@ -3,11 +3,13 @@ package cn.bestsort.service.impl;
 import java.io.File;
 import java.util.List;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.Status;
 import cn.bestsort.repository.FileMappingRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.FileMappingService;
+import cn.bestsort.util.UserUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,8 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
     final FileMappingRepository repo;
 
     @Override
-    public Page<FileMapping> listUserFiles(Pageable page, Long pid, Long userId,
-                                                 Status status, Boolean onlyDir) {
-        return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, userId, status, onlyDir);
+    public Page<FileMapping> listUserFiles(Pageable page, Long pid, Status status, Boolean onlyDir) {
+        return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, UserUtil.getLoginUserId(), status, onlyDir);
     }
 
     @Override
@@ -34,8 +35,8 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
     }
 
     @Override
-    public List<FileMapping> listUserFilesWithoutPage(Long dirId, Long userId, Status status, Boolean onlyDir) {
-        return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(dirId, userId, status, onlyDir);
+    public List<FileMapping> listUserFilesWithoutPage(Long dirId, Status status, Boolean onlyDir) {
+        return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(dirId, UserUtil.getLoginUserId(), status, onlyDir);
     }
 
 
@@ -55,7 +56,29 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         return res.reverse().toString();
     }
 
+    @Override
+    public void moveMapping(Boolean isCopy, Long mappingId, Long targetDirPid) {
+        FileMapping mapping = getById(mappingId);
+        mustIsDir(targetDirPid, true);
+        if (isCopy) {
+            mapping.setId(null);
+        }
+        mapping.setPid(targetDirPid);
+        save(mapping);
+    }
 
+    private void mustIsDir(Long pid, boolean mustBeOwner) {
+        if (pid == 0) {
+            return;
+        }
+        FileMapping mapping = getById(pid);
+        if (!mapping.getIsDir()) {
+            throw ExceptionConstant.NOT_FOUND_SUCH_FILE;
+        }
+        if (mustBeOwner) {
+            UserUtil.checkIsOwner(mapping.getOwnerId());
+        }
+    }
     protected FileMappingServiceImpl(
         FileMappingRepository repository) {
         super(repository);

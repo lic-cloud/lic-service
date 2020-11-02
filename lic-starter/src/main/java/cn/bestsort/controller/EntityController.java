@@ -87,7 +87,7 @@ public class EntityController {
         UploadSuccessCallbackParam param = new UploadSuccessCallbackParam(
             (float) (file.getSize() / 1000), name, pid, md5, FileNamespace.LOCALHOST);
         // TODO 文件系统实体同一目录下不可出现同名文件
-        licFileManager.uploadSuccess(user, param);
+        licFileManager.uploadSuccess(param);
         return ResponseEntity.ok(finished);
     }
 
@@ -99,7 +99,7 @@ public class EntityController {
                                @RequestParam(required = false, defaultValue = "43200") Long expire,
                            @RequestParam Long mappingId) {
 
-        return fileManager.createDownloadLink(mappingId, UserUtil.getLoginUser(), expire);
+        return fileManager.createDownloadLink(mappingId, expire);
     }
 
     @ApiOperation(value = "LOCALHOST文件下载", notes = "默认链接有效期12小时")

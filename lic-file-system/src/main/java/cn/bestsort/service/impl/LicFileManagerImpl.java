@@ -23,6 +23,7 @@ import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.util.UrlUtil;
+import cn.bestsort.util.UserUtil;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,7 +46,7 @@ public class LicFileManagerImpl implements LicFileManager {
 
 
     @Override
-    public String createDownloadLink(Long mappingId, User user, Long expire) {
+    public String createDownloadLink(Long mappingId, Long expire) {
         FileMapping mapping = mappingService.getById(mappingId);
         if (mapping.getIsDir()) {
             throw ExceptionConstant.MUST_BE_NOT_DIR;
@@ -62,8 +63,9 @@ public class LicFileManagerImpl implements LicFileManager {
     }
 
     @Override
-    public void uploadSuccess(User user, UploadSuccessCallbackParam param) {
+    public void uploadSuccess(UploadSuccessCallbackParam param) {
         FileInfo info = fileInfoImp.getByMd5(param.getMd5(), param.getNamespace());
+        User user = UserUtil.mustGetLoginUser();
         if (info != null) {
             info.setReference(info.getReference() + 1);
         } else {
@@ -78,16 +80,16 @@ public class LicFileManagerImpl implements LicFileManager {
     }
 
     @Override
-    public void createMapping(FileMapping mapping, User user) {
-        checkPid(mapping.getId(), user.getId());
+    public void createMapping(FileMapping mapping) {
+        UserUtil.checkIsOwner(mapping.getOwnerId());
         mappingService.create(mapping);
     }
 
     @Override
-    public void deleteFile(Long fileId, User user, boolean remove) {
+    public void deleteFile(Long fileId, boolean remove) {
         Optional<FileMapping>             fileMapping = mappingService.fetchById(fileId);
         Map<FileNamespace, List<FileDTO>> map         = new TreeMap<>();
-        fileMapping.ifPresent(mapping -> deleteSoftLink(mapping, user, remove, map));
+        fileMapping.ifPresent(mapping -> deleteSoftLink(mapping, remove, map));
         // 部分OSS支持删除文件列表, 防止多次创建连接造成的时间消耗
         for (Map.Entry<FileNamespace, List<FileDTO>> pir : map.entrySet()) {
             handle(pir.getKey()).del(
@@ -101,7 +103,7 @@ public class LicFileManagerImpl implements LicFileManager {
      * 2. 若无映射指向文件实体，删除文件实体
      * 3. 文件实体 Reference-1
      */
-    private void deleteSoftLink(FileMapping fileMapping, User user, boolean remove,
+    private void deleteSoftLink(FileMapping fileMapping, boolean remove,
         Map<FileNamespace, List<FileDTO>> needRemove) {
         if (fileMapping == null) {
             return;
@@ -110,7 +112,7 @@ public class LicFileManagerImpl implements LicFileManager {
             List<FileMapping> fileMappings = null;
             //TODO listFiles(fileMapping.getId(), user.getId(), Status.VALID);
             for (FileMapping mapping : fileMappings) {
-                deleteSoftLink(mapping, user, remove, needRemove);
+                deleteSoftLink(mapping, remove, needRemove);
             }
         }
         if (remove) {
@@ -120,7 +122,7 @@ public class LicFileManagerImpl implements LicFileManager {
                 // 删除文件映射后再无映射指向该文件实体, 物理删除
                 if (fileInfo.getReference() <= 1) {
                     fileInfoImp.removeById(fileInfo.getId());
-                    FileDTO fileDTO = new FileDTO(user.getId(), fileInfo.getNamespace(), fileInfo, null);
+                    FileDTO fileDTO = new FileDTO(UserUtil.getLoginUserId(), fileInfo.getNamespace(), fileInfo, null);
                     if (!needRemove.containsKey(fileDTO.getNamespace())) {
                         needRemove.put(fileDTO.getNamespace(), new LinkedList<>());
                     }
@@ -138,17 +140,6 @@ public class LicFileManagerImpl implements LicFileManager {
 
     private FileManager handle(FileNamespace nameSpace) {
         return manager.handle(nameSpace);
-    }
-
-    private void checkPid(Long userId, Long pid) {
-        // 0为根目录
-        if (pid == 0L) {
-            return;
-        }
-        if (mappingService.getById(pid).getOwnerId().equals(userId)) {
-            return;
-        }
-        throw ExceptionConstant.UNAUTHORIZED;
     }
 
     public LicFileManagerImpl(FileManagerHandler manager, FileInfoService fileInfoImp,

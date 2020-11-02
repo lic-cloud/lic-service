@@ -3,7 +3,6 @@ package cn.bestsort.service;
 import java.util.Map;
 
 import cn.bestsort.model.entity.FileMapping;
-import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
 import cn.bestsort.model.vo.UploadTokenVO;
@@ -32,7 +31,7 @@ public interface LicFileManager {
      * @param remove    是否从回收站移除
      */
     @Transactional(rollbackFor = Exception.class)
-    void deleteFile(Long fileId, User user, boolean remove);
+    void deleteFile(Long fileId, boolean remove);
 
     /**
      * 创建链接以供下载使用， 链接有效期为 expire(单位: S)
@@ -41,7 +40,7 @@ public interface LicFileManager {
      * @param expire 链接过期时间
      * @return       生成后的链接
      */
-    String createDownloadLink(Long mappingId, User user, Long expire);
+    String createDownloadLink(Long mappingId, Long expire);
 
     /**
      * 创建上传所需要的token和相关参数
@@ -58,11 +57,11 @@ public interface LicFileManager {
      * @param param     相关参数
      */
     @Transactional(rollbackFor = Exception.class)
-    void uploadSuccess(User user, UploadSuccessCallbackParam param);
+    void uploadSuccess(UploadSuccessCallbackParam param);
 
     /**
      * 创建文件映射
      * @param mapping 对应映射
      */
-    void createMapping(FileMapping mapping, User user);
+    void createMapping(FileMapping mapping);
 }

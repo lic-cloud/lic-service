@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,7 +51,7 @@ public class FileController {
                                   @RequestParam(defaultValue = "false") Boolean onlyDir,
                                   @ApiIgnore @PageableDefault(size = 20) Pageable pageable) {
         return PageUtil.toPageTable(
-            mappingService.listUserFiles(pageable, pid, UserUtil.mustGetLoginUser().getId(), status, onlyDir),
+            mappingService.listUserFiles(pageable, pid, status, onlyDir),
             mappingService.count());
     }
 
@@ -60,7 +61,7 @@ public class FileController {
                                   @RequestParam(defaultValue = "0") Long pid,
                                   @RequestParam(defaultValue = "false") Boolean onlyDir) {
         return ResponseEntity.ok(
-            mappingService.listUserFilesWithoutPage(pid, UserUtil.mustGetLoginUser().getId(), status, onlyDir)
+            mappingService.listUserFilesWithoutPage(pid, status, onlyDir)
         );
     }
 
@@ -68,11 +69,18 @@ public class FileController {
     @PutMapping
     public ResponseEntity<FileMapping> create(Long pid, String name) {
         FileMapping mapping = new FileMapping(
-            name, null, UserUtil.mustGetLoginUser().getId(),
+            name, null, UserUtil.getLoginUserId(),
             Float.parseFloat("0"), pid, true, false, Status.VALID
         );
-        fileManager.createMapping(mapping, UserUtil.mustGetLoginUser());
+        fileManager.createMapping(mapping);
         return ResponseEntity.ok(mapping);
     }
-
+    @ApiOperation("文件/文件夹的移动、复制")
+    @PostMapping
+    public ResponseEntity<Boolean> move(@RequestParam(defaultValue = "false") Boolean isCopy,
+                                        @RequestParam Long mappingId,
+                                        @RequestParam Long targetDirPid) {
+        mappingService.moveMapping(isCopy, mappingId, targetDirPid);
+        return ResponseEntity.ok(true);
+    }
 }
