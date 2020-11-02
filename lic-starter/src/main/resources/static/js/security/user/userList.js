@@ -1,9 +1,9 @@
 layui.use(['layer'], function () {
-    const layer = layui.layer;
+    let layer = layui.layer;
 });
-const userStatus = showDictSelect("status", "userStatus", true);
+let userStatus = showDictSelect("status", "userStatus", true);
 
-const pers = checkPermission();
+let pers = checkPermission();
 
 let example;
 
@@ -25,11 +25,10 @@ function init() {
                     d.status = $('#status').val();
                 },
                 "error": function (xhr, textStatus, errorThrown) {
-                    const msg = xhr.responseText;
-                    console.log(msg);
-                    const response = JSON.parse(msg);
-                    const code = response.code;
-                    const message = response.message;
+                    let msg = xhr.responseText;
+                    let response = JSON.parse(msg);
+                    let code = response.code;
+                    let message = response.message;
                     if (code == 400) {
                         layer.msg(message);
                     } else if (code == 401) {
@@ -80,8 +79,8 @@ function init() {
                     "defaultContent": "",
                     "orderable": false,
                     "render": function (data, type, row) {
-                        const id = row['id'];
-                        const href = "updateUser.html?id=" + id;
+                        let id = row['id'];
+                        let href = "updateUser.html?id=" + id;
                         return buttonEdit(href, "sys:user:add", pers);
                     }
                 },

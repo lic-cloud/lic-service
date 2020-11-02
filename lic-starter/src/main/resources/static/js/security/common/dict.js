@@ -1,6 +1,6 @@
 function showDictSelect(id, type, all) {
-    var data = getDict(type);
-    var select = $("#" + id);
+    let data = getDict(type);
+    let select = $("#" + id);
     select.empty();
 
     if (all != undefined && all) {
@@ -15,7 +15,7 @@ function showDictSelect(id, type, all) {
 
 function getDict(type) {
     sessionStorage.clear()
-    var v = sessionStorage[type];
+    let v = sessionStorage[type];
     if (v == null || v == "") {
         $.ajax({
             type: 'get',

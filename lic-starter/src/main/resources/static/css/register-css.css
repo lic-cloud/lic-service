@@ -1,6 +1,6 @@
 body {
     font: 16/180% Arial, Helvetica, sans-serif, "微软雅黑", "黑体";
-    background: #eee;
+    background: #FFFFFF;
     background-image: url('../img/login/bg.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -42,7 +42,7 @@ label {
 
 .button {
     padding: 7px 15px;
-    background-color: #3c6db0;
+    background-color: #189F92;
     text-align: center;
     border-radius: 5px;
     overflow: hidden;
@@ -53,7 +53,7 @@ label {
 }
 
 .message {
-    border-left: 5px solid #00a0d2;
+    border-left: 5px solid #189F92;
     padding: 12px;
     margin-left: 30px;
     margin-right: 30px;

@@ -1,12 +1,12 @@
 layui.use('layer', function () {
-    const layer = layui.layer;
+    let layer = layui.layer;
 });
 
 $.fn.zTree.init($("#treeDemo"), getSettting(), getMenuTree());
 initData();
 
 function initData() {
-    const id = getUrlParam("id");
+    let id = getUrlParam("id");
     if (id != "") {
         $.ajax({
             type: 'get',
@@ -30,14 +30,14 @@ $('#form').bootstrapValidator();
 
 function add(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);
         return;
     }
 
-    const format = $("#form").serializeObject();
+    let format = $("#form").serializeObject();
     format.permissionIds = getCheckedMenuIds();
 
     $.ajax({

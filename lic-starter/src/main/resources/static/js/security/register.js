@@ -1,7 +1,7 @@
 showDictSelect("sex", "sex");
 layui.use(['layer', 'laydate'], function () {
-    const layer = layui.layer;
-    const playdate = layui.laydate;
+    let layer = layui.layer;
+    let playdate = layui.laydate;
     playdate.render({
         elem: '#birthday'
     });
@@ -12,16 +12,16 @@ function add(obj) {
     //把按钮禁用掉
     $(obj).attr("disabled", true);
     //触发全部验证
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     //获取当前表单验证状态
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);
         return;
     }
-    const format = $("#form").serializeObject();
+    let format = $("#form").serializeObject();
     /*将日期格式2020-10-01的生日，转换为时间戳*/
-    const date = new Date(format.birthday);
+    let date = new Date(format.birthday);
     format.birthday = date.valueOf();
     $.ajax({
         type: 'post',

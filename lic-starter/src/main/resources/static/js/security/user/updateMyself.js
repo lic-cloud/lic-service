@@ -2,8 +2,8 @@ initData();
 showDictSelect("sex", "sex");
 $('#form').bootstrapValidator();
 layui.use(['layer', 'laydate'], function () {
-    const layer = layui.layer;
-    const playdate = layui.laydate;
+    let layer = layui.layer;
+    let playdate = layui.laydate;
     playdate.render({
         elem: '#birthday'
     });
@@ -21,7 +21,7 @@ function initData() {
             $("#phone").val(data.phone);
             $("#telephone").val(data.telephone);
             $("#email").val(data.email);
-            const match = data.birthday.match(/(\d{4}-\d{2}-\d{2})/);
+            let match = data.birthday.match(/(\d{4}-\d{2}-\d{2})/);
             $("#birthday").val(match[1]);
             $("#sex").val(data.sex);
             $("#usedCapacity").val(data.usedCapacity);
@@ -35,15 +35,15 @@ function initData() {
 
 function update(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);
         return;
     }
 
-    const format = $("#form").serializeObject();
-    const date = new Date(format.birthday);
+    let format = $("#form").serializeObject();
+    let date = new Date(format.birthday);
     format.birthday = date.valueOf();
     $.ajax({
         type: 'put',

@@ -2,7 +2,7 @@ showDictSelect("status", "noticeStatus");
 initData();
 
 function initData() {
-    const id = getUrlParam("id");
+    let id = getUrlParam("id");
     if (id != "") {
         $.ajax({
             type: 'get',
@@ -22,9 +22,9 @@ function initData() {
     }
 }
 
-const pro = window.location.protocol;
-const host = window.location.host;
-const domain = pro + "//" + host;
+let pro = window.location.protocol;
+let host = window.location.host;
+let domain = pro + "//" + host;
 
 let layedit, index;
 layui.use('layedit', function () {
@@ -40,8 +40,8 @@ layui.use('layedit', function () {
 
 
 function update(obj) {
-    const title = $("#title").val();
-    const status = $("#status").val();
+    let title = $("#title").val();
+    let status = $("#status").val();
     if (title.trim() == "") {
         layer.msg("title不能为空")
         return;
@@ -56,7 +56,7 @@ function update(obj) {
     }
     $(obj).attr("disabled", true);
 
-    const format = $("#form").serializeObject();
+    let format = $("#form").serializeObject();
     format.id = $("#id").val();
     format.title = title;
     format.status = status;

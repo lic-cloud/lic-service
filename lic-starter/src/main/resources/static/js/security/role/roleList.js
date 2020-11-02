@@ -1,7 +1,7 @@
-const pers = checkPermission();
-let example;
+var pers = checkPermission();
+var example;
 layui.use('layer', function () {
-    const layer = layui.layer;
+    var layer = layui.layer;
 });
 
 function init() {
@@ -20,11 +20,11 @@ function init() {
                     d.name = $('#name').val();
                 },
                 "error": function (xhr, textStatus, errorThrown) {
-                    const msg = xhr.responseText;
+                    var msg = xhr.responseText;
                     console.log(msg);
-                    const response = JSON.parse(msg);
-                    const code = response.code;
-                    const message = response.message;
+                    var response = JSON.parse(msg);
+                    var code = response.code;
+                    var message = response.message;
                     if (code == 400) {
                         layer.msg(message);
                     } else if (code == 401) {
@@ -57,10 +57,10 @@ function init() {
                     "defaultContent": "",
                     "orderable": false,
                     "render": function (data, type, row) {
-                        const id = row['id'];
-                        const href = "addRole.html?id=" + id;
-                        const edit = buttonEdit(href, "sys:role:add", pers);
-                        const del = buttonDel(id, "sys:role:del", pers);
+                        var id = row['id'];
+                        var href = "addRole.html?id=" + id;
+                        var edit = buttonEdit(href, "sys:role:add", pers);
+                        var del = buttonDel(id, "sys:role:del", pers);
                         return edit + del;
                     }
                 },

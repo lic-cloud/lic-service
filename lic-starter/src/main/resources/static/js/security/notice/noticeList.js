@@ -1,7 +1,7 @@
-const pers = checkPermission();
+let pers = checkPermission();
 layui.use(['layer', 'laydate'], function () {
-    const layer = layui.layer;
-    const playdate = layui.laydate;
+    let layer = layui.layer;
+    let playdate = layui.laydate;
     playdate.render({
         elem: '#beginTime'
     });
@@ -10,7 +10,7 @@ layui.use(['layer', 'laydate'], function () {
     });
 });
 
-const noticeStatus = showDictSelect("status", "noticeStatus", true);
+let noticeStatus = showDictSelect("status", "noticeStatus", true);
 
 let example;
 
@@ -33,11 +33,10 @@ function init() {
                     d.endTime =new Date($('#endTime').val()).valueOf();
                 },
                 "error": function (xhr, textStatus, errorThrown) {
-                    const msg = xhr.responseText;
-                    console.log(msg);
-                    const response = JSON.parse(msg);
-                    const code = response.code;
-                    const message = response.message;
+                    let msg = xhr.responseText;
+                    let response = JSON.parse(msg);
+                    let code = response.code;
+                    let message = response.message;
                     if (code == 400) {
                         layer.msg(message);
                     } else if (code == 401) {
@@ -77,14 +76,14 @@ function init() {
                     "defaultContent": "",
                     "orderable": false,
                     "render": function (data, type, row) {
-                        const id = row['id'];
-                        const status = row['status'];
-                        const href = "updateNotice.html?id=" + id;
+                        let id = row['id'];
+                        let status = row['status'];
+                        let href = "updateNotice.html?id=" + id;
                         let edit = buttonEdit(href, "notice:add", pers);
                         if (status == 1) {
                             edit = "<button class='layui-btn layui-btn-xs' style='background-color:#c2c2c2;' title='不可编辑'><i class='layui-icon' style='color: #F0F0F0;'>&#xe642;</i></button>";
                         }
-                        const del = buttonDel(id, "notice:del", pers);
+                        let del = buttonDel(id, "notice:del", pers);
                         return edit + del + "<button class='layui-btn layui-btn-xs' title='详情' onclick='showDetail(\"" + id + "\")'><i class='layui-icon'>&#xe65f;</i></button>";
                     }
                 },

@@ -1,6 +1,6 @@
 layui.use(['layer', 'laydate'], function () {
-    var layer = layui.layer;
-    var laydate = layui.laydate;
+    let layer = layui.layer;
+    let laydate = layui.laydate;
     laydate.render({
         elem: '#beginTime'
     });
@@ -9,9 +9,9 @@ layui.use(['layer', 'laydate'], function () {
     });
 });
 
-var isRead = showDictSelect("isRead", "isRead", true);
+let isRead = showDictSelect("isRead", "isRead", true);
 
-var example;
+let example;
 
 function init() {
     example =
@@ -48,7 +48,7 @@ function init() {
                     "defaultContent": "",
                     "orderable": false,
                     "render": function (data, type, row) {
-                        var isRead = row['isRead'];
+                        let isRead = row['isRead'];
                         if (isRead) {
                             return "已读";
                         }
@@ -61,7 +61,7 @@ function init() {
                     "defaultContent": "",
                     "orderable": false,
                     "render": function (data, type, row) {
-                        var id = row['id'];
+                        let id = row['id'];
                         return "<button class='layui-btn layui-btn-xs' title='详情' onclick='showDetail(this,\"" + id + "\")'><i class='layui-icon'>&#xe65f;</i></button>";
                     }
                 },
@@ -71,10 +71,10 @@ function init() {
 }
 
 function showDetail(obj, id) {
-    var tr = $(obj).parents("tr")[0];
-    var td = $(tr).find("td").eq(2);
-    var v = $(td).text();
-    var isRead = (v == "已读");
+    let tr = $(obj).parents("tr")[0];
+    let td = $(tr).find("td").eq(2);
+    let v = $(td).text();
+    let isRead = (v == "已读");
     if (!isRead) {
         $(td).text("已读");
     }
@@ -89,7 +89,7 @@ function showDetail(obj, id) {
 
     if (!isRead) {
         parent.$("[unreadNotice]").each(function () {
-            var n = $(this).text();
+            let n = $(this).text();
             if (!isNaN(n) && n > 0) {
                 n = n - 1;
                 if (n > 0) {

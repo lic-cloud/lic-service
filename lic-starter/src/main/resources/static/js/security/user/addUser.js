@@ -1,7 +1,7 @@
 $('#form').bootstrapValidator();
 layui.use(['layer', 'laydate'], function () {
-    const layer = layui.layer;
-    const playdate = layui.laydate;
+    let layer = layui.layer;
+    let playdate = layui.laydate;
     playdate.render({
         elem: '#birthday'
     });
@@ -11,7 +11,7 @@ showDictSelect("sex", "sex");
 initRoles();/*初始化角色*/
 function add(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     //触发全部验证
     bootstrapValidator.validate();
     //获取当前表单验证状态
@@ -20,9 +20,9 @@ function add(obj) {
         return;
     }
 
-    const format = $("#form").serializeObject();
+    let format = $("#form").serializeObject();
     format.roleIds = getCheckedRoleIds();
-    const date = new Date(format.birthday);
+    let date = new Date(format.birthday);
     format.birthday = date.valueOf();
     $.ajax({
         type: 'post',
