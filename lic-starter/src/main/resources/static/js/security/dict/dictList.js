@@ -1,6 +1,6 @@
-const pers = checkPermission();
+let pers = checkPermission();
 
-var example;
+let example;
 
 function init() {
     example =
@@ -18,11 +18,11 @@ function init() {
                     d.type = $("#type").val();
                 },
                 "error": function (xhr, textStatus, errorThrown) {
-                    const msg = xhr.responseText;
+                    let msg = xhr.responseText;
                     console.log(msg);
-                    const response = JSON.parse(msg);
-                    const code = response.code;
-                    const message = response.message;
+                    let response = JSON.parse(msg);
+                    let code = response.code;
+                    let message = response.message;
                     if (code == 400) {
                         layer.msg(message);
                     } else if (code == 401) {
@@ -65,10 +65,10 @@ function init() {
                     "defaultContent": "",
                     "orderable": false,
                     "render": function (data, type, row) {
-                        const id = row['id'];
-                        const href = "updateDict.html?id=" + id;
-                        const edit = buttonEdit(href, "dict:add", pers);
-                        const del = buttonDel(id, "dict:del", pers);
+                        let id = row['id'];
+                        let href = "updateDict.html?id=" + id;
+                        let edit = buttonEdit(href, "dict:add", pers);
+                        let del = buttonDel(id, "dict:del", pers);
                         return edit + del;
                     }
                 },
@@ -79,7 +79,7 @@ function init() {
 }
 
 layui.use('layer', function () {
-    const layer = layui.layer;
+    let layer = layui.layer;
 });
 
 function del(id) {

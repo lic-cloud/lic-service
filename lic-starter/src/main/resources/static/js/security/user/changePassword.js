@@ -1,5 +1,5 @@
 layui.use('layer', function () {
-    const layer = layui.layer;
+    let layer = layui.layer;
 });
 
 function init() {
@@ -23,7 +23,7 @@ $('#form').bootstrapValidator();
 
 function update(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);

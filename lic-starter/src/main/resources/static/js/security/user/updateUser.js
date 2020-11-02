@@ -1,6 +1,6 @@
 layui.use(['layer', 'laydate'], function () {
-    const layer = layui.layer;
-    const playdate = layui.laydate;
+    let layer = layui.layer;
+    let playdate = layui.laydate;
     playdate.render({
         elem: '#birthday'
     });
@@ -12,7 +12,7 @@ initData();
 $('#form').bootstrapValidator();
 
 function initData() {
-    const id = getUrlParam("id");
+    let id = getUrlParam("id");
     if (id != "") {
         $.ajax({
             type: 'get',
@@ -25,7 +25,7 @@ function initData() {
                 $("#phone").val(data.phone);
                 $("#telephone").val(data.telephone);
                 $("#email").val(data.email);
-                const match = data.birthday.match(/(\d{4}-\d{2}-\d{2})/);
+                let match = data.birthday.match(/(\d{4}-\d{2}-\d{2})/);
                 $("#birthday").val(match[1]);
                 $("#sex").val(data.sex);
                 $("#status").val(data.status);
@@ -45,16 +45,16 @@ function initData() {
 
 function update(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);
         return;
     }
 
-    const format2 = $("#form").serializeObject();
+    let format2 = $("#form").serializeObject();
     format2.roleIds = getCheckedRoleIds();
-    const date = new Date(format2.birthday);
+    let date = new Date(format2.birthday);
     format2.birthday = date.valueOf();
     $.ajax({
         type: 'put',

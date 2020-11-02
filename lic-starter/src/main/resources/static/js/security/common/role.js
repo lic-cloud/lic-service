@@ -4,14 +4,14 @@ function initRoles() {
         url : '/roles/all',
         async : false,
         success : function(data) {
-            var r = $("#roles");
+            let r = $("#roles");
 
-            for (var i = 0; i < data.length; i++) {
-                var d = data[i];
-                var id = d['id'];
-                var name = d['name'];
+            for (let i = 0; i < data.length; i++) {
+                let d = data[i];
+                let id = d['id'];
+                let name = d['name'];
 
-                var t = "<label><input type='checkbox' value='" + id + "'>"
+                let t = "<label><input type='checkbox' value='" + id + "'>"
                     + name + "</label> &nbsp&nbsp";
 
                 r.append(t);
@@ -21,7 +21,7 @@ function initRoles() {
 }
 
 function getCheckedRoleIds() {
-    var ids = [];
+    let ids = [];
     $("#roles input[type='checkbox']").each(function() {
         if ($(this).prop("checked")) {
             ids.push($(this).val());
@@ -36,10 +36,10 @@ function initRoleDatas(userId) {
         type : 'get',
         url : '/roles?userId=' + userId,
         success : function(data) {
-            var length = data.length;
-            for (var i = 0; i < length; i++) {
+            let length = data.length;
+            for (let i = 0; i < length; i++) {
                 $("input[type='checkbox']").each(function() {
-                    var v = $(this).val();
+                    let v = $(this).val();
                     if (v == data[i]['id']) {
                         $(this).attr("checked", true);
                     }

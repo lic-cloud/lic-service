@@ -1,12 +1,12 @@
 layui.use(['layer', 'laydate'], function () {
-    const layer = layui.layer;
+    let layer = layui.layer;
 });
 
 initData();
 $('#form').bootstrapValidator();
 
 function initData() {
-    const id = getUrlParam("id");
+    let id = getUrlParam("id");
     if (id != "") {
         $.ajax({
             type: 'get',
@@ -27,14 +27,14 @@ function initData() {
 
 function update(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);
         return;
     }
 
-    const format = $("#form").serializeObject();
+    let format = $("#form").serializeObject();
 
     $.ajax({
         type: 'put',

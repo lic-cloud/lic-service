@@ -1,8 +1,8 @@
 //form序列化为json
 $.fn.serializeObject = function()
 {
-    var o = {};
-    var a = this.serializeArray();
+    let o = {};
+    let a = this.serializeArray();
     $.each(a, function() {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
@@ -18,15 +18,15 @@ $.fn.serializeObject = function()
 
 //获取url后的参数值
 function getUrlParam(key) {
-    var href = window.location.href;
-    var url = href.split("?");
+    let href = window.location.href;
+    let url = href.split("?");
     if(url.length <= 1){
         return "";
     }
-    var params = url[1].split("&");
+    let params = url[1].split("&");
 
-    for(var i=0; i<params.length; i++){
-        var param = params[i].split("=");
+    for(let i=0; i<params.length; i++){
+        let param = params[i].split("=");
         if(key == param[0]){
             return param[1];
         }
@@ -50,22 +50,22 @@ function prompt(message, style, time) {
         .show()
         .delay(time)
         .fadeOut();
-};
+}
 
 // 成功提示
 function success_prompt(message, time) {
     prompt(message, 'alert-info-success', time);
-};
+}
 
 // 失败提示
 function fail_prompt(message, time) {
     prompt(message, 'alert-info-danger', time);
-};
+}
 
 // 提醒
 function warning_prompt(message, time) {
     prompt(message, 'alert-info-warning', time);
-};
+}
 
 // 信息提示
 function info_prompt(message, time) {

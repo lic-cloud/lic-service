@@ -1,14 +1,14 @@
 initData();
 
 function initData() {
-    var id = getUrlParam("id");
+    let id = getUrlParam("id");
     if (id != "") {
         $.ajax({
             type: 'get',
             url: '/notices?id=' + id,
             async: false,
             success: function (data) {
-                const notice = data.notice;
+                let notice = data.notice;
                 if (notice != null) {
                     $("#title").text(notice.title);
                     $("#status").val(notice.status);
@@ -16,10 +16,10 @@ function initData() {
                     $("#updateTime").text(notice.updateTime);
                 }
 
-                const users = data.users;
+                let users = data.users;
                 if (users != null) {
-                    for (var i = 0; i < users.length; i++) {
-                        var u = users[i];
+                    for (let i = 0; i < users.length; i++) {
+                        let u = users[i];
                         $("#users").append("<li>" + u.nickname + "</li>");
                     }
                 }

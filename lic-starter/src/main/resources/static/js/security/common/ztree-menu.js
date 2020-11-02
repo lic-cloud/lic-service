@@ -1,5 +1,5 @@
 function getMenuTree() {
-    var root = {
+    let root = {
         id: 0,
         name: "root",
         open: true,
@@ -11,12 +11,11 @@ function getMenuTree() {
         contentType: "application/json; charset=utf-8",
         async: false,
         success: function (data) {
-            var length = data.length;
-            var children = [];
-            for (var i = 0; i < length; i++) {
-                var d = data[i];
-                var node = createNode(d);
-                children[i] = node;
+            let length = data.length;
+            let children = [];
+            for (let i = 0; i < length; i++) {
+                let d = data[i];
+                children[i] = createNode(d);
             }
 
             root.children = children;
@@ -31,9 +30,9 @@ function initMenuDatas(roleId) {
         type: 'get',
         url: '/permissions?roleId=' + roleId,
         success: function (data) {
-            var length = data.length;
-            var ids = [];
-            for (var i = 0; i < length; i++) {
+            let length = data.length;
+            let ids = [];
+            for (let i = 0; i < length; i++) {
                 ids.push(data[i]['id']);
             }
 
@@ -43,29 +42,29 @@ function initMenuDatas(roleId) {
 }
 
 function initMenuCheck(ids) {
-    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-    var length = ids.length;
+    let treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    let length = ids.length;
     if (length > 0) {
-        var node = treeObj.getNodeByParam("id", 0, null);
+        let node = treeObj.getNodeByParam("id", 0, null);
         treeObj.checkNode(node, true, false);
     }
 
-    for (var i = 0; i < length; i++) {
-        var node = treeObj.getNodeByParam("id", ids[i], null);
+    for (let i = 0; i < length; i++) {
+        let node = treeObj.getNodeByParam("id", ids[i], null);
         treeObj.checkNode(node, true, false);
     }
 
 }
 
 function getCheckedMenuIds() {
-    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-    var nodes = treeObj.getCheckedNodes(true);
+    let treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    let nodes = treeObj.getCheckedNodes(true);
 
-    var length = nodes.length;
-    var ids = [];
-    for (var i = 0; i < length; i++) {
-        var n = nodes[i];
-        var id = n['id'];
+    let length = nodes.length;
+    let ids = [];
+    for (let i = 0; i < length; i++) {
+        let n = nodes[i];
+        let id = n['id'];
         ids.push(id);
     }
 
@@ -73,12 +72,12 @@ function getCheckedMenuIds() {
 }
 
 function createNode(d) {
-    var id = d['id'];
-    var pId = d['parentId'];
-    var name = d['name'];
-    var child = d['child'];
+    let id = d['id'];
+    let pId = d['parentId'];
+    let name = d['name'];
+    let child = d['child'];
 
-    var node = {
+    let node = {
         open: true,
         id: id,
         name: name,
@@ -86,10 +85,10 @@ function createNode(d) {
     };
 
     if (child != null) {
-        var length = child.length;
+        let length = child.length;
         if (length > 0) {
-            var children = [];
-            for (var i = 0; i < length; i++) {
+            let children = [];
+            for (let i = 0; i < length; i++) {
                 children[i] = createNode(child[i]);
             }
 
@@ -106,12 +105,12 @@ function initParentMenuSelect() {
         url: '/permissions/parents',
         async: false,
         success: function (data) {
-            var select = $("#parentId");
+            let select = $("#parentId");
             select.append("<option value='0'>root</option>");
-            for (var i = 0; i < data.length; i++) {
-                var d = data[i];
-                var id = d['id'];
-                var name = d['name'];
+            for (let i = 0; i < data.length; i++) {
+                let d = data[i];
+                let id = d['id'];
+                let name = d['name'];
 
                 select.append("<option value='" + id + "'>" + name + "</option>");
             }
@@ -120,7 +119,7 @@ function initParentMenuSelect() {
 }
 
 function getSettting() {
-    var setting = {
+    return {
         check: {
             enable: true,
             chkboxType: {
@@ -143,8 +142,6 @@ function getSettting() {
             onCheck: zTreeOnCheck
         }
     };
-
-    return setting;
 }
 
 function zTreeOnCheck(event, treeId, treeNode) {

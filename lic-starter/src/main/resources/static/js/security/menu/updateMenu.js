@@ -1,9 +1,9 @@
 layui.use('layer', function () {
-    const layer = layui.layer;
+    let layer = layui.layer;
 });
 
 initParentMenuSelect();
-const id = getUrlParam("id");
+let id = getUrlParam("id");
 initData();
 $('#form').bootstrapValidator();
 
@@ -17,7 +17,7 @@ function initData() {
                 $("#id").val(data.id);
                 $("#parentId").val(data.parentId);
                 $("#name").val(data.name);
-                const css = data.css;
+                let css = data.css;
                 $("#css").val(css);
                 $("#href").val(data.href);
                 $("#type").val(data.type);
@@ -52,14 +52,14 @@ function update(obj) {
         layer.msg("父级菜单不能是自己");
         return;
     }
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", false);
         return;
     }
 
-    const format = $("#form").serializeObject();
+    let format = $("#form").serializeObject();
 
     $.ajax({
         type: 'put',

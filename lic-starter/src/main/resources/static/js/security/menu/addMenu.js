@@ -1,5 +1,5 @@
 layui.use('layer', function () {
-    const layer = layui.layer;
+    let layer = layui.layer;
 });
 
 $('#form').bootstrapValidator();
@@ -7,13 +7,13 @@ initParentMenuSelect();
 
 function add(obj) {
     $(obj).attr("disabled", true);
-    const bootstrapValidator = $("#form").data('bootstrapValidator');
+    let bootstrapValidator = $("#form").data('bootstrapValidator');
     bootstrapValidator.validate();
     if (!bootstrapValidator.isValid()) {
         $(obj).attr("disabled", true);
         return;
     }
-    const format = $("#form").serializeObject();
+    let format = $("#form").serializeObject();
 
     $.ajax({
         type: 'post',
