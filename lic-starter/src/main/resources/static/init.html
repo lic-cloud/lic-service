@@ -1,25 +1,307 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>系统初始化界面</title>
-    <script type="text/javascript" src="js/libs/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript">
-        initInterface()
-        function initInterface() {
-            $.ajax({
-                type: 'get',
-                url: '/users/count',
-                success: function (data) {
-                    if (data === 1) {
-                            location.href = '/login.html';
-                    }
-                }
-            });
-        }
-    </script>
+    <title>LIC系统初始化</title>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="css/init/style.css">
 </head>
 <body>
-初始化页面 : 判断条件 用户表内是否有用户
+<div class="wrapper">
+    <div id="wizard" class="wizard">
+        <div class="wizard__content">
+            <header class="wizard__header">
+                <div class="wizard__header-overlay"></div>
+                <div class="wizard__header-content">
+                    <h1 class="wizard__title">LIC系统初始化</h1>
+                    <p class="wizard__subheading">简单的 <span>4</span> 步骤.</p>
+                    <p class="wizard__subheading" id="number"></p>
+                </div>
+                <div class="wizard__steps">
+                    <nav class="steps">
+                        <div class="step">
+                            <div class="step__content">
+                                <p class="step__number"><i class="fa fa-github-alt"></i></p>
+                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none">
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8">
+                                </svg>
+
+                                <div class="lines">
+                                    <div class="line -start">
+                                    </div>
+
+                                    <div class="line -background">
+                                    </div>
+
+                                    <div class="line -progress">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step__content">
+                                <p class="step__number"><i class="fa fa-book"></i></p>
+                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none">
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8">
+                                </svg>
+
+                                <div class="lines">
+                                    <div class="line -background">
+                                    </div>
+
+                                    <div class="line -progress">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step__content">
+                                <p class="step__number"><i class="fa fa-group"></i></p>
+                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none">
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8">
+                                </svg>
+
+                                <div class="lines">
+                                    <div class="line -background">
+                                    </div>
+
+                                    <div class="line -progress">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step__content">
+                                <p class="step__number"><i class="fa fa-group"></i></p>
+                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none">
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8">
+                                </svg>
+
+                                <div class="lines">
+                                    <div class="line -background">
+                                    </div>
+
+                                    <div class="line -progress">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+            <div class="panels">
+                <div class="panel">
+                    <header class="panel__header">
+                        <h2 class="panel__title">创建账号,欢迎加入我们！</h2>
+                        <p class="panel__subheading">系统初始化为不可逆过程!</p>
+                    </header>
+                    <form method="post" name="form" id="form" onsubmit="return false;"
+                          style="width: 500px">
+                        <div class="form-group">
+                            <input type="text" id="username2" name="username" class="form-control"
+                                   placeholder="请输入您的用户名"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="用户名不能为空"
+
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="^[a-zA-Z][a-zA-Z0-9_]{4,15}$"
+                                   data-bv-regexp-message="字母开头，5-16位，允许字母数字下划线"
+
+                                   data-bv-different="true"
+                                   data-bv-different-field="nickname"
+                                   data-bv-different-message="用户名与昵称不能相同">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" id="nickname" name="nickname" class="form-control" placeholder="请输入您的昵称"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="昵称不能为空"
+
+                                   data-bv-stringlength="true"
+                                   data-bv-stringlength-min="3"
+                                   data-bv-stringlength-max="10"
+                                   data-bv-stringlength-message="昵称的长度为3-10位"
+
+                                   data-bv-different="true"
+                                   data-bv-different-field="username"
+                                   data-bv-different-message="用户名与昵称不能相同">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password" name="password" class="form-control"
+                                   placeholder="请输入您的密码"
+                                   autocomplete="off"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="密码不能为空"
+
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="^[a-zA-Z]\w{5,17}$"
+                                   data-bv-regexp-message="字母开头，6-18位，允许字母数字下划线">
+                        </div>
+                        <P></P>
+                        <div class="form-group" style="text-align: left">
+                            <select class="form-control" name="sex" id="sex"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="phone" name="phone" class="form-control" placeholder="请输入您的手机号"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="手机号不能为空"
+
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$"
+                                   data-bv-regexp-message="手机号格式错误">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="telephone" name="telephone" class="form-control"
+                                   placeholder="请输入您的电话，可以为空"
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="\d{3}-\d{8}|\d{4}-\d{7}"
+                                   data-bv-regexp-message="国内电话格式错误">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱" class="form-control"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="电子邮箱不能为空"
+
+                                   data-bv-emailaddress="true"
+                                   data-bv-emailaddress-message="邮箱格式错误">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="birthday" name="birthday" placeholder="请输入您的生日" class="form-control"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="生日不能为空"
+
+                                   data-bv-date="true"
+                                   data-bv-date-format="YYYY-MM-DD"
+                                   data-bv-date-message="日期格式错误,要求YYYY-MM-DD">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="address" name="address" placeholder="请输入主页网址" class="form-control"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="主页网址不能为空">
+                            <!--todo-->
+                            <!--data-bv-regexp="true"
+                            data-bv-regexp-regexp="^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+$"
+                            data-bv-regexp-message="主页网址格式错误"-->
+                        </div>
+                    </form>
+                </div>
+                <div class="panel">
+                    <header class="panel__header">
+                        <h2 class="panel__title">缓存、文件系统选择</h2>
+                        <p class="panel__subheading">系统初始化为不可逆过程!</p>
+                    </header>
+                    <form method="post" name="form2" id="form2" onsubmit="return false;">
+                        <div class="form-group" style="text-align: left">
+                            <p>缓存的选择，可选redis：</p>
+                            <select class="form-control" name="cache" id="cache">
+                                <option value="DEFAULT" selected>默认</option>
+                                <option value="REDIS">REDIS</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="text-align: left">
+                            <p>文件系统的选择，可选阿里OSS、腾讯COS：</p>
+                            <select class="form-control" name="system" id="system">
+                                <option value="DEFAULT" selected>默认</option>
+                                <option value="ALI_OSS">阿里OSS</option>
+                                <option value="TEN_COS">腾讯COS</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <header class="panel__header">
+                        <h2 class="panel__title">其他高级设置</h2>
+                        <p class="panel__subheading">系统初始化为不可逆过程! <span style="color: red">[WARNING]</span>表示强烈建议不做改动</p>
+                    </header>
+                    <form method="post" name="form3" id="form3" onsubmit="return false;">
+                        <div class="form-group">
+                            <p>静态资源存储目录 <span style="color: red">[WARNING]</span></p>
+                            <input type="text" id="dir" name="dir" placeholder="可以为空" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <p>静态资源文件夹名称长度 <span style="color: red">[WARNING]</span></p>
+                            <select class="form-control" name="length" id="length">
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <p>缓存失效的单位时间</p>
+                            <select class="form-control" name="expire" id="expire">
+                                <option value="30" selected>30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <p>当缓存的Val为Null时缓存的失效时间</p>
+                            <select class="form-control" name="time" id="time">
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <p>缓存失效的时间单位</p>
+                            <select class="form-control" name="unit" id="unit">
+                                <option value="MINUTES" selected>分钟</option>
+                                <option value="HOURS">小时</option>
+                                <option value="DAYS">天</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <header class="panel__header">
+                        <h2 class="panel__title">其他信息</h2>
+                    </header>
+                </div>
+            </div>
+            <div class="wizard__footer">
+                <button class="button previous">上一步</button>
+                <button class="button next">下一步</button>
+            </div>
+        </div>
+
+        <h1 class="wizard__congrats-message" >
+            恭喜你，LIC系统初始化完成！请访问预设主页网址。
+        </h1>
+    </div>
+</div>
+<!--注册等js-->
+<script type="text/javascript" src="js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/security/init/init.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    getStep();
+    let finish = "finish";
+    let initStatus = localStorage.getItem("initStatus");
+    if (initStatus == finish) {
+        location.href = '/login.html';
+    }
+    let charAt = initStatus.charAt(initStatus.length - 1);
+    $("#number").text("系统初始化进行到第" + (parseInt(charAt)) + "步。");
+</script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script src="js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="js/security/common/dict.js"></script>
+<script type="text/javascript" src="js/security/init/install.js"></script>
+<!--步骤条js-->
+<script type="text/javascript" src='js/security/init/lodash.min.js'></script>
+<script type="text/javascript" src="js/security/init/script.js"></script>
 </body>
 </html>

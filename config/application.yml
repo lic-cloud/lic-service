@@ -14,9 +14,15 @@ spring:
           db-type: mysql
           log-slow-sql: true
           slow-sql-millis: 2000
+  thymeleaf:
+    cache: false # 关闭页面缓存
+    encoding: UTF-8 # 模板编码
+    prefix: classpath:/static/  # 页面映射路径
+    suffix: .html # 试图后的后缀
+    mode: HTML5 # 模板模式
 
   redis:
-    host: 192.168.246.128
+    host: ali.bestsort.cn
     port: 6379
     password:
     max-total: 4
@@ -59,3 +65,4 @@ token:
   jwtSecret: (XIAO:)_$^11244^%$_(WEI:)_@@++--(LAO:)_++++_.sds_(SHI:)
 server:
   port: 8080
+

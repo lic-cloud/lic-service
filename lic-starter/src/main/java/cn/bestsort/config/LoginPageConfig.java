@@ -1,13 +1,11 @@
 package cn.bestsort.config;
 
-import cn.bestsort.model.entity.User;
-import cn.bestsort.repository.UserRepository;
+import cn.bestsort.model.enums.LicMetaEnum;
+import cn.bestsort.service.MetaInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.List;
 
 /**
  * @author GoodTime0313
@@ -17,15 +15,15 @@ import java.util.List;
 @Controller
 public class LoginPageConfig {
     @Autowired
-    UserRepository userRepository;
+    MetaInfoService metaInfoService;
 
     @RequestMapping("/")
-    public RedirectView loginPage() {
-        List<User> users = userRepository.findAll();
-        if (users.isEmpty()) {
-            return new RedirectView("/init.html");
-        } else {
-            return new RedirectView("/login.html");
+    public String loginPage() {
+        String finish = "finish";
+        String meta = metaInfoService.getMetaOrDefaultStr(LicMetaEnum.INIT_STATUS);
+        if (!finish.equals(meta)) {
+            return "/init.html";
         }
+        return "/login.html";
     }
 }

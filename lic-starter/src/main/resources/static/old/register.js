@@ -29,13 +29,9 @@ function add(obj) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(format),
         success: function (data) {
-            const finish = "finish";
-            if (initStatus == finish){
-                layer.msg("添加成功", {shift: -1, time: 1000}, function () {
-                    location.href = "login.html";
-                });
-            }
-            layer.msg("添加成功", {shift: -1, time: 1000});
+            layer.msg("添加成功", {shift: -1, time: 1000}, function () {
+                location.href = "login.html";
+            });
         },
         error: function (xhr, status, error) {
             $(obj).attr("disabled", false);

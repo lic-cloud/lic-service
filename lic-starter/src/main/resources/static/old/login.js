@@ -1,3 +1,5 @@
+/*生成 [1,max]，max=10 的随机数*/
+$("#captchaOperation").html(Math.ceil(10 * Math.random()) + " + " + Math.ceil(10 * Math.random()));
 layui.use('layer', function () {
     let layer = layui.layer;
 });
@@ -28,9 +30,25 @@ if (token != null && token.trim().length != 0) {
         }
     });
 }
+//表单校验规则
+$('#login-form').bootstrapValidator({
+    fields: {
+        captcha: {
+            validators: {
+                callback: {
+                    message: 'Wrong answer',
+                    callback: function (value, validator) {
+                        let items = $('#captchaOperation').html().split(' '),
+                            sum = parseInt(items[0]) + parseInt(items[2]);
+                        return value == sum;
+                    }
+                }
+            }
+        }
+    }
+});
 
 function login(obj) {
-    $('#login-form').bootstrapValidator();
     //把按钮禁用掉
     $(obj).attr("disabled", true);
     let bootstrapValidator = $("#login-form").data('bootstrapValidator');

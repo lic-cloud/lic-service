@@ -6,7 +6,7 @@ package cn.bestsort.model.enums;
  * @date 2020/9/6 20:53
  */
 public enum Status {
-    /*
+    /**
      * 无效
      */
     INVALID,

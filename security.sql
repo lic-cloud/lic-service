@@ -83,19 +83,6 @@ INSERT INTO `sys_role_permission` VALUES (68, '2020-10-11 12:10:30', '2020-10-11
 INSERT INTO `sys_role_permission` VALUES (69, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 41, 1);
 
 -- ----------------------------
--- Records of sys_role_user
--- ----------------------------
-INSERT INTO `sys_role_user` VALUES (10, '2020-10-23 15:03:44', '2020-10-23 15:03:44', 1, 1);
-INSERT INTO `sys_role_user` VALUES (11, '2020-10-24 03:32:23', '2020-10-24 03:32:23', 2, 2);
-
-
--- ----------------------------
--- Records of sys_user
--- ----------------------------
-INSERT INTO `sys_user` VALUES (1, NULL, '2020-10-24 04:07:19', '2020-09-24 00:00:00', '1824461212@qq.com', NULL, '管理员', '$2a$10$9V2.oDeVu3HCYYQBaXYfvOBcWyzizspGd/LCAOaj2l1Zb2lqdoJti', '15684136652', 0, 1, '', -1, 0, 'admin');
-INSERT INTO `sys_user` VALUES (2, NULL, '2020-10-24 03:32:23', '2020-10-28 00:00:00', '1824461222@qq.com', NULL, '用户1', '$2a$10$lohKtwPh4pmymJ/jT1OdjudHzjP7duYNuMRfoXCPdHnJmVNcYWmIe', '15684136658', 1, 1, '', 1030, 0, 'user1');
-
--- ----------------------------
 -- Records of t_dict
 -- ----------------------------
 INSERT INTO `t_dict` VALUES (1, '2017-11-17 09:58:24', '2017-11-18 14:21:05', '0', 'sex', '女');
@@ -118,3 +105,16 @@ INSERT INTO `t_notice` VALUES (2, '2020-10-24 07:52:09', '2020-10-24 07:52:09', 
 -- ----------------------------
 INSERT INTO `t_notice_read` VALUES (3, '2020-10-24 07:53:28', '2020-10-24 07:53:28', 2, 1);
 
+
+-- ----------------------------
+-- Records of sys_role_user
+-- ----------------------------
+INSERT INTO `sys_role_user` VALUES (10, '2020-10-23 15:03:44', '2020-10-23 15:03:44', 1, 1);
+INSERT INTO `sys_role_user` VALUES (11, '2020-10-24 03:32:23', '2020-10-24 03:32:23', 2, 2);
+
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES (1, NULL, '2020-10-24 04:07:19', '2020-09-24 00:00:00', '1824461212@qq.com', NULL, '管理员', '$2a$10$9V2.oDeVu3HCYYQBaXYfvOBcWyzizspGd/LCAOaj2l1Zb2lqdoJti', '15684136652', 0, 1, '', -1, 0, 'admin');
+INSERT INTO `sys_user` VALUES (2, NULL, '2020-10-24 03:32:23', '2020-10-28 00:00:00', '1824461222@qq.com', NULL, '用户1', '$2a$10$lohKtwPh4pmymJ/jT1OdjudHzjP7duYNuMRfoXCPdHnJmVNcYWmIe', '15684136658', 1, 1, '', 1030, 0, 'user1');

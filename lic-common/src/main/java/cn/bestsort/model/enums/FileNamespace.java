@@ -19,4 +19,8 @@ public enum  FileNamespace {
      * 腾讯COS
      */
     TEN_COS;
+
+    public static FileNamespace parse(String val) {
+        return FileNamespace.valueOf(val);
+    }
 }

@@ -1,8 +1,11 @@
 package cn.bestsort.controller;
 
 import cn.bestsort.model.dto.UserDTO;
+import cn.bestsort.model.dto.UserRegisterDTO;
 import cn.bestsort.model.entity.User;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.vo.LoginUserVO;
+import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.service.UserService;
 import cn.bestsort.util.UserUtil;
 import cn.bestsort.util.page.PageTableHandler;
@@ -14,13 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -41,6 +38,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    MetaInfoService metaInfoService;
 
     @PostMapping
     @ApiOperation(value = "保存用户")
@@ -56,17 +55,30 @@ public class UserController {
 
     @PostMapping("/register")
     @ApiOperation(value = "注册用户")
-    public User registerUser(@RequestBody @Valid User user) {
+    public User registerUser(@RequestBody @Valid UserRegisterDTO userRegisterDTO) {
         UserDTO userDto = new UserDTO();
+        List<Long> list = new ArrayList<>();
+        User user = new User();
+        BeanUtils.copyProperties(userRegisterDTO, user);
         StringBuffer message = userService.getUsers(user.getUsername(), user.getPhone(), user.getTelephone(), user.getEmail());
         if (!"".contentEquals(message)) {
             throw new IllegalArgumentException(message + "已存在");
         }
         BeanUtils.copyProperties(user, userDto);
-        userDto.setTotalCapacity(1024);
-        List<Long> list = new ArrayList<>();
-        list.add((long) 2);
-        userDto.setRoleIds(list);
+        String meta = metaInfoService.getMeta(LicMetaEnum.INIT_STATUS);
+        if ("step1".equals(meta)) {
+            userDto.setTotalCapacity(-1);
+            list.add((long) 1);
+            userDto.setRoleIds(list);
+            if (!userRegisterDTO.getAddress().isEmpty()) {
+                metaInfoService.updateMeta(LicMetaEnum.HOST, userRegisterDTO.getAddress());
+            }
+            metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, "step2");
+        } else if ("finish".equals(meta)) {
+            userDto.setTotalCapacity(1024);
+            list.add((long) 2);
+            userDto.setRoleIds(list);
+        }
         return userService.saveUser(userDto);
     }
 
@@ -103,13 +115,6 @@ public class UserController {
     @PreAuthorize("hasAuthority('sys:user:query')")
     public User user(@PathVariable Long id) {
         return userService.getById(id);
-    }
-
-    @ApiOperation(value = "是否存在用户")
-    @GetMapping("/count")
-    public int user() {
-        long count = userService.count();
-        return count >= 1 ? 1 : 0;
     }
 
     @ApiOperation(value = "当前登录用户")
