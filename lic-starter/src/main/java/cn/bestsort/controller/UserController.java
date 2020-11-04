@@ -72,6 +72,8 @@ public class UserController {
             userDto.setRoleIds(list);
             if (!userRegisterDTO.getAddress().isEmpty()) {
                 metaInfoService.updateMeta(LicMetaEnum.HOST, userRegisterDTO.getAddress());
+            } else {
+                metaInfoService.updateMeta(LicMetaEnum.HOST, LicMetaEnum.HOST.getDefault());
             }
             metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, "step2");
         } else if ("finish".equals(meta)) {
