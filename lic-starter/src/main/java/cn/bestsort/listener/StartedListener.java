@@ -8,9 +8,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.bestsort.config.StaterProperties;
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.cache.CacheStoreType;
+import cn.bestsort.config.StaterProperties;
+import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.model.enums.KeyEnum;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.service.BaseService;
 import cn.bestsort.service.MetaInfoService;
@@ -49,20 +51,28 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
         init();
         String version = metaInfoService.getMeta(LicMetaEnum.VERSION, "V1.0");
         log.info("Lic[{}] start success, click url to view [ swagger ] document {}",
-                 version, AnsiOutput.toString(AnsiColor.BLUE,
+                 version, AnsiOutput.toString(AnsiColor.GREEN,
                                               metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/swagger-ui.html"));
 
         log.info("Lic[{}] start success, click url to view [ knife4j ] document {}",
-                 version, AnsiOutput.toString(AnsiColor.BLUE,
+                 version, AnsiOutput.toString(AnsiColor.GREEN,
                                               metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/doc.html"));
     }
 
     private void init() {
         metaInfoService.refresh();
         // init cache
-        handler.init(context, CacheStoreType
-            .valueOf(metaInfoService.getMetaOrDefaultStr(LicMetaEnum.CACHE_TYPE)));
-
+        CacheStoreType curCache = KeyEnum.keyToEnum(
+            CacheStoreType.class, metaInfoService.getMetaOrDefaultStr(LicMetaEnum.CACHE_TYPE));
+        handler.init(context, curCache);
+        log.info(
+            "System Init Completed, Cache is [{}], FileSystem is [{}]",
+            AnsiOutput.toString(AnsiColor.GREEN,curCache.getKey()),
+            AnsiOutput.toString(
+                AnsiColor.GREEN,
+                KeyEnum.keyToEnum(FileNamespace.class,
+                                  metaInfoService.getMetaOrDefaultStr(LicMetaEnum.File_NAME_SPACE)).getKey())
+        );
         // 根据DEBUG_DATA生成假数据
         if (properties.getGeneratorFakeData()) {
             // get all BaseService impl and save to map.

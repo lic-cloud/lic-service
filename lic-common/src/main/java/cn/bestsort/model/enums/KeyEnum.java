@@ -25,7 +25,7 @@ public interface KeyEnum<T> {
      * @param <E>      enum generic
      * @return corresponding enum
      */
-    static <V, E extends KeyValEnum<V>> E keyToEnum(Class<E> enumType, V key) {
+    static <V, E extends KeyEnum<V>> E keyToEnum(Class<E> enumType, V key) {
         Assert.notNull(enumType, "enum type must not be null");
         Assert.notNull(key, "key must not be null");
         Assert.isTrue(enumType.isEnum(), "type must be an enum type");
