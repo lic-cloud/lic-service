@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
-
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.cache.CacheHandler;
@@ -17,8 +15,6 @@ import cn.bestsort.cache.store.CacheStore;
 import cn.bestsort.constant.CachePrefix;
 import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.BaseEntity;
-import cn.bestsort.model.entity.User;
-import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.repository.BaseRepository;
 import cn.bestsort.util.CacheUtil;
 import cn.bestsort.util.SpringUtil;
@@ -52,20 +48,7 @@ public abstract class AbstractBaseService<DOMAIN extends BaseEntity, ID> impleme
         domainName = domainClass.getSimpleName();
     }
 
-    private User fetchUserFromSession(boolean nullable, HttpSession session) {
-        User userEntity = (User) session.getAttribute(LicMetaEnum.USER_SESSION.getKey());
-        if (!nullable && userEntity == null) {
-            throw ExceptionConstant.UNAUTHORIZED;
-        }
-        return userEntity;
-    }
 
-    protected User assertLogin(HttpSession session) {
-        return fetchUserFromSession(false, session);
-    }
-    protected User fetchUserInfo(HttpSession session) {
-        return fetchUserFromSession(true, session);
-    }
 
     /**
      * List All

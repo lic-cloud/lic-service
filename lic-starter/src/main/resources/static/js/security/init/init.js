@@ -5,7 +5,7 @@ function getStep() {
         url: '/install/step',
         success: function (data) {
             localStorage.removeItem("initStatus");
-            localStorage.setItem("initStatus", data);
+            localStorage.setItem("initStatus", initStepIndex[data])
         }
     });
 }

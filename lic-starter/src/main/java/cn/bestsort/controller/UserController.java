@@ -1,8 +1,14 @@
 package cn.bestsort.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.dto.UserRegisterDTO;
 import cn.bestsort.model.entity.User;
+import cn.bestsort.model.enums.InitStep;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.vo.LoginUserVO;
 import cn.bestsort.service.MetaInfoService;
@@ -17,11 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户相关接口
@@ -75,7 +83,7 @@ public class UserController {
             } else {
                 metaInfoService.updateMeta(LicMetaEnum.HOST, LicMetaEnum.HOST.getDefault());
             }
-            metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, "step2");
+            metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, InitStep.STEP_2.getKey());
         } else if ("finish".equals(meta)) {
             userDto.setTotalCapacity(1024);
             list.add((long) 2);

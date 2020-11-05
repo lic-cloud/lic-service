@@ -16,10 +16,10 @@ import cn.bestsort.cache.CacheStoreType;
 public enum LicMetaEnum implements KeyValEnum<Object>, Annotated {
 
     VERSION("V1.0", "版本号"),
-    INIT_STATUS("step1", "是否已经进行系统的初始化"),
+    INIT_STATUS(InitStep.STEP_1.getKey(), "是否已经进行系统的初始化"),
     HOST("http://localhost:8080", "Lic对外展示的URL"),
-    CACHE_TYPE(CacheStoreType.DEFAULT.toString(), "选择的缓存类型"),
-    File_NAME_SPACE(FileNamespace.LOCALHOST.toString(),"选择文件系统"),
+    CACHE_TYPE(CacheStoreType.DEFAULT.getKey(), "缓存类型"),
+    File_NAME_SPACE(FileNamespace.LOCALHOST.getKey(),"文件系统"),
 
     RESOURCE_DIR("resource", "[WARNING] 静态资源存储目录"),
     RESOURCE_DIR_TITLE_LENGTH(2, "[WARNING] 默认静态资源文件夹名称长度"),
@@ -27,12 +27,7 @@ public enum LicMetaEnum implements KeyValEnum<Object>, Annotated {
     CACHE_NULL_EXPIRE(5L, "当缓存的Val为Null时缓存的失效时间"),
     CACHE_UNIT(TimeUnit.MINUTES, "缓存失效的时间单位"),
 
-    TIME_ZERO(Timestamp.valueOf("1900-1-1 00:00:00"), "[WARNING] 当时刻为此值时表示永久"),
-    //=============================================================================
-    // web 相关
-    USER_SESSION(null),
-    USER_IP(null),
-    REQUEST_START_STAMP(null);
+    TIME_ZERO(Timestamp.valueOf("1900-1-1 00:00:00"), "[WARNING] 当时刻为此值时表示永久");
     private final String key;
     private final Object defaultVal;
     private final String annotate;

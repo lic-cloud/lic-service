@@ -79,12 +79,11 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         if (metaInfoOpt.isEmpty()) {
             metaInfo = new MetaInfo();
             metaInfo.setMetaKey(metaKey);
-            metaInfo.setMetaVal(metaVal.toString());
         } else {
             metaInfo = metaInfoOpt.get();
             /*设置val*/
-            metaInfo.setMetaVal(metaVal.toString());
         }
+        metaInfo.setMetaVal(metaVal.toString());
         metaInfoRepo.saveAndFlush(metaInfo);
         metaMap.put(metaKey, metaVal.toString());
     }

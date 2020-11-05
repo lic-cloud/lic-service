@@ -6,21 +6,29 @@ package cn.bestsort.model.enums;
  * @version 1.0
  * @date 2020-08-24 10:57
  */
-public enum  FileNamespace {
+public enum  FileNamespace implements KeyEnum<String> {
     /**
-     * 本地
+     * 服务器本地
      */
-    LOCALHOST,
+    LOCALHOST("server"),
     /**
      * 阿里OSS
      */
-    ALI_OSS,
+    ALI_OSS("ali_oss"),
     /**
      * 腾讯COS
      */
-    TEN_COS;
+    TEN_COS("tencent_oss");
 
     public static FileNamespace parse(String val) {
         return FileNamespace.valueOf(val);
+    }
+    private final String name;
+    FileNamespace(String name) {
+        this.name = name;
+    }
+    @Override
+    public String getKey() {
+        return name;
     }
 }

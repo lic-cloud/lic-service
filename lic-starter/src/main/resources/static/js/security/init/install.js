@@ -1,3 +1,11 @@
+var initStep = {
+    "step1": "register_root_user",
+    "step2": "file_sys_config",
+    "step3": "cache_sys_config",
+    "finish": "finished"
+}
+var initStepIndex = ["step1", "step2", "step3", "finish"];
+
 showDictSelect("sex", "sex");
 layui.use(['layer', 'laydate'], function () {
     let layer = layui.layer;
@@ -11,56 +19,29 @@ function add() {
     let format = $("#form").serializeObject();
     let date = new Date(format.birthday);
     format.birthday = date.valueOf();
-    $.ajax({
-        type: 'post',
-        url: '/users/register',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(format),
-        success: function (data) {
-            localStorage.removeItem("initStatus");
-            localStorage.setItem("initStatus", "step2");
-            layer.msg("添加成功", {shift: -1, time: 1000});
-        },
-        error: function (xhr, status, error) {
-            layer.msg(xhr.responseText, {shift: -1, time: 4000});
-        }
-    });
+    ajax_post("/users/register", JSON.stringify(format), function () {
+        localStorage.removeItem("initStatus");
+        localStorage.setItem("initStatus", initStep["step1"]);
+    })
 }
 
 function cacheSystem() {
     let format = $("#form2").serializeObject();
-    $.ajax({
-        type: 'post',
-        url: '/install/addCacheAndSystem',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(format),
-        success: function (data) {
-            localStorage.removeItem("initStatus");
-            localStorage.setItem("initStatus", "step3");
-            layer.msg("添加成功", {shift: -1, time: 1000});
-        },
-        error: function (xhr, status, error) {
-            layer.msg(xhr.responseText, {shift: -1, time: 4000});
-        }
-    });
+    ajax_post("/install/addCacheAndSystem", JSON.stringify(format),
+            function () {
+                localStorage.removeItem("initStatus");
+                localStorage.setItem("initStatus", initStep["step3"]);
+            }
+        )
 }
 
 function otherSet() {
     let format = $("#form3").serializeObject();
-    $.ajax({
-        type: 'post',
-        url: '/install/addOtherSet',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(format),
-        success: function (data) {
-            localStorage.removeItem("initStatus");
-            localStorage.setItem("initStatus", "finish");
-            layer.msg("添加成功", {shift: -1, time: 1000});
-        },
-        error: function (xhr, status, error) {
-            layer.msg(xhr.responseText, {shift: -1, time: 4000});
+    ajax_post("/install/addOtherSet", JSON.stringify(format), function () {
+           localStorage.removeItem("initStatus");
+           localStorage.setItem("initStatus", initStep["finish"]);
         }
-    });
+    )
 }
 
 function goLogin() {

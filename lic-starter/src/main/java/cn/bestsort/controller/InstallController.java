@@ -1,16 +1,18 @@
 package cn.bestsort.controller;
 
-import cn.bestsort.constant.ExceptionConstant;
+import cn.bestsort.model.enums.InitStep;
 import cn.bestsort.model.enums.LicMetaEnum;
-import cn.bestsort.model.param.install.CacheSettingParam;
 import cn.bestsort.model.vo.CacheSystemVO;
 import cn.bestsort.model.vo.OtherSetVO;
 import cn.bestsort.service.MetaInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author bestsort
@@ -27,8 +29,8 @@ public class InstallController {
 
     @ApiOperation("获取初始化到第几步骤")
     @GetMapping("/step")
-    public String getStep() {
-        return metaInfoService.getMetaOrDefaultStr(LicMetaEnum.INIT_STATUS);
+    public Integer getStep() {
+        return InitStep.indexOf(metaInfoService.getMetaOrDefaultStr(LicMetaEnum.INIT_STATUS));
     }
 
     @ApiOperation("添加缓存与系统设置")
@@ -36,7 +38,7 @@ public class InstallController {
     public void cacheSystem(@RequestBody CacheSystemVO cacheSystemVO) {
         metaInfoService.updateMeta(LicMetaEnum.CACHE_TYPE, cacheSystemVO.getCache());
         metaInfoService.updateMeta(LicMetaEnum.File_NAME_SPACE, cacheSystemVO.getSystem());
-        metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, "step3");
+        metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, InitStep.STEP_3.getKey());
     }
 
     @ApiOperation("其他高级设置")
@@ -51,15 +53,6 @@ public class InstallController {
         metaInfoService.updateMeta(LicMetaEnum.CACHE_EXPIRE, otherSetVO.getExpire());
         metaInfoService.updateMeta(LicMetaEnum.CACHE_NULL_EXPIRE, otherSetVO.getTime());
         metaInfoService.updateMeta(LicMetaEnum.CACHE_UNIT, otherSetVO.getUnit());
-        metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, "finish");
-    }
-
-    ResponseEntity<Boolean> install(CacheSettingParam param) {
-        if (metaInfoService.getMetaObj(Boolean.class, LicMetaEnum.INIT_STATUS)) {
-            throw ExceptionConstant.LIC_INSTALLED;
-        }
-        // TODO install
-        metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, Boolean.TRUE);
-        return ResponseEntity.ok(true);
+        metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, InitStep.FINISH.getKey());
     }
 }

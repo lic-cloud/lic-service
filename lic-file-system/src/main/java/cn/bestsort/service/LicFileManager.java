@@ -27,7 +27,6 @@ public interface LicFileManager {
     /**
      * 逻辑删除文件
      * @param fileId    文件映射 Id
-     * @param user      对应用户
      * @param remove    是否从回收站移除
      */
     @Transactional(rollbackFor = Exception.class)
@@ -36,7 +35,6 @@ public interface LicFileManager {
     /**
      * 创建链接以供下载使用， 链接有效期为 expire(单位: S)
      * @param mappingId 需要下载的文件id
-     * @param user   用户
      * @param expire 链接过期时间
      * @return       生成后的链接
      */
@@ -53,7 +51,6 @@ public interface LicFileManager {
 
     /**
      * 上传成功， 数据库插入对应数据
-     * @param user      上传用户
      * @param param     相关参数
      */
     @Transactional(rollbackFor = Exception.class)

@@ -1,5 +1,6 @@
 package cn.bestsort.config;
 
+import cn.bestsort.model.enums.InitStep;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.service.MetaInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,8 @@ public class LoginPageConfig {
 
     @RequestMapping("/")
     public String loginPage() {
-        String finish = "finish";
         String meta = metaInfoService.getMetaOrDefaultStr(LicMetaEnum.INIT_STATUS);
-        if (!finish.equals(meta)) {
+        if (!InitStep.FINISH.getKey().equals(meta)) {
             return "/init.html";
         }
         return "/login.html";

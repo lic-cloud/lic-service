@@ -97,6 +97,7 @@ function ajax_function(url, data, success_function, method, fail_function, compl
         type: method,
         url: url,
         data: data,
+        contentType: "application/json; charset=utf-8",
         beforeSend: open_loading(),
         success: function (data, textStatus, xhr) {
             if (xhr.status === 200) {
