@@ -74,7 +74,7 @@ public class UserController {
         }
         BeanUtils.copyProperties(user, userDto);
         String meta = metaInfoService.getMeta(LicMetaEnum.INIT_STATUS);
-        if ("step1".equals(meta)) {
+        if (InitStep.STEP_1.getKey().equals(meta)) {
             userDto.setTotalCapacity(-1);
             list.add((long) 1);
             userDto.setRoleIds(list);
@@ -84,7 +84,7 @@ public class UserController {
                 metaInfoService.updateMeta(LicMetaEnum.HOST, LicMetaEnum.HOST.getDefault());
             }
             metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, InitStep.STEP_2.getKey());
-        } else if ("finish".equals(meta)) {
+        } else if (InitStep.FINISH.getKey().equals(meta)) {
             userDto.setTotalCapacity(1024);
             list.add((long) 2);
             userDto.setRoleIds(list);

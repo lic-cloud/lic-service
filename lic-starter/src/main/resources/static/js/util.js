@@ -1,9 +1,8 @@
 //form序列化为json
-$.fn.serializeObject = function()
-{
+$.fn.serializeObject = function () {
     let o = {};
     let a = this.serializeArray();
-    $.each(a, function() {
+    $.each(a, function () {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
@@ -20,19 +19,18 @@ $.fn.serializeObject = function()
 function getUrlParam(key) {
     let href = window.location.href;
     let url = href.split("?");
-    if(url.length <= 1){
+    if (url.length <= 1) {
         return "";
     }
     let params = url[1].split("&");
 
-    for(let i=0; i<params.length; i++){
+    for (let i = 0; i < params.length; i++) {
         let param = params[i].split("=");
-        if(key == param[0]){
+        if (key == param[0]) {
             return param[1];
         }
     }
 }
-
 
 /**
  * 弹出式提示框，默认1.2秒自动消失
@@ -41,35 +39,41 @@ function getUrlParam(key) {
  * @param time 消失时间
  */
 function prompt(message, style, time) {
-    style = (style === undefined) ? 'alert-info-success' : style;
+    style = (style === undefined) ? 'alert alert-success' : style;
     time = (time === undefined) ? 1200 : time;
     $('<div>')
         .appendTo('body')
-        .addClass('alert-info ' + style)
+        .addClass(style)
         .html(message)
         .show()
         .delay(time)
         .fadeOut();
 }
 
+let time;
+
 // 成功提示
-function success_prompt(message, time) {
-    prompt(message, 'alert-info-success', time);
+function success_prompt(message) {
+    time = 1000;
+    prompt(message, 'alert alert-success', time);
 }
 
 // 失败提示
-function fail_prompt(message, time) {
-    prompt(message, 'alert-info-danger', time);
+function fail_prompt(message) {
+    time = 4000;
+    prompt(message, 'alert alert-danger', time);
 }
 
 // 提醒
-function warning_prompt(message, time) {
-    prompt(message, 'alert-info-warning', time);
+function warning_prompt(message) {
+    time = 4000;
+    prompt(message, 'alert alert-warning', time);
 }
 
 // 信息提示
 function info_prompt(message, time) {
-    prompt(message, 'alert-info-info', time);
+    time = 4000;
+    prompt(message, 'alert alert-info', time);
 }
 
 function open_loading() {
@@ -97,6 +101,7 @@ function ajax_function(url, data, success_function, method, fail_function, compl
         type: method,
         url: url,
         data: data,
+        cache:false,
         contentType: "application/json; charset=utf-8",
         beforeSend: open_loading(),
         success: function (data, textStatus, xhr) {

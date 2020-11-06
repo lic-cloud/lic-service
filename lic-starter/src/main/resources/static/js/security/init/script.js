@@ -190,7 +190,6 @@ class Wizard {
     }
 }
 
-
 let wizardElement = document.getElementById('wizard');
 let wizard = new Wizard(wizardElement);
 
