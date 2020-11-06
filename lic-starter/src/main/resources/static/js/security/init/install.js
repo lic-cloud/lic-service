@@ -16,10 +16,10 @@ function add() {
     ajax_post("/users/register", JSON.stringify(format), function () {
         localStorage.removeItem("initStatus");
         localStorage.setItem("initStatus", initStep.step2);
-        success_prompt("添加成功");
+        success_prompt("添加成功",1000);
     }, function (data) {
         let message = JSON.parse(data.responseText).message;
-        fail_prompt(message);
+        fail_prompt(message,4000);
     })
 }
 
@@ -28,10 +28,10 @@ function cacheSystem() {
     ajax_post("/install/addCacheAndSystem", JSON.stringify(format), function () {
         localStorage.removeItem("initStatus");
         localStorage.setItem("initStatus", initStep.step3);
-        success_prompt("添加成功");
+        success_prompt("添加成功",1000);
     }, function (data) {
         let message = JSON.parse(data.responseText).message;
-        fail_prompt(message);
+        fail_prompt(message,4000);
     })
 }
 
@@ -40,9 +40,9 @@ function otherSet() {
     ajax_post("/install/addOtherSet", JSON.stringify(format), function () {
         localStorage.removeItem("initStatus");
         localStorage.setItem("initStatus", initStep.finish);
-        success_prompt("添加成功");
+        success_prompt("添加成功",1000);
     }, function (data) {
         let message = JSON.parse(data.responseText).message;
-        fail_prompt(message);
+        fail_prompt(message,4000);
     })
 }

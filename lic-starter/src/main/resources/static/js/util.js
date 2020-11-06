@@ -50,29 +50,23 @@ function prompt(message, style, time) {
         .fadeOut();
 }
 
-let time;
-
 // 成功提示
-function success_prompt(message) {
-    time = 1000;
+function success_prompt(message, time) {
     prompt(message, 'alert alert-success', time);
 }
 
 // 失败提示
-function fail_prompt(message) {
-    time = 4000;
+function fail_prompt(message, time) {
     prompt(message, 'alert alert-danger', time);
 }
 
 // 提醒
-function warning_prompt(message) {
-    time = 4000;
+function warning_prompt(message, time) {
     prompt(message, 'alert alert-warning', time);
 }
 
 // 信息提示
 function info_prompt(message, time) {
-    time = 4000;
     prompt(message, 'alert alert-info', time);
 }
 
