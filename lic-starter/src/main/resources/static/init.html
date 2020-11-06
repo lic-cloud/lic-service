@@ -207,16 +207,16 @@
                         <div class="form-group" style="text-align: left">
                             <p>缓存的选择，可选redis：</p>
                             <select class="form-control" name="cache" id="cache">
-                                <option value="DEFAULT" selected>默认</option>
-                                <option value="REDIS">REDIS</option>
+                                <option value="memory_cache" selected>默认</option>
+                                <option value="redis_server_cache">REDIS</option>
                             </select>
                         </div>
                         <div class="form-group" style="text-align: left">
                             <p>文件系统的选择，可选阿里OSS、腾讯COS：</p>
                             <select class="form-control" name="system" id="system">
-                                <option value="DEFAULT" selected>默认</option>
-                                <option value="ALI_OSS">阿里OSS</option>
-                                <option value="TEN_COS">腾讯COS</option>
+                                <option value="server" selected>默认</option>
+                                <option value="ali_oss">阿里OSS</option>
+                                <option value="tencent_oss">腾讯COS</option>
                             </select>
                         </div>
                     </form>

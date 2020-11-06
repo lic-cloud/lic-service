@@ -84,6 +84,7 @@ public class UserController {
                 metaInfoService.updateMeta(LicMetaEnum.HOST, LicMetaEnum.HOST.getDefault());
             }
             metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, InitStep.STEP_2.getKey());
+
         } else if (InitStep.FINISH.getKey().equals(meta)) {
             userDto.setTotalCapacity(1024);
             list.add((long) 2);

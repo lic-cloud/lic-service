@@ -2,6 +2,7 @@ package cn.bestsort.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
@@ -16,7 +17,9 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "sys_role")
+@Table(name = "sys_role", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "name")
+})
 public class Role extends BaseEntity {
     @NotBlank(message = "角色名不能为空")
     @Length(min = 3, max = 20, message = "角色的长度为3-20位")
