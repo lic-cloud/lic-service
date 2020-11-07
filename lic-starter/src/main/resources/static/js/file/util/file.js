@@ -1,4 +1,4 @@
-let fileTableItem = ["文件名","文件操作", "文件大小", "修改日期"];
+let fileTableItem = ["类型","文件名","文件操作", "文件大小", "修改日期"];
 
 /**
  * 构建文件列表大体结构
@@ -43,9 +43,10 @@ function buildFileName(name) {
  * 构建文件列表中的 操作 列
  * @param id fileMapping
  */
-function buildOperation(id) {
+function buildOperation(id, type) {
 
     // 默认按钮组， 文件的增改善查等
+    // TODO 适配分享、回收站等场景
     let operation =
         '<div class="btn-group file-func-item">\n' +
         '  <i class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></i>' +
@@ -77,16 +78,19 @@ function renderSize(value){
     size=size.toFixed(2);//保留的小数位数
     return size+unitArr[index];
 }
-
+function getSuffix(value) {
+    return  value.substring(value.lastIndexOf('.') + 1);
+}
 function getDownloadToken(id) {
     ajax_get('/file/download?mappingId=' + id, null,downloadLocalHostServer);
 }
 
 
-function initTable(url){
-    let thead = '<thead id="dt-table"><tr>' + buildTableItems(fileTableItem) + '</tr></thead>';
-    $('#dt-table').append(thead);
-    return $('#dt-table').DataTable({
+function initTable(url, tableId, fileType){
+    let thead = '<thead id=' + tableId + '><tr>' + buildTableItems(fileTableItem) + '</tr></thead>';
+    $('#' + tableId).append(thead);
+    debugger
+    return $('#' + tableId).DataTable({
         "searching": false,
         "processing": false,
         "serverSide": true,
@@ -102,14 +106,37 @@ function initTable(url){
         },
         "dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",
         "columns": [
-            {"data": "fileName", "defaultContent": "", "width": "60%"},
+            {
+                "data": "",
+                "defaultContent":"",
+                "width": "5%",
+                "orderable": false,
+                "render": function (data, type, row) {
+                    return getSuffix(row['fileName']);
+                }
+            },
+            {
+                "data": "",
+                "defaultContent": "",
+                "width": "55%",
+                "render": function (data, type, row) {
+                    if (row['isDir'] === true) {
+                        return String.format(
+                            '<a href="#" onclick="jump2Dir(\'{0}\', \'{1}\')">{2}</a>',
+                            tableId, row['id'], row['fileName'])
+                    }
+                    return String.format(
+                        '<a href="#" onclick="jump2Dir(\'{0}\', \'{1}\')">{2}</a>',
+                        tableId, row['id'], row['fileName'])
+                }
+            },
             {
                 "width": "20%",
                 "data": "",
                 "defaultContent": "",
                 "oderable": false,
                 "render": function (data, type, row) {
-                    return buildOperation(row['id']);
+                    return buildOperation(row['id'], type);
                 }
             },
             {
@@ -133,4 +160,9 @@ function buildTableItems(items) {
         res += "<th>" + item + "</th>";
     }
     return res;
+}
+
+function jump2Dir(tableId, id) {
+    let table = $('#' + tableId).DataTable();
+    table.ajax.reload(ajax_sync_get("/file/page?pid=" + id));
 }

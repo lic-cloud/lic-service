@@ -10,11 +10,12 @@
     <script src="../../js/file/util/downloadLocal.js"></script>
     <script src="../../js/libs/jquery-2.1.1.min.js"></script>
     <script src="../../js/common.js"></script>
-    <script src="../../js/util.js"></script>
     <script src="../../js/bootstrap/bootstrap.min.js"></script>
     <script src="../../js/bootstrap/bootstrap-select.min.js"></script>
-    <script src="../../js/file/util/file.js"></script>
     <script src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../js/file/util/file.js"></script>
+    <link rel="stylesheet" href="../../css/common.css">
+
 </head>
 <body>
 <!-- 进度条html元素 -->
@@ -28,13 +29,19 @@
 
 <button onclick="getDownloadToken()">点击下载</button>
 
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Library</a></li>
+    <li class="active">Data</li>
+</ol>
+</div>
 <div>
     <div class="widget-body no-padding">
-        <table id="dt-table" class="table  table-bordered table-hover" style="width:100%">
+        <table id="dt-table-normal" class="table hover table-striped table-bordered table-hover" style="width:100%">
         </table>
     </div>
 </div>
-<script>let example = initTable("/file/page");</script>
+<script>initTable("/file/page", "dt-table-normal", "normal");</script>
 </body>
 </html>
 
