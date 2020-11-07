@@ -8,7 +8,9 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <link rel="stylesheet" href="css/init/style.css">
+    <link rel="stylesheet" href="css/tips.css">
 </head>
+
 <body>
 <div class="wrapper">
     <div id="wizard" class="wizard">
@@ -185,7 +187,8 @@
                                    data-bv-date-message="日期格式错误,要求YYYY-MM-DD">
                         </div>
                         <div class="form-group">
-                            <input type="text" id="address" name="address" placeholder="请输入主页网址,默认localhost:8080" class="form-control">
+                            <input type="text" id="address" name="address" placeholder="请输入主页网址,默认localhost:8080"
+                                   class="form-control">
                             <!--todo-->
                             <!--
                             data-bv-notempty="true"
@@ -203,18 +206,11 @@
                     <form method="post" name="form2" id="form2" onsubmit="return false;">
                         <div class="form-group" style="text-align: left">
                             <p>缓存的选择，可选redis：</p>
-                            <select class="form-control" name="cache" id="cache">
-                                <option value="DEFAULT" selected>默认</option>
-                                <option value="REDIS">REDIS</option>
-                            </select>
+                            <select class="form-control" name="cache" id="cache"></select>
                         </div>
                         <div class="form-group" style="text-align: left">
                             <p>文件系统的选择，可选阿里OSS、腾讯COS：</p>
-                            <select class="form-control" name="system" id="system">
-                                <option value="DEFAULT" selected>默认</option>
-                                <option value="ALI_OSS">阿里OSS</option>
-                                <option value="TEN_COS">腾讯COS</option>
-                            </select>
+                            <select class="form-control" name="system" id="system"></select>
                         </div>
                     </form>
                 </div>
@@ -222,7 +218,8 @@
                 <div class="panel">
                     <header class="panel__header">
                         <h2 class="panel__title">其他高级设置</h2>
-                        <p class="panel__subheading">系统初始化为不可逆过程! <span style="color: red">[WARNING]</span>表示强烈建议不做改动</p>
+                        <p class="panel__subheading">系统初始化为不可逆过程! <span style="color: red">[WARNING]</span>表示强烈建议不做改动
+                        </p>
                     </header>
                     <form method="post" name="form3" id="form3" onsubmit="return false;">
                         <div class="form-group">
@@ -276,7 +273,7 @@
             </div>
         </div>
 
-        <h1 class="wizard__congrats-message" >
+        <h1 class="wizard__congrats-message">
             恭喜你，LIC系统初始化完成！请访问预设主页网址。
         </h1>
     </div>
@@ -285,12 +282,14 @@
 <script type="text/javascript" src="js/libs/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/security/common/dict.js"></script>
 <script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
 <script src="js/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
 <!--步骤条js-->
 <script type="text/javascript" src='js/security/init/lodash.min.js'></script>
 <script src="js/security/init/init.js"></script>
 
+<script type="text/javascript" src="js/security/init/init.js"></script>
 <script type="text/javascript" src="js/security/init/install.js"></script>
 <script type="text/javascript" th:inline="javascript">
     let initStatus = getStep();
@@ -298,7 +297,10 @@
         location.href = '/login.html';
     }
     let charAt = initStepIndex.indexOf(initStatus) + 1;
+    $("#number").text("系统初始化进行到第" + (parseInt(charAt)) + "步。");
 </script>
+<!--步骤条js-->
+<script type="text/javascript" src='js/security/init/lodash.min.js'></script>
 <script type="text/javascript" src="js/security/init/script.js"></script>
 </body>
 </html>

@@ -27,9 +27,9 @@
 .header-demo .layui-nav .layui-nav-item{margin: 0 10px; line-height: 65px;}
 .header-demo .layui-nav .layui-nav-item a{color: #999;}
 .header-demo .layui-nav .layui-this{background-color: #f2f2f2;}
-.header-demo .layui-nav .layui-nav-item a:hover, 
+.header-demo .layui-nav .layui-nav-item a:hover,
 .header-demo .layui-nav .layui-this a{color: #000;}
-.header-demo .layui-nav .layui-this:after, 
+.header-demo .layui-nav .layui-this:after,
 .header-demo .layui-nav-bar{background-color: #393D49;}
 .header-demo .layui-nav .layui-this a{padding: 0 20px;}
 
@@ -156,7 +156,7 @@ body .layui-layer-dir .layui-layer-content{padding: 10px; max-height: 280px; ove
 
 .site-table{width: 100%; margin: 10px 0;}
 .site-table thead{background-color:#f2f2f2; }
-.site-table th, 
+.site-table th,
 .site-table td{padding: 6px 15px; min-height: 20px; line-height: 20px; border:1px solid #ddd; font-size: 14px; font-weight: 400;}
 .site-table tr:nth-child(even){background: #fbfbfb;}
 
@@ -244,7 +244,7 @@ body .site-demo-nav .layui-nav-item{line-height: 40px}
 
 /* 自定义css */
 .admin-header-item-mobile{
-	position: absolute; right: 0px; height: 70px;line-height: 70px; 
+	position: absolute; right: 0px; height: 70px;line-height: 70px;
 	padding: 0 20px; text-align: center; top:0;
 	display: none;
 }
@@ -286,7 +286,7 @@ body .site-demo-nav .layui-nav-item{line-height: 40px}
 	border-bottom: 0;
 }
 .admin-header-user img{
-	width: 40px; height: 40px; border-radius: 100%;    
+	width: 40px; height: 40px; border-radius: 100%;
 	/*position: relative;
     top: 15px;*/
 }
@@ -363,32 +363,6 @@ body .site-demo-nav .layui-nav-item{line-height: 40px}
 	cursor: pointer;
 }
 
-
-.alert-info-success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-}
-
-.alert-info-info {
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-}
-
-.alert-info-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
-}
-
-.alert-info-danger {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-}
-
-
 /* 适配多设备 */
 @media screen and (max-width: 750px) {
   .layui-main{width: auto; margin: 0 10px;}
@@ -446,7 +420,7 @@ body .site-demo-nav .layui-nav-item{line-height: 40px}
   .site-demo-title{position: static; left: 0;}
   body .layui-layout-admin .site-demo{}
   .site-demo-code{position: static; height: 350px;}
-  
+
   .admin-side-toggle ,.admin-header-item{display: none;}
   .admin-header-item-mobile{ display: block; }
 }

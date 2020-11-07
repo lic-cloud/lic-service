@@ -1,6 +1,8 @@
 
 
 showDictSelect("sex", "sex");
+showSystemOrCacheSelect("cache");
+showSystemOrCacheSelect("system");
 layui.use(['layer', 'laydate'], function () {
     let layer = layui.layer;
     let playdate = layui.laydate;
@@ -8,7 +10,9 @@ layui.use(['layer', 'laydate'], function () {
         elem: '#birthday'
     });
 });
+
 $('#form').bootstrapValidator();
+
 function add() {
     let format = $("#form").serializeObject();
     let date = new Date(format.birthday);
@@ -26,6 +30,45 @@ function otherSet() {
     ajax_post("/install/addOtherSet", JSON.stringify(format))
 }
 
-function goLogin() {
-    location.href = '/login.html';
+
+function getCache() {
+    let type = "cache";
+    sessionStorage.clear()
+    let v = sessionStorage[type];
+    if (v == null || v == "") {
+        $.ajax({
+            type: 'get',
+            url: '/install/getCache',
+            async: false,
+            success: function (data) {
+                v = {};
+                $.each(data, function (i, d) {
+                    v[d.k] = d.val;
+                });
+                sessionStorage[type] = JSON.stringify(v);
+            }
+        });
+    }
+    return JSON.parse(sessionStorage[type]);
+}
+
+function getSystem() {
+    let type = "system";
+    sessionStorage.clear()
+    let v = sessionStorage[type];
+    if (v == null || v == "") {
+        $.ajax({
+            type: 'get',
+            url: '/install/getSystem',
+            async: false,
+            success: function (data) {
+                v = {};
+                $.each(data, function (i, d) {
+                    v[d.k] = d.val;
+                });
+                sessionStorage[type] = JSON.stringify(v);
+            }
+        });
+    }
+    return JSON.parse(sessionStorage[type]);
 }

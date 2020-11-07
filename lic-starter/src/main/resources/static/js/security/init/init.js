@@ -8,6 +8,7 @@ var initStep = {
 
 function getStep() {
     let curStep;
+    //此处用同步, 因为需要取返回值
     $.ajax({
         type: 'get',
         cache:false,

@@ -3,6 +3,7 @@ package cn.bestsort.controller;
 import cn.bestsort.model.enums.InitStep;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.vo.CacheSystemVO;
+import cn.bestsort.model.vo.EnumsVO;
 import cn.bestsort.model.vo.OtherSetVO;
 import cn.bestsort.service.MetaInfoService;
 import io.swagger.annotations.Api;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author bestsort
@@ -54,5 +57,15 @@ public class InstallController {
         metaInfoService.updateMeta(LicMetaEnum.CACHE_NULL_EXPIRE, otherSetVO.getTime());
         metaInfoService.updateMeta(LicMetaEnum.CACHE_UNIT, otherSetVO.getUnit());
         metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, InitStep.FINISH.getKey());
+    }
+    @ApiOperation(value = "获取缓存类型")
+    @GetMapping("/getCache")
+    public List<EnumsVO> listCache() {
+        return metaInfoService.getCache();
+    }
+    @ApiOperation(value = "获取系统类型")
+    @GetMapping("/getSystem")
+    public List<EnumsVO> listSystem() {
+        return metaInfoService.getSystem();
     }
 }
