@@ -30,6 +30,22 @@ function otherSet() {
     ajax_post("/install/addOtherSet", JSON.stringify(format))
 }
 
+function showSystemOrCacheSelect(id) {
+    let data;
+    if (id == "cache"){
+        data = getCache();
+    }else if (id == "system"){
+        data = getSystem();
+    }
+    let select = $("#" + id);
+    select.empty();
+    $.each(data, function (k, v) {
+        select.append("<option value ='" + v + "'>" + k + "</option>");
+    });
+    return data;
+}
+
+
 
 function getCache() {
     let type = "cache";
@@ -72,3 +88,5 @@ function getSystem() {
     }
     return JSON.parse(sessionStorage[type]);
 }
+
+
