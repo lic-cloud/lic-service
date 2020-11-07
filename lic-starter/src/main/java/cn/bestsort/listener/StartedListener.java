@@ -39,24 +39,26 @@ import org.springframework.lang.NonNull;
 @Configuration
 public class StartedListener implements ApplicationListener<ApplicationStartedEvent> {
     @Autowired
-    CacheHandler       handler;
+    CacheHandler handler;
     @Autowired
     ApplicationContext context;
     @Autowired
-    MetaInfoService  metaInfoService;
+    MetaInfoService metaInfoService;
     @Autowired
     StaterProperties properties;
+
+
     @Override
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
         init();
         String version = metaInfoService.getMeta(LicMetaEnum.VERSION, "V1.0");
         log.info("Lic[{}] start success, click url to view [ swagger ] document {}",
-                 version, AnsiOutput.toString(AnsiColor.GREEN,
-                                              metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/swagger-ui.html"));
+            version, AnsiOutput.toString(AnsiColor.GREEN,
+                metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/swagger-ui.html"));
 
         log.info("Lic[{}] start success, click url to view [ knife4j ] document {}",
-                 version, AnsiOutput.toString(AnsiColor.GREEN,
-                                              metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/doc.html"));
+            version, AnsiOutput.toString(AnsiColor.GREEN,
+                metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/doc.html"));
     }
 
     private void init() {
@@ -67,11 +69,11 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
         handler.init(context, curCache);
         log.info(
             "System Init Completed, Cache is [{}], FileSystem is [{}]",
-            AnsiOutput.toString(AnsiColor.GREEN,curCache.getKey()),
+            AnsiOutput.toString(AnsiColor.GREEN, curCache.getKey()),
             AnsiOutput.toString(
                 AnsiColor.GREEN,
                 KeyEnum.keyToEnum(FileNamespace.class,
-                                  metaInfoService.getMetaOrDefaultStr(LicMetaEnum.File_NAME_SPACE)).getKey())
+                    metaInfoService.getMetaOrDefaultStr(LicMetaEnum.File_NAME_SPACE)).getKey())
         );
         // 根据DEBUG_DATA生成假数据
         if (properties.getGeneratorFakeData()) {
@@ -98,7 +100,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
             // try parse
             try {
                 clazz = Class.forName(object.getString(DebugUtil.ALL_CLASS_NAME));
-                lst   = JSON.parseArray(object.getString(DebugUtil.DATA), clazz);
+                lst = JSON.parseArray(object.getString(DebugUtil.DATA), clazz);
             } catch (Exception ignore) {
                 log.error("假数据构造失败, data-> {}", object.toJSONString());
                 continue;
@@ -112,7 +114,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
                 map.get(lst.get(0).getClass()).saveAll(lst);
             }
             log.info("debug data generator success, class -> [{}], data -> {}",
-                     clazz.getName(), JSON.toJSONString(lst));
+                clazz.getName(), JSON.toJSONString(lst));
         }
     }
 }

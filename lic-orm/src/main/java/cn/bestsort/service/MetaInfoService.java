@@ -1,9 +1,13 @@
 package cn.bestsort.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import cn.bestsort.cache.CacheStoreType;
+import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.model.vo.EnumsVO;
 import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.model.entity.MetaInfo;
@@ -41,7 +45,7 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         String res;
         if ((res = getMeta(licMetaEnum)) != null) {
             if (String.class.equals(clazz)) {
-                return (T)res;
+                return (T) res;
             }
             return JSON.parseObject(res, clazz);
         }
@@ -92,5 +96,29 @@ public class MetaInfoService extends AbstractBaseService<MetaInfo, Long> {
         MetaInfoRepository repository) {
         super(repository);
         this.metaInfoRepo = repository;
+    }
+
+    public List<EnumsVO> getCache() {
+        List<EnumsVO> list = new ArrayList();
+        CacheStoreType[] values = CacheStoreType.values();
+        for (int i = 0; i < values.length; i++) {
+            EnumsVO enums = new EnumsVO();
+            enums.setK(values[i].name());
+            enums.setVal(values[i].getKey());
+            list.add(enums);
+        }
+        return list;
+    }
+
+    public List<EnumsVO> getSystem() {
+        List<EnumsVO> list = new ArrayList();
+        FileNamespace[] values = FileNamespace.values();
+        for (int i = 0; i < values.length; i++) {
+            EnumsVO enums = new EnumsVO();
+            enums.setK(values[i].name());
+            enums.setVal(values[i].getKey());
+            list.add(enums);
+        }
+        return list;
     }
 }

@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Entity
 @Table(name = "t_notice", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "title"),
+    @UniqueConstraint(columnNames = "title")
 })
 public class Notice extends BaseEntity {
     @NotBlank(message = "title不能为空")

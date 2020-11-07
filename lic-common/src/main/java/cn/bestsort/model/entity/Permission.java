@@ -2,7 +2,6 @@ package cn.bestsort.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -20,9 +19,7 @@ import org.hibernate.validator.constraints.Range;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "sys_permission", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "name"),
-})
+@Table(name = "sys_permission")
 public class Permission extends BaseEntity {
     @NotNull(message = "parentId不能为空")
     private Long parentId;

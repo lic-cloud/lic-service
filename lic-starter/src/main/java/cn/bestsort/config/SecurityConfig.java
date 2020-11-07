@@ -75,9 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .antMatchers(HttpMethod.POST, "/users/register").permitAll()
             .antMatchers(HttpMethod.GET, "/dicts").permitAll()
-            .antMatchers(HttpMethod.GET,"/install/step").permitAll()
-            .antMatchers(HttpMethod.POST,"/install/addCacheAndSystem").permitAll()
-            .antMatchers(HttpMethod.POST,"/install/addOtherSet").permitAll()
+            .antMatchers(HttpMethod.GET,"/install/**").permitAll()
+            .antMatchers(HttpMethod.POST,"/install/**").permitAll()
             .anyRequest().authenticated();
         //配置登录的核心代码 登录成功失败异常的处理器SecurityHandlerConfig
         //对应html登录的时候提交表单的url
