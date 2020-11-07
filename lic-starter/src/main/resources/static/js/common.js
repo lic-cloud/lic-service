@@ -52,11 +52,10 @@ function deleteCurrentTab(){
 
 
 //form序列化为json
-$.fn.serializeObject = function()
-{
+$.fn.serializeObject = function () {
     let o = {};
     let a = this.serializeArray();
-    $.each(a, function() {
+    $.each(a, function () {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
@@ -73,28 +72,26 @@ $.fn.serializeObject = function()
 function getUrlParam(key) {
     let href = window.location.href;
     let url = href.split("?");
-    if(url.length <= 1){
+    if (url.length <= 1) {
         return "";
     }
     let params = url[1].split("&");
 
-    for(let i=0; i<params.length; i++){
+    for (let i = 0; i < params.length; i++) {
         let param = params[i].split("=");
-        if(key == param[0]){
+        if (key == param[0]) {
             return param[1];
         }
     }
 }
 
-
 /**
  * 弹出式提示框，默认1.2秒自动消失
  * @param message 提示信息
- * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+ * @param style 提示样式，有alert-info-success、alert-info-danger、alert-info-warning、alert-info-info
  * @param time 消失时间
  */
-var prompt = function (message, style, time)
-{
+var prompt = function (message, style, time) {
     style = (style === undefined) ? 'alert-success' : style;
     time = (time === undefined) ? 1200 : time;
     if ($("#prompt").length === 0) {
@@ -112,26 +109,22 @@ var prompt = function (message, style, time)
 };
 
 // 成功提示
-var success_prompt = function(message, time)
-{
+var success_prompt = function (message, time) {
     prompt(message, 'alert-success', time);
 };
 
 // 失败提示
-var fail_prompt = function(message, time)
-{
+var fail_prompt = function (message, time) {
     prompt(message, 'alert-danger', time);
 };
 
 // 提醒
-var warning_prompt = function(message, time)
-{
+var warning_prompt = function (message, time) {
     prompt(message, 'alert-warning', time);
 };
 
 // 信息提示
-var info_prompt = function(message, time)
-{
+var info_prompt = function (message, time) {
     prompt(message, 'alert-info', time);
 };
 
@@ -157,13 +150,14 @@ function close_loading() {
     //$("#loading").addClass("hide-all");
 }
 
-function ajax_function(url, data, success_function, method, fail_function, complete, async=true) {
+function ajax_function(url, data, success_function, method, fail_function, complete, async = true) {
     let returnObj;
     $.ajax({
         type: method,
         url: url,
         async: async,
         data: data,
+        cache: false,
         contentType: "application/json; charset=utf-8",
         beforeSend: open_loading(),
         success: function (data, textStatus, xhr) {
@@ -205,17 +199,16 @@ function ajax_get(url, data, success, fail, complete) {
 function ajax_post(url, data, success, fail, complete) {
     ajax_function(url, data, success, "POST", fail, complete);
 }
+
 function ajax_sync_get(url, data, success, fail, complete) {
     return ajax_function(url, data, success, "GET", fail, complete, false);
 }
 
-
-
-String.format = function() {
+String.format = function () {
     if (arguments.length == 0)
         return null;
     let str = arguments[0];
-    for ( let i = 1; i < arguments.length; i++) {
+    for (let i = 1; i < arguments.length; i++) {
         let re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
         str = str.replace(re, arguments[i]);
     }

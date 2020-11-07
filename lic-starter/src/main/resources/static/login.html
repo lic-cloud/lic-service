@@ -196,12 +196,13 @@
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/security/init/init.js"></script>
 <script type="text/javascript" th:inline="javascript">
-    let initStatus  = getStep();
-    if (initStatus != "finish") {
-        location.href = '/init.html';
-    }
+    getStep();
+    let initStatus  = localStorage.getItem("initStatus");
     if (top != self) {
         location.href = '/login.html';
+    }
+    if (initStatus != "finished") {
+        location.href = '/init.html';
     }
 </script>
 <script type="text/javascript" src="layui/layui.js"></script>
