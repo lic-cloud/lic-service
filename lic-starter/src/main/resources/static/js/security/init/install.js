@@ -1,10 +1,4 @@
-var initStep = {
-    "step1": "register_root_user",
-    "step2": "file_sys_config",
-    "step3": "cache_sys_config",
-    "finish": "finished"
-}
-var initStepIndex = ["step1", "step2", "step3", "finish"];
+
 
 showDictSelect("sex", "sex");
 layui.use(['layer', 'laydate'], function () {
@@ -19,29 +13,17 @@ function add() {
     let format = $("#form").serializeObject();
     let date = new Date(format.birthday);
     format.birthday = date.valueOf();
-    ajax_post("/users/register", JSON.stringify(format), function () {
-        localStorage.removeItem("initStatus");
-        localStorage.setItem("initStatus", initStep["step1"]);
-    })
+    ajax_post("/users/register", JSON.stringify(format));
 }
 
 function cacheSystem() {
     let format = $("#form2").serializeObject();
-    ajax_post("/install/addCacheAndSystem", JSON.stringify(format),
-            function () {
-                localStorage.removeItem("initStatus");
-                localStorage.setItem("initStatus", initStep["step3"]);
-            }
-        )
+    ajax_post("/install/addCacheAndSystem", JSON.stringify(format))
 }
 
 function otherSet() {
     let format = $("#form3").serializeObject();
-    ajax_post("/install/addOtherSet", JSON.stringify(format), function () {
-           localStorage.removeItem("initStatus");
-           localStorage.setItem("initStatus", initStep["finish"]);
-        }
-    )
+    ajax_post("/install/addOtherSet", JSON.stringify(format))
 }
 
 function goLogin() {
