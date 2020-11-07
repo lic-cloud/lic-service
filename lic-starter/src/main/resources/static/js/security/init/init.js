@@ -1,15 +1,23 @@
-let initStep = {
-    step1: "register_root_user",
-    step2: "file_sys_config",
-    step3: "cache_sys_config",
-    finish: "finished"
+var initStepIndex = ["step1", "step2", "step3", "finish"];
+var initStep = {
+    "step1": "register_root_user",
+    "step2": "file_sys_config",
+    "step3": "cache_sys_config",
+    "finish": "finished"
 }
-let initStepIndex = ["register_root_user", "file_sys_config", "cache_sys_config", "finished"];
 
 function getStep() {
-    ajax_get("/install/step", "", function (data) {
-        localStorage.removeItem("initStatus");
-        localStorage.setItem("initStatus", initStepIndex[data])
-    })
+    let curStep;
+    //此处用同步, 因为需要取返回值
+    $.ajax({
+        type: 'get',
+        cache:false,
+        async: false,
+        url: '/install/step',
+        success: function (data) {
+            curStep = initStepIndex[data];
+        }
+    });
+    return curStep;
 }
 

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="css/common.css">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -282,22 +283,23 @@
 <script type="text/javascript" src="js/libs/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/security/common/dict.js"></script>
 <script type="text/javascript" src="layui/layui.js"></script>
-<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
 <script src="js/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+<!--步骤条js-->
+<script type="text/javascript" src='js/security/init/lodash.min.js'></script>
+<script src="js/security/init/init.js"></script>
 <script type="text/javascript" src="js/security/init/init.js"></script>
 <script type="text/javascript" src="js/security/init/install.js"></script>
 <script type="text/javascript" th:inline="javascript">
-    getStep();
-    let initStatus = localStorage.getItem("initStatus");
-    if (initStatus === initStep.finish) {
+    let initStatus = getStep();
+    if (initStatus === "finish") {
         location.href = '/login.html';
     }
     let charAt = initStepIndex.indexOf(initStatus) + 1;
     $("#number").text("系统初始化进行到第" + (parseInt(charAt)) + "步。");
 </script>
 <!--步骤条js-->
-<script type="text/javascript" src='js/security/init/lodash.min.js'></script>
 <script type="text/javascript" src="js/security/init/script.js"></script>
 </body>
 </html>
