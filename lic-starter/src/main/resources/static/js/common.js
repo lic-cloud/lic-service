@@ -168,7 +168,9 @@ function ajax_function(url, data, success_function, method, fail_function, compl
         beforeSend: open_loading(),
         success: function (data, textStatus, xhr) {
             if (xhr.status === 200) {
-                success_function(data);
+                if (success_function !== undefined) {
+                    success_function(data);
+                }
                 returnObj = data
             } else {
                 if (fail_function !== undefined) {
@@ -178,7 +180,6 @@ function ajax_function(url, data, success_function, method, fail_function, compl
                 }
             }
         },
-
         complete: function () {
             if (complete !== undefined) {
                 complete(data.responseJSON);
