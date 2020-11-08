@@ -26,7 +26,10 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
 
     @Override
     public Page<FileMapping> listUserFiles(Pageable page, Long pid, Status status, Boolean onlyDir) {
-        return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, UserUtil.getLoginUserId(), status, onlyDir);
+        if (onlyDir) {
+            return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, UserUtil.getLoginUserId(), status, true);
+        }
+        return repo.findAllByPidAndOwnerIdAndStatus(page, pid, UserUtil.getLoginUserId(), status);
     }
 
     @Override
@@ -39,6 +42,15 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(dirId, UserUtil.getLoginUserId(), status, onlyDir);
     }
 
+    @Override
+    public FileMapping getMapping(Long mappingId, Status status) {
+        FileMapping mapping = getById(mappingId);
+        if (status.equals(mapping.getStatus())) {
+            UserUtil.checkIsOwner(mapping.getOwnerId());
+            return mapping;
+        }
+        throw ExceptionConstant.NOT_FOUND_ITEM;
+    }
 
     @Override
     public String fullPath(Long dirId) {

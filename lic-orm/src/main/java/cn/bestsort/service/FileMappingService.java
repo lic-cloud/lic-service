@@ -30,6 +30,7 @@ public interface FileMappingService extends BaseService<FileMapping, Long> {
     List<FileMapping> listFiles(Long pid);
     List<FileMapping> listUserFilesWithoutPage(Long dirId, Status status, Boolean onlyDir);
 
+    FileMapping getMapping(Long mappingId, Status status);
     String fullPath(Long dirId);
 
     /**

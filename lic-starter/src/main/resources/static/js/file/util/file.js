@@ -87,10 +87,10 @@ function getDownloadToken(id) {
 
 
 function initTable(url, tableId, fileType){
+
     let thead = '<thead id=' + tableId + '><tr>' + buildTableItems(fileTableItem) + '</tr></thead>';
     $('#' + tableId).append(thead);
-    debugger
-    return $('#' + tableId).DataTable({
+    $('#' + tableId).DataTable({
         "searching": false,
         "processing": false,
         "serverSide": true,
@@ -125,9 +125,7 @@ function initTable(url, tableId, fileType){
                             '<a href="#" onclick="jump2Dir(\'{0}\', \'{1}\')">{2}</a>',
                             tableId, row['id'], row['fileName'])
                     }
-                    return String.format(
-                        '<a href="#" onclick="jump2Dir(\'{0}\', \'{1}\')">{2}</a>',
-                        tableId, row['id'], row['fileName'])
+                    return row['fileName'];
                 }
             },
             {
@@ -152,6 +150,8 @@ function initTable(url, tableId, fileType){
         ],
         "order": [[0, "asc"]]
     });
+    jump2Dir(tableId, 0);
+
 }
 
 function buildTableItems(items) {
@@ -164,5 +164,36 @@ function buildTableItems(items) {
 
 function jump2Dir(tableId, id) {
     let table = $('#' + tableId).DataTable();
-    table.ajax.reload(ajax_sync_get("/file/page?pid=" + id));
+    // 回跳时面包屑刷新
+    let  idx;
+    let parent = $("#"+tableId+"-bar")
+    let array = parent.children();
+    for (let i = 0; i < array.length; i++){
+        if (array[i].classList.contains("active")) {
+            $(array[i]).replaceWith(buildBarItem(tableId, array[i].value, array[i].innerHTML, false));
+        }
+        if (array[i].getAttribute("data-id") == id) {
+            array.splice(i);
+            parent.empty();
+            parent.append(array);
+            break;
+        }
+    }
+    let targetMapping = ajax_sync_get("/file?mappingId=" + id);
+    parent.append(buildBarItem(tableId, id, targetMapping.fileName));
+
+
+    table.ajax.url( "/file/page?pid=" + id).load();
+}
+
+function buildBarItem(tableId, id, displayName, active = true) {
+    let template ;
+    if (active) {
+        template = String.format('<li class="active" data-id="{0}">{1}</li>', id, displayName)
+    } else {
+        template = String.format('<li onClick="jump2Dir(\'{0}\', \'{1}\')" data-id="{2}"><a href="#">{3}</a></li>',
+            tableId, id, id, displayName)
+    }
+
+    return template;
 }

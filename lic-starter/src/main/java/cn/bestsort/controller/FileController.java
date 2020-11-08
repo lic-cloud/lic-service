@@ -43,7 +43,8 @@ public class FileController {
     FileManagerHandler handler;
     @Autowired
     CacheHandler cache;
-
+    private static final FileMapping ROOT_PATH_MAPPING = new FileMapping(
+        "根目录", null, null, null, null, true, false, Status.VALID);
     @ApiOperation("获取文件列表(返回PageTableResponse, 用于表格渲染)")
     @GetMapping("/page")
     public PageTableResponse list(@RequestParam(defaultValue = "VALID") Status status,
@@ -63,6 +64,16 @@ public class FileController {
         return ResponseEntity.ok(
             mappingService.listUserFilesWithoutPage(pid, status, onlyDir)
         );
+    }
+
+    @ApiOperation("获取指定Mapping的信息")
+    @GetMapping
+    public ResponseEntity<FileMapping> get(@RequestParam Long mappingId,
+                                           @RequestParam(defaultValue = "VALID") Status status) {
+        if (mappingId == 0) {
+            return ResponseEntity.ok(ROOT_PATH_MAPPING);
+        }
+        return ResponseEntity.ok(mappingService.getMapping(mappingId, status));
     }
 
     @ApiOperation("创建mapping, 用于文件夹创建")

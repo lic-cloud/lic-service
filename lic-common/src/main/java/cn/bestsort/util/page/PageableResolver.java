@@ -32,8 +32,16 @@ public class PageableResolver implements HandlerMethodArgumentResolver {
         Map<String, String[]> param = request.getParameterMap();
         Map<String, Object> map = Maps.newHashMap();
         param.forEach((k, v) -> map.put(k, v.length == 1 ? v[0] : Arrays.asList(v)));
+        String start = request.getParameter("start");
+        if (start == null) {
+            start = "0";
+        }
+        String length = request.getParameter("length");
+        if (length == null) {
+            length = "20";
+        }
         return PageUtil.toPageable(
-            Integer.parseInt(request.getParameter("start")),
-            Integer.parseInt(request.getParameter("length")), map);
+            Integer.parseInt(start),
+            Integer.parseInt(length), map);
     }
 }
