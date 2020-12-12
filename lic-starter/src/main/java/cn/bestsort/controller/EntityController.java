@@ -5,28 +5,35 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.constant.ExceptionConstant;
+import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.FileNamespace;
+import cn.bestsort.model.enums.Status;
+import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
-import cn.bestsort.model.vo.LoginUserVO;
+import cn.bestsort.model.vo.FileUploadVO;
 import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.service.LocalUploadService;
 import cn.bestsort.service.MetaInfoService;
+import cn.bestsort.util.FileUtil;
 import cn.bestsort.util.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,31 +71,76 @@ public class EntityController {
         service.uploadResource(file);
         return ResponseEntity.ok(Boolean.TRUE);
     }
-    @ApiOperation(value = "LOCALHOST文件上传")
-    @PostMapping("/upload")
-    public ResponseEntity<Boolean> upload(@RequestParam String name,
-                                          @RequestParam String md5,
-                                          @ApiParam(value = "文件总大小") @RequestParam Long totalSize,
-                                          @RequestParam(defaultValue = "0") Integer chunks,
-                                          @RequestParam(defaultValue = "0") Integer chunk,
-                                          @RequestParam(defaultValue = "0") Long pid,
-                                          @RequestParam MultipartFile file) throws IOException {
-        // 是否可以进行秒传
-        boolean finished = licFileManager.canSuperUpload(md5, FileNamespace.LOCALHOST);
-        LoginUserVO user = UserUtil.getLoginUser();
-        if (!finished) {
-            if (chunks != null && chunks != 0) {
-                finished = service.uploadWithBlock(md5, totalSize, chunks, chunk, file);
-            } else {
-                finished = service.simpleUpload(file);
+
+    @ApiOperation(value = "地址回调")
+    @PostMapping("/check/{pid}")
+    public ResponseEntity<FileUploadVO> check(@ApiParam(value = "文件总大小")
+                                                  @RequestParam(name = "size") Float totalSize,
+                                              @RequestParam(name = "name") String name,
+                                              @PathVariable Long pid) {
+        totalSize /= 1000;
+        if (!mappingService.checkCapPass(totalSize)) {
+            return FileUploadVO.overLimit();
+        }
+        if (pid == 0) {
+            return FileUploadVO.ok(0);
+        }
+        List<FileMapping> fileMappings =
+            mappingService.listUserFilesWithoutPage(pid, Status.VALID, false);
+        for (FileMapping fileMapping : fileMappings) {
+            if (fileMapping.getFileName().equals(name)) {
+                return FileUploadVO.exist();
             }
         }
-        // byte -> kb
-        UploadSuccessCallbackParam param = new UploadSuccessCallbackParam(
-            (float) (file.getSize() / 1000), name, pid, md5, FileNamespace.LOCALHOST);
-        // TODO 文件系统实体同一目录下不可出现同名文件
-        licFileManager.uploadSuccess(param);
-        return ResponseEntity.ok(finished);
+        return FileUploadVO.ok(null);
+    }
+
+
+    @SuppressWarnings("checkstyle:WhitespaceAround")
+    @ApiOperation(value = "LOCALHOST文件上传")
+    @PostMapping("/upload/{pid}")
+    public ResponseEntity<Boolean> upload(@RequestParam(name = "name") String name,
+                                          @RequestParam(name = "md5") String md5,
+                                          @ApiParam(value = "文件总大小") @RequestParam(name = "size") Long totalSize,
+                                          @RequestParam(defaultValue = "0", name = "total") Integer chunks,
+                                          @RequestParam(defaultValue = "0", name = "index") Integer chunk,
+                                          @PathVariable("pid") Long pid,
+                                          @RequestParam MultipartFile data) throws IOException {
+        // 是否可以进行秒传
+        boolean superUpload = licFileManager.canSuperUpload(md5, FileNamespace.LOCALHOST);
+        UserUtil.mustGetLoginUser();
+        boolean finish = superUpload;
+        if (!finish) {
+            String random = service.getRandomFileName(md5, chunks, name);
+            // 前端入参索引从1开始, 所以-1
+
+            String path = FileUtil.unionPath(metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH),
+                                             metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR),
+                                             random);
+            File fileInfo = new File(path);
+            finish = service.uploadWithBlock(md5, totalSize, chunks, chunk, data, fileInfo);
+            File rename;
+            if (finish) {
+                do {
+                    rename = new File(
+                        FileUtil.unionPath(
+                            metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH),
+                            metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR),
+                            name + "_" + RandomStringUtils.randomAlphabetic(3)));
+                } while (rename.exists() || rename.isDirectory());
+                fileInfo.renameTo(rename);
+                // byte -> kb
+                UploadSuccessCallbackParam param = new UploadSuccessCallbackParam(
+                    (float)totalSize, name, pid, md5, FileNamespace.LOCALHOST,
+                    superUpload, rename.getName());
+                // 文件系统实体同一目录下不可出现同名文件
+                licFileManager.uploadSuccess(param);
+            }
+        }
+        if (superUpload) {
+            log.info("秒传成功， 文件名:{}, chunk: {}", name, chunk);
+        }
+        return ResponseEntity.ok(superUpload);
     }
 
 

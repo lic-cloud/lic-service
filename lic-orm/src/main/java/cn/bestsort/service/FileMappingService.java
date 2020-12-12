@@ -40,4 +40,12 @@ public interface FileMappingService extends BaseService<FileMapping, Long> {
      * @param targetDirPid 目标文件夹ID
      */
     void moveMapping(Boolean isCopy, Long mappingId, Long targetDirPid);
+
+    /**
+     * 容量检查, 单位一律为KB
+     * @return 是否已超限制
+     */
+    Boolean checkCapPass(float add);
+
+    Boolean checkCapPass();
 }

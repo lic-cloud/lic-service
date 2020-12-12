@@ -15,6 +15,7 @@ import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.Status;
 import cn.bestsort.model.param.UploadSuccessCallbackParam;
+import cn.bestsort.model.vo.LoginUserVO;
 import cn.bestsort.model.vo.UploadTokenVO;
 import cn.bestsort.service.FileInfoService;
 import cn.bestsort.service.FileManager;
@@ -22,8 +23,10 @@ import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.LicFileManager;
+import cn.bestsort.service.UserService;
 import cn.bestsort.util.UrlUtil;
 import cn.bestsort.util.UserUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,6 +34,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  * @date 2020-09-07 17:36
  */
+@Slf4j
 @Service
 public class LicFileManagerImpl implements LicFileManager {
 
@@ -38,6 +42,7 @@ public class LicFileManagerImpl implements LicFileManager {
     final FileInfoService    fileInfoImp;
     final FileMappingService mappingService;
     final FileShareService   fileShareImpl;
+    final UserService userService;
 
     @Override
     public boolean canSuperUpload(String md5, FileNamespace fileNamespace) {
@@ -53,7 +58,8 @@ public class LicFileManagerImpl implements LicFileManager {
         }
 
         FileInfo info = fileInfoImp.getById(mapping.getInfoId());
-        return UrlUtil.appendParam(manager.handle(info).downloadLink(info.getPath(), expire),
+        return UrlUtil.appendParam(manager.handle(info).downloadLink(
+            info.getPath() + info.getFileName(), expire),
                                    "fileName", mapping.getFileName());
     }
 
@@ -65,17 +71,22 @@ public class LicFileManagerImpl implements LicFileManager {
     @Override
     public void uploadSuccess(UploadSuccessCallbackParam param) {
         FileInfo info = fileInfoImp.getByMd5(param.getMd5(), param.getNamespace());
-        User user = UserUtil.mustGetLoginUser();
+        LoginUserVO loginUser = UserUtil.mustGetLoginUser();
         if (info != null) {
             info.setReference(info.getReference() + 1);
         } else {
-            info = new FileInfo(mappingService.fullPath(param.getPid()), user.getUsername(),
-                                param.getName(), 1, param.getMd5(), param.getSize(),
+            info = new FileInfo(mappingService.fullPath(param.getPid()), loginUser.getUsername(),
+                                param.getEntityName(), 1, param.getMd5(), param.getSize(),
                                 param.getNamespace(), null);
             info = fileInfoImp.save(info);
         }
-        FileMapping fileMapping = new FileMapping(param.getName(), info.getId(), user.getId(), param.getSize(),
+        FileMapping fileMapping = new FileMapping(param.getName(), info.getId(), loginUser.getId(), param.getSize(),
                                                   param.getPid(), false, false, Status.VALID);
+        if (param.getFinished()) {
+            User sysUser = userService.getById(loginUser.getId());
+            sysUser.setTotalCapacity(sysUser.getUsedCapacity() + param.getSize());
+            userService.save(sysUser);
+        }
         mappingService.save(fileMapping);
     }
 
@@ -143,7 +154,9 @@ public class LicFileManagerImpl implements LicFileManager {
     }
 
     public LicFileManagerImpl(FileManagerHandler manager, FileInfoService fileInfoImp,
-                              FileMappingService mappingService, FileShareService fileShareImpl) {
+                              FileMappingService mappingService, FileShareService fileShareImpl,
+                              UserService userService) {
+        this.userService = userService;
         this.manager        = manager;
         this.fileInfoImp    = fileInfoImp;
         this.mappingService = mappingService;

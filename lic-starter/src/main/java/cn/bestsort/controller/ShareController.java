@@ -35,7 +35,7 @@ public class ShareController {
     @Autowired
     ShareManager shareManager;
 
-    @ApiOperation("获取分享列表(pid为空则返回当前分享文件夹的根目录)")
+    @ApiOperation("获取分享的文件列表(pid为空则返回当前分享文件夹的根目录)")
     @GetMapping("/{url}")
     public ResponseEntity<List<FileMapping>> listShare(@PathVariable String url,
                                        @RequestParam(required = false) Long pid) {
@@ -46,6 +46,7 @@ public class ShareController {
     public ResponseEntity<String> createShareLink(ShareParam shareParam) {
         return ResponseEntity.ok(shareManager.createShareLink(shareParam, UserUtil.mustGetLoginUser()));
     }
+
 
     @ApiOperation("取消文件分享")
     @DeleteMapping

@@ -5,8 +5,10 @@ import java.util.List;
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.Status;
+import cn.bestsort.model.vo.FileDetailVO;
 import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
+import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.util.PageUtil;
 import cn.bestsort.util.UserUtil;
@@ -40,11 +42,24 @@ public class FileController {
     @Autowired
     FileMappingService mappingService;
     @Autowired
+    FileShareService fileShareService;
+    @Autowired
     FileManagerHandler handler;
     @Autowired
     CacheHandler cache;
     private static final FileMapping ROOT_PATH_MAPPING = new FileMapping(
         "根目录", null, null, null, null, true, false, Status.VALID);
+
+    @ApiOperation("获取文件详情")
+    @GetMapping("/detail")
+    public ResponseEntity<FileDetailVO> getFileDetail(@RequestParam Long mappingId) {
+        FileDetailVO vo = new FileDetailVO();
+        vo.setMapping(mappingService.getMapping(mappingId, Status.VALID));
+        //TODO share
+        return ResponseEntity.ok(vo);
+    }
+
+
     @ApiOperation("获取文件列表(返回PageTableResponse, 用于表格渲染)")
     @GetMapping("/page")
     public PageTableResponse list(@RequestParam(defaultValue = "VALID") Status status,

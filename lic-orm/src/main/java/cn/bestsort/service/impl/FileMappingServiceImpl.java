@@ -5,10 +5,12 @@ import java.util.List;
 
 import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.FileMapping;
+import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.Status;
 import cn.bestsort.repository.FileMappingRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.FileMappingService;
+import cn.bestsort.service.UserService;
 import cn.bestsort.util.UserUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Long> implements FileMappingService {
 
     final FileMappingRepository repo;
+    final UserService           userService;
 
     @Override
     public Page<FileMapping> listUserFiles(Pageable page, Long pid, Status status, Boolean onlyDir) {
@@ -79,6 +82,19 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         save(mapping);
     }
 
+    @Override
+    public Boolean checkCapPass() {
+        return checkCapPass(0.0f);
+    }
+
+    @Override
+    public Boolean checkCapPass(float add) {
+        User user = userService.getById(UserUtil.getLoginUserId());
+
+        return user.getInfiniteCapacity() ||
+            user.getUsedCapacity() + add <= user.getTotalCapacity();
+    }
+
     private void mustIsDir(Long pid, boolean mustBeOwner) {
         if (pid == 0) {
             return;
@@ -92,9 +108,10 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         }
     }
     protected FileMappingServiceImpl(
-        FileMappingRepository repository) {
+        FileMappingRepository repository, UserService userRepository) {
         super(repository);
         repo = repository;
+        this.userService = userRepository;
     }
 
 }

@@ -51,6 +51,11 @@ public class User extends BaseEntity {
     private float totalCapacity;
     private float usedCapacity;
 
+    /**
+     * 是否无限容量
+     */
+    private Boolean infiniteCapacity;
+
     public interface Status {
         int DISABLED = 0;
         int VALID = 1;

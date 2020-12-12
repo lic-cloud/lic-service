@@ -1,5 +1,6 @@
 package cn.bestsort.service;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -32,5 +33,7 @@ public interface LocalUploadService {
      */
     boolean uploadWithBlock(String md5, Long size,
                             Integer chunks, Integer chunk,
-                            MultipartFile file) throws IOException;
+                            MultipartFile file, File target) throws IOException;
+
+    String getRandomFileName(String md5, int chunks, String fileName);
 }

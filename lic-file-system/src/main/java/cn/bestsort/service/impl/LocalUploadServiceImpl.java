@@ -77,18 +77,12 @@ public class LocalUploadServiceImpl implements LocalUploadService {
     @Override
     public boolean uploadWithBlock(String md5, Long size,
                                    Integer chunks, Integer chunk,
-                                   MultipartFile file) throws IOException {
-        String fileName = getFileName(md5, chunks);
-        String path = FileUtil.unionPath(metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH),
-                                         metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR),
-                                         fileName);
-        File fileInfo = new File(path);
-        int cnt = 0;
-        while (fileInfo.exists() || fileInfo.isDirectory()) {
-            fileInfo = new File(path + "_" + (++cnt));
-        }
+                                   MultipartFile file,
+                                   File target) throws IOException {
+
+        chunk--;
         //TODO check
-        FileUtil.writeWithBlock(fileInfo.getAbsolutePath(), size, file.getInputStream(), file.getSize(), chunks, chunk);
+        FileUtil.writeWithBlock(target.getAbsolutePath(), size, file.getInputStream(), file.getSize(), chunks, chunk);
         // 标记当前文件块
         fileUploadBufferPool.get(md5).status[chunk] = true;
         boolean uploaded = true;
@@ -102,6 +96,7 @@ public class LocalUploadServiceImpl implements LocalUploadService {
         if (uploaded) {
             fileUploadBufferPool.remove(md5);
         }
+        log.info("file:{} chunk [{}] uploaded, total: [{}]", target.getName(), chunk, chunks);
         return uploaded;
     }
 
@@ -110,20 +105,25 @@ public class LocalUploadServiceImpl implements LocalUploadService {
      * 用来存储文件分块信息
      */
     private static class FileBlock {
-        String name;
+        String    randomKey;
         boolean[] status;
-
+        String originName;
         FileBlock(int n) {
-            this.name = UUID.randomUUID().toString();
-            this.status = new boolean[n];
+            this.randomKey = UUID.randomUUID().toString();
+            this.status    = new boolean[n];
+        }
+
+        public void setOriginName(String originName) {
+            this.originName = originName;
         }
     }
-    private String getFileName(String md5, int chunks) {
+    @Override
+    public String getRandomFileName(String md5, int chunks, String fileName) {
         FileBlock res = fileUploadBufferPool.get(md5);
         if (res == null) {
             res = new FileBlock(chunks);
             fileUploadBufferPool.put(md5, res);
         }
-        return res.name;
+        return res.randomKey;
     }
 }

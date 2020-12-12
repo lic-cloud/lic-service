@@ -75,7 +75,8 @@ public class UserController {
         BeanUtils.copyProperties(user, userDto);
         String meta = metaInfoService.getMeta(LicMetaEnum.INIT_STATUS);
         if (InitStep.STEP_1.getKey().equals(meta)) {
-            userDto.setTotalCapacity(-1);
+            // admin无限容量
+            userDto.setInfiniteCapacity(true);
             list.add((long) 1);
             userDto.setRoleIds(list);
             if (!userRegisterDTO.getAddress().isEmpty()) {

@@ -1,35 +1,5 @@
 let fileTableItem = ["类型","文件名","文件操作", "文件大小", "修改日期"];
-
-/**
- * 构建文件列表大体结构
- */
-function buildList(data) {
-    let length = data.length;
-    for(let i = 0; i < length; i++){
-        let info = data[i];
-        let tr = "<tr class='file-list-col file-tr focus' " +
-            "mapping-id='" + info['id'] +
-            "' is-dir='" + info['isDir'] +
-            "' file-size='" + info['size'] +
-            "' file-name='" + info['fileName'] +
-            "' is-shared'" + info['share'] +
-            "' update-at='" + info['updateAt'] + "'>";
-        $("#dt-table").append(tr);
-    }
-}
-/**
- * 根据<tr>标签中的attribute构建条目
- */
-function buildListItem() {
-    $('.file-list-col').each(function () {
-        let col = buildFileName($(this).attr('file-name'));
-        col += addTdTag(buildOperation());
-        col += addTdTag(renderSize($(this).attr('file-size')));
-        col += addTdTag($(this).attr('update-at'));
-        $(this).append(col);
-    })
-}
-
+let fileType = ["share", "normal","recycle"];
 function addTdTag(str) {
     return "<td>" + (str == null ? "" : str) + "</td>";
 }
@@ -44,22 +14,19 @@ function buildFileName(name) {
  * @param id fileMapping
  */
 function buildOperation(id, type) {
-
     // 默认按钮组， 文件的增改善查等
-    // TODO 适配分享、回收站等场景
-    let operation =
-        '<div class="btn-group file-func-item">\n' +
-        '  <i class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></i>' +
-        '  <ul class="dropdown-menu" role="menu">\n' +
-        '    <li><a href="#">详情</a></li>\n' +
-        '    <li><a href="#">重命名</a></li>\n' +
-        '    <li><a href="#">移动或复制</a></li>\n' +
-        '    <li><a href="#">移入回收站</a></li>\n' +
-        '  </ul>\n' +
-        '</div>'
-    operation += '<i class="glyphicon glyphicon-link file-func-item"></i>'
-    operation += '<i class="glyphicon glyphicon-download-alt file-func-item" onclick="getDownloadToken(' + id + ')"></i>';
-    return operation
+    let operation = "";
+    operation += '<i class="glyphicon glyphicon-info-sign file-func-item" title="详情"></i>'
+    if (type == "normal") {
+        operation += '<i class="glyphicon glyphicon-share file-func-item" title="分享"></i>'
+        operation += '<i class="glyphicon glyphicon-edit file-func-item" title="重命名"></i>'
+        operation += '<i class="glyphicon glyphicon-copy file-func-item" title="复制或移动"></i>'
+        operation += '<i class="glyphicon glyphicon-trash file-func-item" title="移入回收站"></i>'
+    }
+    if (type == "recycle") {
+        operation += '<i class="glyphicon glyphicon-repeat file-func-item" title="从回收站恢复"></i>'
+    }
+    return operation;
 }
 /// <summary>
 /// 格式化文件大小的JS方法
@@ -78,7 +45,10 @@ function renderSize(value){
     size=size.toFixed(2);//保留的小数位数
     return size+unitArr[index];
 }
-function getSuffix(value) {
+function getFileTypeBySuffix(value, isDir) {
+    if (isDir == true) {
+        return "文件夹"
+    }
     return  value.substring(value.lastIndexOf('.') + 1);
 }
 function getDownloadToken(id) {
@@ -112,7 +82,7 @@ function initTable(url, tableId, fileType){
                 "width": "5%",
                 "orderable": false,
                 "render": function (data, type, row) {
-                    return getSuffix(row['fileName']);
+                    return getFileTypeBySuffix(row['fileName'], row['isDir']);
                 }
             },
             {
@@ -125,16 +95,18 @@ function initTable(url, tableId, fileType){
                             '<a href="#" onclick="jump2Dir(\'{0}\', \'{1}\')">{2}</a>',
                             tableId, row['id'], row['fileName'])
                     }
-                    return row['fileName'];
+                    return String.format(
+                        '<a href="#" onclick="getDownloadToken({0})">{1}</a>',
+                        row['id'], row['fileName']);
                 }
             },
             {
                 "width": "20%",
                 "data": "",
-                "defaultContent": "",
+                "defaultContent": "操作栏",
                 "oderable": false,
                 "render": function (data, type, row) {
-                    return buildOperation(row['id'], type);
+                    return buildOperation(row['id'], fileType);
                 }
             },
             {
@@ -162,10 +134,31 @@ function buildTableItems(items) {
     return res;
 }
 
+function Progress(val, surplus) {
+    let dom = $(".progress-bar")
+    dom.parent().css("display", '')
+    dom.attr("aria-valuenow", val)
+
+    dom.css("width", val + "%")
+}
+
+function progressSize(text) {
+    let dom = $(".progress-bar")
+    dom.text("剩余: " + text)
+}
+
+function hideProgress() {
+    let dom = $(".progress-bar")
+    dom.attr("aria-valuenow", 0)
+    dom.css("width", 0 + "%")
+    dom.parent().css("display", "none")
+}
+
+
 function jump2Dir(tableId, id) {
+
     let table = $('#' + tableId).DataTable();
     // 回跳时面包屑刷新
-    let  idx;
     let parent = $("#"+tableId+"-bar")
     let array = parent.children();
     for (let i = 0; i < array.length; i++){

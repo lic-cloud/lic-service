@@ -21,7 +21,14 @@ public class UploadSuccessCallbackParam {
     Float size;
     @ApiParam("文件名")
     String name;
+
     Long pid;
     String md5;
     FileNamespace namespace;
+    Boolean finished;
+
+    /**
+     * 实际文件名
+     */
+    String entityName;
 }
