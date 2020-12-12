@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.bestsort.cache.CacheHandler;
@@ -159,8 +162,16 @@ public class EntityController {
     @ResponseBody
     public void downloadFile(@RequestParam String key,
                              @RequestParam(required = false) String fileName,
-                             HttpServletResponse response) {
-        String path = cache.fetchCacheStore().get(key);
+                             HttpServletResponse response,
+                             HttpServletRequest request) {
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+        } else {
+            fileName = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+        }
+
+
+            String path = cache.fetchCacheStore().get(key);
         if (path == null) {
             throw ExceptionConstant.NOT_FOUND_ITEM;
         }

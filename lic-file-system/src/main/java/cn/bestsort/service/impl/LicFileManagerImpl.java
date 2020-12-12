@@ -1,5 +1,7 @@
 package cn.bestsort.service.impl;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -58,9 +60,10 @@ public class LicFileManagerImpl implements LicFileManager {
         }
 
         FileInfo info = fileInfoImp.getById(mapping.getInfoId());
-        return UrlUtil.appendParam(manager.handle(info).downloadLink(
-            info.getPath() + info.getFileName(), expire),
-                                   "fileName", mapping.getFileName());
+        return UrlUtil.appendParam(
+            manager.handle(info).downloadLink(info.getPath() + info.getFileName(), expire),
+                                   "fileName",
+            URLEncoder.encode(mapping.getFileName(), StandardCharsets.UTF_8));
     }
 
     @Override
