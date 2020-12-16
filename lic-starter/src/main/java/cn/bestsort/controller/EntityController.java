@@ -110,10 +110,11 @@ public class EntityController {
                                           @PathVariable("pid") Long pid,
                                           @RequestParam MultipartFile data) throws IOException {
         // 是否可以进行秒传
-        boolean superUpload = licFileManager.canSuperUpload(md5, FileNamespace.LOCALHOST);
+        boolean superUpload = licFileManager.existMd5(md5, FileNamespace.LOCALHOST);
         UserUtil.mustGetLoginUser();
-        boolean finish = superUpload;
-        if (!finish) {
+        boolean finished = superUpload;
+        String fileName = name;
+        if (!finished) {
             String random = service.getRandomFileName(md5, chunks, name);
             // 前端入参索引从1开始, 所以-1
 
@@ -121,9 +122,9 @@ public class EntityController {
                                              metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR),
                                              random);
             File fileInfo = new File(path);
-            finish = service.uploadWithBlock(md5, totalSize, chunks, chunk, data, fileInfo);
-            File rename;
-            if (finish) {
+            finished = service.uploadWithBlock(md5, totalSize, chunks, chunk, data, fileInfo);
+            if (finished) {
+                File rename;
                 do {
                     rename = new File(
                         FileUtil.unionPath(
@@ -132,16 +133,19 @@ public class EntityController {
                             name + "_" + RandomStringUtils.randomAlphabetic(3)));
                 } while (rename.exists() || rename.isDirectory());
                 fileInfo.renameTo(rename);
-                // byte -> kb
-                UploadSuccessCallbackParam param = new UploadSuccessCallbackParam(
-                    (float)totalSize, name, pid, md5, FileNamespace.LOCALHOST,
-                    superUpload, rename.getName());
-                // 文件系统实体同一目录下不可出现同名文件
-                licFileManager.uploadSuccess(param);
+                fileName = rename.getName();
             }
         }
-        if (superUpload) {
-            log.info("秒传成功， 文件名:{}, chunk: {}", name, chunk);
+        if (finished) {
+            // byte -> kb
+            UploadSuccessCallbackParam param = new UploadSuccessCallbackParam(
+                (float)totalSize, name, pid, md5, FileNamespace.LOCALHOST,
+                superUpload, fileName);
+            // 文件系统实体同一目录下不可出现同名文件
+            licFileManager.uploadSuccess(param);
+            if (superUpload) {
+                log.info("秒传成功， 文件名:{}, chunk: {}", name, chunk);
+            }
         }
         return ResponseEntity.ok(superUpload);
     }
@@ -171,7 +175,7 @@ public class EntityController {
         }
 
 
-            String path = cache.fetchCacheStore().get(key);
+        String path = cache.fetchCacheStore().get(key);
         if (path == null) {
             throw ExceptionConstant.NOT_FOUND_ITEM;
         }

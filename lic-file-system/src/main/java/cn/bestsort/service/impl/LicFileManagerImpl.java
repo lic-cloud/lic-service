@@ -47,7 +47,7 @@ public class LicFileManagerImpl implements LicFileManager {
     final UserService userService;
 
     @Override
-    public boolean canSuperUpload(String md5, FileNamespace fileNamespace) {
+    public boolean existMd5(String md5, FileNamespace fileNamespace) {
         return fileInfoImp.getByMd5(md5, fileNamespace) != null;
     }
 
@@ -96,6 +96,12 @@ public class LicFileManagerImpl implements LicFileManager {
     @Override
     public void createMapping(FileMapping mapping) {
         UserUtil.checkIsOwner(mapping.getOwnerId());
+        List<FileMapping> mappings = mappingService.listFiles(mapping.getPid());
+        mappings.forEach(i -> {
+            if (i.getFileName().equals(mapping.getFileName())) {
+                throw ExceptionConstant.TARGET_EXIST;
+            }
+        });
         mappingService.create(mapping);
     }
 

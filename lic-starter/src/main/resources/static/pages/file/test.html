@@ -17,9 +17,52 @@
 
 </head>
 <body>
-<div class="breadcrumb" id="dt-table-normal-bar"></div>
 <div>
-    <button id = "upload_button" onclick="upload(0, up)">start</button>
+<!--    模态框-->
+    <div class="modal fade" id="dynamic-modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="取消"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">标题</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+        <div id="model-context">asdasdasd</div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    按钮组-->
+    <button id = "create-dir-button" class="btn btn-info" onclick="createDirModel()">新建文件夹</button>
+    <button id ="upload-button" class="btn btn-success" onclick="upload(0, up)">上传文件</button>
+<!--    面包屑-->
+    <div class="breadcrumb" id="dt-table-normal-bar"></div>
+
+    <!--    上传进度条-->
     <div class="progress" style="display: none">
         <div class="progress-bar progress-bar-success progress-bar-striped"
                   role="progressbar"
@@ -29,6 +72,7 @@
                   style="width: 0%">
         </div>
     </div>
+<!--    文件列表-->
     <div class="widget-body no-padding">
         <table id="dt-table-normal" class="table hover table-striped table-bordered table-hover" style="width:100%">
         </table>
@@ -40,12 +84,12 @@
 
     // 上传案例
     let up = new fcup({
-        id: "upload_button", // 绑定id
+        id: "upload-button", // 绑定id
         url: "url",
         timeout: 1000000,
         checkurl: "check",
         type: "", // 限制上传类型，为空不限制
-        shardsize: "1", // 每次分片大小，单位为M，默认1M
+        shardsize: "10", // 每次分片大小，单位为M，默认1M
         //minsize: '', // 最小文件上传M数，单位为M，默认为无
         maxsize: "2000000", // 上传文件最大M数，单位为M，默认200M
         headers: {"token": token}, // 附加的文件头,默认为null, 请注意指定header头时将不能进行跨域操作
@@ -59,7 +103,7 @@
 
         // 错误提示
         error: (msg) => {
-            alert(msg);
+           // alert(msg);
         },
 
         // 初始化事件
@@ -99,16 +143,17 @@
             let msg = data.message;
             // 错误提示
             if (status == 1002 ) {
-                alert("文件已存在");
+                fail_prompt("文件已存在")
                 return false;
             }
             else if (status == 1003) {
-                alert("超出容量限制")
+                fail_prompt("超出容量限制")
                 return false
             } else if (status == 1000) {
                 // 已经上传
                 Progress(100);
-                alert("上传成功")
+                success_prompt("上传成功")
+                //alert("上传成功")
                 return false;
             } else {
                 // 如果提供了这个参数,那么将进行断点上传的准备

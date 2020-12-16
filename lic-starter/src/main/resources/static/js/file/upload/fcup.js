@@ -169,7 +169,8 @@
             }
             xhrs.timeout = this.timeout;
             xhrs.onloadstart = function () {
-                let progress_num = that.getpercent(shardIndex, shardCount);
+              let progress_num = that.getpercent(that.currentsize, that.size);
+
                 that.progress_num = progress_num > 100 ? 100 : progress_num;
                 that.startTime = new Date().getTime();
             };

@@ -1,5 +1,26 @@
 let fileTableItem = ["类型","文件名","文件操作", "文件大小", "修改日期"];
 let fileType = ["share", "normal","recycle"];
+
+
+function createDirModel() {
+    $('.modal-body').empty();
+    let context =
+        '<input placeholder="文件夹名称" type="text" id="dir-name" style="width: auto">';
+    $('.modal-body').append(context);
+    $('.modal-title').text("创建文件夹")
+    $('.modal-footer').empty();
+    $('.modal-footer').append(
+        '<button type="button" class="btn btn-primary" onclick="createDir()">创建</button>');
+    $('#dynamic-modal').modal('show');
+}
+
+function createDir() {
+    let pid = cur_normal_pid()
+    ajax_sync_post("/file/dir?name=" + $('#dir-name').val() + "&pid=" + pid);
+    jump2Dir("dt-table-normal", pid)
+    $('#dynamic-modal').modal('hide');
+}
+
 function addTdTag(str) {
     return "<td>" + (str == null ? "" : str) + "</td>";
 }
@@ -163,7 +184,7 @@ function jump2Dir(tableId, id) {
     let array = parent.children();
     for (let i = 0; i < array.length; i++){
         if (array[i].classList.contains("active")) {
-            $(array[i]).replaceWith(buildBarItem(tableId, array[i].value, array[i].innerHTML, false));
+            $(array[i]).replaceWith(buildBarItem(tableId, array[i].getAttribute("data-id"), array[i].innerHTML, false));
         }
         if (array[i].getAttribute("data-id") == id) {
             array.splice(i);

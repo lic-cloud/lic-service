@@ -21,7 +21,7 @@ public interface LicFileManager {
      * @param fileNamespace 对应存储空间
      * @return 是否已经存在对应文件实体
      */
-    boolean canSuperUpload(String md5, FileNamespace fileNamespace);
+    boolean existMd5(String md5, FileNamespace fileNamespace);
 
 
     /**

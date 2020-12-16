@@ -52,8 +52,8 @@ spring:
     time-zone: GMT+8
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 500MB
+      max-request-size: 500MB
   mvc:
     servlet:
       load-on-startup: 1
@@ -67,4 +67,5 @@ server:
   port: 8080
 
 logging:
+
   path: log

@@ -185,7 +185,7 @@ function ajax_function(url, data, success_function, method, fail_function, compl
             close_loading();
         },
         error: function (rsp, textStatus, xhr) {
-            let data = rsp.responseJSON.message;
+            let data = rsp.responseJSON.errors;
             if (fail_function !== undefined) {
                 fail_function(data);
             } else {
@@ -203,7 +203,9 @@ function ajax_get(url, data, success, fail, complete) {
 function ajax_post(url, data, success, fail, complete) {
     ajax_function(url, data, success, "POST", fail, complete);
 }
-
+function ajax_sync_post(url, data, success, fail, complete) {
+    return ajax_function(url, data, success, "POST", fail, complete, false);
+}
 function ajax_sync_get(url, data, success, fail, complete) {
     return ajax_function(url, data, success, "GET", fail, complete, false);
 }
