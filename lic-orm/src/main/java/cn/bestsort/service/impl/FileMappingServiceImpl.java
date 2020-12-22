@@ -3,6 +3,7 @@ package cn.bestsort.service.impl;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSON;
 
@@ -112,6 +113,21 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
     @Override
     public Boolean checkCapPass() {
         return checkCapPass(0.0f);
+    }
+
+    @Override
+    public void rename(String name, Long id) {
+        FileMapping fileMapping = getById(id);
+        UserUtil.checkIsOwner(fileMapping.getOwnerId());
+        // 当前目录下有同名文件
+        if (repo.findAllByPid(fileMapping.getPid())
+            .stream().map(FileMapping::getFileName)
+            .collect(Collectors.toList())
+            .contains(name)) {
+            throw ExceptionConstant.TARGET_EXIST;
+        }
+        fileMapping.setFileName(name);
+        save(fileMapping);
     }
 
     @Override

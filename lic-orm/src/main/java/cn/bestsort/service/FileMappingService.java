@@ -54,4 +54,6 @@ public interface FileMappingService extends BaseService<FileMapping, Long> {
     Boolean checkCapPass(float add);
 
     Boolean checkCapPass();
+
+    void rename(String name, Long id);
 }

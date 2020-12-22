@@ -16,6 +16,24 @@ let jumpMapping = {
     ]
 }
 
+function createRemoveModel(id) {
+    $('.modal-body').empty();
+    let context =
+        '<input placeholder="文件名" type="text" id="file-name" style="width: auto">';
+    $('.modal-body').append(context);
+    $('.modal-title').text("重命名")
+    $('.modal-footer').empty();
+    $('.modal-footer').append(
+        '<button type="button" class="btn btn-primary" onclick="renameFile(' + id + ')">重命名</button>');
+    $('#dynamic-modal').modal('show');
+}
+
+function renameFile(id) {
+    ajax_sync_post("/file/name?name=" + $('#file-name').val() + "&id=" + id);
+    jump2Dir("dt-table-normal", fetch_cur_pid())
+    $('#dynamic-modal').modal('hide');
+}
+
 function createDirModel() {
     $('.modal-body').empty();
     let context =
@@ -46,7 +64,8 @@ function buildOperation(id, type) {
     operation += '<i class="glyphicon glyphicon-info-sign file-func-item" title="详情"></i>'
     if (type == "normal") {
         operation += '<i class="glyphicon glyphicon-share file-func-item" title="分享"></i>'
-        operation += '<i class="glyphicon glyphicon-edit file-func-item" title="重命名"></i>'
+        operation += '<i class="glyphicon glyphicon-edit file-func-item" onclick="createRemoveModel(' + id +
+            ')" title="重命名"></i>'
         operation += '<i class="glyphicon glyphicon-copy file-func-item" title="复制或移动"></i>'
         operation += '<i class="glyphicon glyphicon-trash file-func-item" onclick="remove(' + id +
             ', true)" title="移入回收站"></i>'

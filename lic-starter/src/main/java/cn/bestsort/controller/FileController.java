@@ -58,6 +58,13 @@ public class FileController {
         return ResponseEntity.ok(vo);
     }
 
+    @ApiOperation("文件重命名")
+    @PostMapping("/name")
+    public ResponseEntity<Boolean> rename(@RequestParam Long id,
+                                          @RequestParam String name) {
+        mappingService.rename(name, id);
+        return ResponseEntity.ok(true);
+    }
 
     @ApiOperation("获取文件列表(返回PageTableResponse, 用于表格渲染)")
     @GetMapping("/page")
