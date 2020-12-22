@@ -21,5 +21,6 @@ public interface FileMappingRepository extends BaseRepository<FileMapping, Long>
     List<FileMapping> findAllByPidAndOwnerIdAndStatus(Long pid, Long userId, Status status);
     Page<FileMapping> findAllByPidAndOwnerIdAndStatusAndIsDir(Pageable page, Long pid, Long userId, Status status, Boolean isDir);
     Page<FileMapping> findAllByPidAndOwnerIdAndStatus(Pageable page, Long pid, Long userId, Status status);
+    Page<FileMapping> findAllByOwnerIdAndStatus(Pageable page, Long userId, Status status);
     List<FileMapping> findAllByPid(Long pid);
 }

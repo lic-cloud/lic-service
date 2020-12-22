@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件列表</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <script src="../../js/file/util/downloadLocal.js"></script>
+    <script src="../../js/libs/jquery-2.1.1.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../../js/bootstrap/bootstrap-select.min.js"></script>
+    <script src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../js/file/util/file.js"></script>
+    <script src="../../js/file/upload/fcup.js"></script>
+
+</head>
+<body>
+<div>
+    <!--    模态框-->
+    <div class="modal fade" id="dynamic-modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="取消"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">标题</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+        <div id="model-context">asdasdasd</div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    文件列表-->
+    <div class="widget-body no-padding">
+        <table id="dt-table-recycle" class="table hover table-striped table-bordered table-hover" style="width:100%">
+        </table>
+    </div>
+</div>
+<script>
+    initTable("/file/page?status=INVALID", "recycle");
+    token = localStorage.getItem("token");
+</script>
+</body>
+</html>

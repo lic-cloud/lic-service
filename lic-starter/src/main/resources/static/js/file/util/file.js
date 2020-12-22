@@ -1,6 +1,20 @@
 let fileTableItem = ["类型","文件名","文件操作", "文件大小", "修改日期"];
-let fileType = ["share", "normal","recycle"];
-
+/**
+ * 表单项映射， 不同table路由到不同url
+ * 第一条用于面包屑渲染
+ * 第二条用于table渲染
+ * @type {{"dt-table-normal": [string, string]}}
+ */
+let jumpMapping = {
+    "dt-table-share" : [
+        ""
+        ,"/list?pid="
+    ],
+    "dt-table-normal" : [
+        "/file?mappingId=",
+        "/file/page?pid="
+    ]
+}
 
 function createDirModel() {
     $('.modal-body').empty();
@@ -15,18 +29,10 @@ function createDirModel() {
 }
 
 function createDir() {
-    let pid = cur_normal_pid()
+    let pid = fetch_cur_pid()
     ajax_sync_post("/file/dir?name=" + $('#dir-name').val() + "&pid=" + pid);
     jump2Dir("dt-table-normal", pid)
     $('#dynamic-modal').modal('hide');
-}
-
-function addTdTag(str) {
-    return "<td>" + (str == null ? "" : str) + "</td>";
-}
-
-function buildFileName(name) {
-    return '<td  onclick="getDownloadToken(this)">' + name + '</td>';
 }
 
 
@@ -42,12 +48,21 @@ function buildOperation(id, type) {
         operation += '<i class="glyphicon glyphicon-share file-func-item" title="分享"></i>'
         operation += '<i class="glyphicon glyphicon-edit file-func-item" title="重命名"></i>'
         operation += '<i class="glyphicon glyphicon-copy file-func-item" title="复制或移动"></i>'
-        operation += '<i class="glyphicon glyphicon-trash file-func-item" title="移入回收站"></i>'
+        operation += '<i class="glyphicon glyphicon-trash file-func-item" onclick="remove(' + id +
+            ', true)" title="移入回收站"></i>'
     }
     if (type == "recycle") {
         operation += '<i class="glyphicon glyphicon-repeat file-func-item" title="从回收站恢复"></i>'
     }
     return operation;
+}
+
+/**
+ * 删除文件
+ */
+function remove(id, isLogicRemove) {
+    ajax_post("/file/delete?id=" + id + "&isLogicRemove=" + isLogicRemove);
+    jump2Dir("dt-table-normal", fetch_cur_pid())
 }
 /// <summary>
 /// 格式化文件大小的JS方法
@@ -66,19 +81,19 @@ function renderSize(value){
     size=size.toFixed(2);//保留的小数位数
     return size+unitArr[index];
 }
+
+/**
+ * 获取文件后缀
+ */
 function getFileTypeBySuffix(value, isDir) {
-    if (isDir == true) {
-        return "文件夹"
-    }
-    return  value.substring(value.lastIndexOf('.') + 1);
+    return  isDir == true ? "文件夹" : value.substring(value.lastIndexOf('.') + 1);
 }
 function getDownloadToken(id) {
-    ajax_get('/file/download?mappingId=' + id, null,downloadLocalHostServer);
-}
+    ajax_get('/file/download?mappingId=' + id, null, downloadLocalHostServer);}
 
 
-function initTable(url, tableId, fileType){
-
+function initTable(url, fileType){
+    tableId = 'dt-table-' + fileType
     let thead = '<thead id=' + tableId + '><tr>' + buildTableItems(fileTableItem) + '</tr></thead>';
     $('#' + tableId).append(thead);
     $('#' + tableId).DataTable({
@@ -155,7 +170,7 @@ function buildTableItems(items) {
     return res;
 }
 
-function Progress(val, surplus) {
+function progress(val, surplus) {
     let dom = $(".progress-bar")
     dom.parent().css("display", '')
     dom.attr("aria-valuenow", val)
@@ -179,25 +194,28 @@ function hideProgress() {
 function jump2Dir(tableId, id) {
 
     let table = $('#' + tableId).DataTable();
-    // 回跳时面包屑刷新
-    let parent = $("#"+tableId+"-bar")
-    let array = parent.children();
-    for (let i = 0; i < array.length; i++){
-        if (array[i].classList.contains("active")) {
-            $(array[i]).replaceWith(buildBarItem(tableId, array[i].getAttribute("data-id"), array[i].innerHTML, false));
+    if (tableId == "dt-table-normal") {
+        // 回跳时面包屑刷新
+        let parent = $("#"+tableId+"-bar")
+        let array = parent.children();
+            // 更新面包屑
+        for (let i = 0; i < array.length; i++){
+            if (array[i].classList.contains("active")) {
+                $(array[i]).replaceWith(buildBarItem(tableId, array[i].getAttribute("data-id"), array[i].innerHTML, false));
+            }
+            if (array[i].getAttribute("data-id") == id) {
+                array.splice(i);
+                parent.empty();
+                parent.append(array);
+                break;
+            }
         }
-        if (array[i].getAttribute("data-id") == id) {
-            array.splice(i);
-            parent.empty();
-            parent.append(array);
-            break;
-        }
+        // 面包屑
+        let targetMapping = ajax_sync_get(jumpMapping[tableId][0] + id);
+        parent.append(buildBarItem(tableId, id, targetMapping.fileName));
+        // 表单项
+        table.ajax.url(jumpMapping[tableId][1] + id).load();
     }
-    let targetMapping = ajax_sync_get("/file?mappingId=" + id);
-    parent.append(buildBarItem(tableId, id, targetMapping.fileName));
-
-
-    table.ajax.url( "/file/page?pid=" + id).load();
 }
 
 function buildBarItem(tableId, id, displayName, active = true) {

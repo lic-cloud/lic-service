@@ -1,7 +1,10 @@
 package cn.bestsort.service.impl;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.FileMapping;
@@ -12,15 +15,18 @@ import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.UserService;
 import cn.bestsort.util.UserUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author bestsort
  * @version 1.0
  * @date 2020-09-10 20:31
  */
+@Slf4j
 @Service
 public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Long> implements FileMappingService {
 
@@ -28,11 +34,31 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
     final UserService           userService;
 
     @Override
+    public void changeSize4Parents(Long pid, Float size) {
+        FileMapping buffer;
+        List<FileMapping> res = new LinkedList<>();
+        while (pid != 0 && (buffer = getMapping(pid, Status.VALID)) != null) {
+            buffer.setSize(buffer.getSize() + size);
+            res.add(buffer);
+            pid = buffer.getPid();
+        }
+        if (CollectionUtils.isEmpty(res)) {
+            return;
+        }
+        log.info("{}", JSON.toJSONString(res));
+        saveAll(res);
+    }
+
+    @Override
     public Page<FileMapping> listUserFiles(Pageable page, Long pid, Status status, Boolean onlyDir) {
         if (onlyDir) {
             return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, UserUtil.getLoginUserId(), status, true);
         }
-        return repo.findAllByPidAndOwnerIdAndStatus(page, pid, UserUtil.getLoginUserId(), status);
+        if (Status.VALID.equals(status)) {
+            return repo.findAllByPidAndOwnerIdAndStatus(page, pid, UserUtil.getLoginUserId(), status);
+        } else {
+            return repo.findAllByOwnerIdAndStatus(page, UserUtil.getLoginUserId(), status);
+        }
     }
 
     @Override
@@ -67,7 +93,8 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         do {
             fileMapping = getById(dirId);
             res.append(fileMapping.getFileName()).append(File.separator);
-        } while (fileMapping.getPid() != 0);
+            dirId = fileMapping.getPid();
+        } while (dirId != 0);
         return res.reverse().toString();
     }
 

@@ -41,6 +41,8 @@ public class ShareController {
                                        @RequestParam(required = false) Long pid) {
         return ResponseEntity.ok(shareManager.listFilesByShare(url, pid));
     }
+
+
     @ApiOperation("新建/更新文件分享")
     @PostMapping
     public ResponseEntity<String> createShareLink(ShareParam shareParam) {

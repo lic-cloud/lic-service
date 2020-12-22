@@ -14,6 +14,12 @@ import org.springframework.data.domain.Pageable;
  */
 public interface FileMappingService extends BaseService<FileMapping, Long> {
     /**
+     * 为目标文件所有父文件夹修改容量，以达到容量正常显示的效果
+     * @param pid 目标id
+     * @param size KB
+     */
+    void changeSize4Parents(Long pid, Float size);
+    /**
      * 获取用户文件列表
      * @param dirId  文件夹id
      * @param status 状态

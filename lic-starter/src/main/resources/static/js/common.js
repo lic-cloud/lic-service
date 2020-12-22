@@ -146,8 +146,8 @@ function open_loading() {
     //TODO 完善加载动画
 }
 
-function cur_normal_pid() {
-    return $("#dt-table-normal-bar")[0].lastChild.getAttribute("data-id")
+function fetch_cur_pid(id = "dt-table-normal-bar") {
+    return $("#" + id)[0].lastChild.getAttribute("data-id")
 }
 
 function close_loading() {

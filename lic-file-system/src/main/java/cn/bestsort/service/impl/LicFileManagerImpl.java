@@ -78,11 +78,12 @@ public class LicFileManagerImpl implements LicFileManager {
         if (info != null) {
             info.setReference(info.getReference() + 1);
         } else {
-            info = new FileInfo(mappingService.fullPath(param.getPid()), loginUser.getUsername(),
+            String path = mappingService.fullPath(param.getPid());
+            info = new FileInfo(path, loginUser.getUsername(),
                                 param.getEntityName(), 1, param.getMd5(), param.getSize(),
                                 param.getNamespace(), null);
-            info = fileInfoImp.save(info);
         }
+        info = fileInfoImp.save(info);
         FileMapping fileMapping = new FileMapping(param.getName(), info.getId(), loginUser.getId(), param.getSize(),
                                                   param.getPid(), false, false, Status.VALID);
         if (param.getFinished()) {
@@ -91,6 +92,7 @@ public class LicFileManagerImpl implements LicFileManager {
             userService.save(sysUser);
         }
         mappingService.save(fileMapping);
+        mappingService.changeSize4Parents(param.getPid(), param.getSize());
     }
 
     @Override
@@ -106,10 +108,10 @@ public class LicFileManagerImpl implements LicFileManager {
     }
 
     @Override
-    public void deleteFile(Long fileId, boolean remove) {
+    public void deleteFile(Long fileId, boolean isLogicRemove) {
         Optional<FileMapping>             fileMapping = mappingService.fetchById(fileId);
         Map<FileNamespace, List<FileDTO>> map         = new TreeMap<>();
-        fileMapping.ifPresent(mapping -> deleteSoftLink(mapping, remove, map));
+        fileMapping.ifPresent(mapping -> deleteSoftLink(mapping, isLogicRemove, map));
         // 部分OSS支持删除文件列表, 防止多次创建连接造成的时间消耗
         for (Map.Entry<FileNamespace, List<FileDTO>> pir : map.entrySet()) {
             handle(pir.getKey()).del(
@@ -123,19 +125,21 @@ public class LicFileManagerImpl implements LicFileManager {
      * 2. 若无映射指向文件实体，删除文件实体
      * 3. 文件实体 Reference-1
      */
-    private void deleteSoftLink(FileMapping fileMapping, boolean remove,
+    private void deleteSoftLink(FileMapping fileMapping, boolean isLogicRemove,
         Map<FileNamespace, List<FileDTO>> needRemove) {
         if (fileMapping == null) {
             return;
         }
+        fileMapping.setStatus(Status.INVALID);
         if (fileMapping.getIsDir()) {
-            List<FileMapping> fileMappings = null;
-            //TODO listFiles(fileMapping.getId(), user.getId(), Status.VALID);
+            List<FileMapping> fileMappings = mappingService.listUserFilesWithoutPage(
+                fileMapping.getId(), isLogicRemove ? Status.VALID : Status.INVALID, false);
             for (FileMapping mapping : fileMappings) {
-                deleteSoftLink(mapping, remove, needRemove);
+                deleteSoftLink(mapping, isLogicRemove, needRemove);
             }
+            return;
         }
-        if (remove) {
+        if (!isLogicRemove) {
             Optional<FileInfo> fileInfoOpt = fileInfoImp.fetchById(fileMapping.getInfoId());
             if (fileInfoOpt.isPresent()) {
                 FileInfo fileInfo = fileInfoOpt.get();
@@ -154,7 +158,8 @@ public class LicFileManagerImpl implements LicFileManager {
                 }
             }
         }
-        fileMapping.setStatus(Status.INVALID);
+        log.info("mapping: {}", fileMapping);
+        mappingService.changeSize4Parents(fileMapping.getPid(), -1 * fileMapping.getSize());
         mappingService.save(fileMapping);
     }
 

@@ -44,7 +44,7 @@
             if (!this.checkurl) {
                 return false;
             }
-            let pid = cur_normal_pid();
+            let pid = fetch_cur_pid();
             that.checkurl = "/file/check/" + pid
             this.formdata.append('name', that.filename);
             this.formdata.append('md5', md5);
@@ -373,7 +373,7 @@
         this.startUpload = function () {
 
             // 其实就是获取id，根据面包屑最后一个目录的id
-            let pid = cur_normal_pid()
+            let pid = fetch_cur_pid()
             that.url = "/file/upload/" + pid
             that.checkurl = "/file/check/" + pid
             that.upcheck(that.md5str);

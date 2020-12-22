@@ -108,4 +108,13 @@ public class FileController {
         mappingService.moveMapping(isCopy, mappingId, targetDirPid);
         return ResponseEntity.ok(true);
     }
+
+
+    @ApiOperation("将文件移动到回收站")
+    @PostMapping("/delete")
+    public ResponseEntity<Boolean> delete(@RequestParam Long id,
+                                          @RequestParam Boolean isLogicRemove) {
+        fileManager.deleteFile(id, isLogicRemove);
+        return ResponseEntity.ok(true);
+    }
 }

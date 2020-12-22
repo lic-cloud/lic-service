@@ -79,7 +79,7 @@
     </div>
 </div>
 <script>
-    initTable("/file/page", "dt-table-normal", "normal");
+    initTable("/file/page", "normal");
     token = localStorage.getItem("token");
 
     // 上传案例
@@ -109,7 +109,7 @@
         // 初始化事件
         start: () => {
             console.log('上传已准备就绪');
-            Progress(0);
+            progress(0);
         },
 
         // 等待上传事件，可以用来loading
@@ -119,14 +119,14 @@
 
         // 上传进度事件
         progress: (num, other) => {
-            Progress(num);
+            progress(num);
  //           console.log("已经上传" + other.current);
             progressSize(other.surplus)
  //           console.log("已用时间" + other.usetime);
  //           console.log("预计时间" + other.totaltime);
             if (other.surplus == "0B") {
                 hideProgress();
-                jump2Dir("dt-table-normal", cur_normal_pid())
+                jump2Dir("dt-table-normal", fetch_cur_pid())
                 success_prompt("上传成功")
             }
         },
@@ -151,7 +151,7 @@
                 return false
             } else if (status == 1000) {
                 // 已经上传
-                Progress(100);
+                progress(100);
                 success_prompt("上传成功")
                 //alert("上传成功")
                 return false;
