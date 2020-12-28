@@ -67,7 +67,8 @@ function buildOperation(id, type) {
     let operation = "";
     operation += '<i class="glyphicon glyphicon-info-sign file-func-item" title="详情"></i>'
     if (type == "normal") {
-        operation += '<i class="glyphicon glyphicon-share file-func-item" title="分享"></i>'
+        operation += '<i class="glyphicon glyphicon-share file-func-item" onclick="createShare(' + id +
+            ')" title="分享" ></i>'
         operation += '<i class="glyphicon glyphicon-edit file-func-item" onclick="createRemoveModel(' + id +
             ')" title="重命名"></i>'
         operation += '<i class="glyphicon glyphicon-copy file-func-item" title="复制或移动"></i>'
@@ -79,6 +80,26 @@ function buildOperation(id, type) {
             ')" title="从回收站恢复"></i>'
     }
     return operation;
+}
+function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+}
+function createShare(id) {
+    ajax_sync_post("/share/create?id=" + id, null, function (response) {
+        execCoy(response);
+        success_prompt("文件分享成功，链接已复制至剪贴板")
+    });
 }
 
 function recover(id) {

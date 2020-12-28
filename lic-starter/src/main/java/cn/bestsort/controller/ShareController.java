@@ -1,10 +1,13 @@
 package cn.bestsort.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import cn.bestsort.model.entity.FileMapping;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.service.LicFileManager;
+import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.service.ShareManager;
 import cn.bestsort.util.UserUtil;
 import io.swagger.annotations.Api;
@@ -34,6 +37,8 @@ public class ShareController {
 
     @Autowired
     ShareManager shareManager;
+    @Autowired
+    MetaInfoService metaInfoService;
 
     @ApiOperation("获取分享的文件列表(pid为空则返回当前分享文件夹的根目录)")
     @GetMapping("/{url}")
@@ -44,9 +49,13 @@ public class ShareController {
 
 
     @ApiOperation("新建/更新文件分享")
-    @PostMapping
-    public ResponseEntity<String> createShareLink(ShareParam shareParam) {
-        return ResponseEntity.ok(shareManager.createShareLink(shareParam, UserUtil.mustGetLoginUser()));
+    @PostMapping("/create")
+    public ResponseEntity<String> createShareLink(@RequestParam Long id) {
+        ShareParam param = new ShareParam();
+        param.setExpire(metaInfoService.getMetaObj(Timestamp.class, LicMetaEnum.TIME_ZERO));
+        param.setMappingId(id);
+        String res = shareManager.createShareLink(param, UserUtil.mustGetLoginUser());
+        return ResponseEntity.ok(metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/share/" + res);
     }
 
 

@@ -1,16 +1,19 @@
 package cn.bestsort.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.FileShare;
 import cn.bestsort.model.entity.User;
+import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.service.FileInfoService;
 import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
+import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.service.ShareManager;
 import cn.bestsort.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +34,14 @@ public class ShareManagerImpl implements ShareManager {
     final FileInfoService    fileInfoImp;
     final FileMappingService mappingService;
     final FileShareService   fileShareImpl;
-
+    final MetaInfoService    metaInfoService;
     @Override
     public List<FileMapping> listFilesByShare(String url, Long pid) {
         FileShare fileShare = fileShareImpl.getByUrl(url)
             .orElseThrow(() -> ExceptionConstant.NOT_FOUND_ITEM);
-        if (fileShare.getExpire().before(TimeUtil.now())) {
+        Timestamp expire = fileShare.getExpire();
+        if (!expire.equals(metaInfoService.getMetaObj(Timestamp.class, LicMetaEnum.TIME_ZERO)) &&
+            fileShare.getExpire().before(TimeUtil.now())) {
             throw ExceptionConstant.EXPIRED;
         }
         FileMapping fileMapping = mappingService.getById(fileShare.getMappingId());
@@ -91,10 +96,12 @@ public class ShareManagerImpl implements ShareManager {
 
 
     public ShareManagerImpl(FileManagerHandler manager, FileInfoService fileInfoImp,
-                            FileMappingService mappingService, FileShareService fileShareImpl) {
+                            FileMappingService mappingService, FileShareService fileShareImpl,
+                            MetaInfoService metaInfoService) {
         this.manager = manager;
         this.fileInfoImp = fileInfoImp;
         this.mappingService = mappingService;
         this.fileShareImpl = fileShareImpl;
+        this.metaInfoService = metaInfoService;
     }
 }
