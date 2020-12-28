@@ -58,6 +58,18 @@ public class FileController {
         return ResponseEntity.ok(vo);
     }
 
+    @ApiOperation("文件恢复")
+    @PostMapping("/recover")
+    public ResponseEntity<Boolean> recover(@RequestParam Long id) {
+        FileMapping mapping = mappingService.getById(id);
+        UserUtil.checkIsOwner(mapping.getOwnerId());
+        mapping.setStatus(Status.VALID);
+        // 默认恢复后在根目录
+        mapping.setPid(0L);
+        mappingService.save(mapping);
+        return ResponseEntity.ok(true);
+    }
+
     @ApiOperation("文件重命名")
     @PostMapping("/name")
     public ResponseEntity<Boolean> rename(@RequestParam Long id,

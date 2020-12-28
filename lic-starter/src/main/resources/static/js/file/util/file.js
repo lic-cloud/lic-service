@@ -13,6 +13,10 @@ let jumpMapping = {
     "dt-table-normal" : [
         "/file?mappingId=",
         "/file/page?pid="
+    ],
+    "dt-table-recycle" : [
+        "/file?status=INVALID&mappingId=",
+        "/file/page?status=INVALID&pid="
     ]
 }
 
@@ -71,16 +75,22 @@ function buildOperation(id, type) {
             ', true)" title="移入回收站"></i>'
     }
     if (type == "recycle") {
-        operation += '<i class="glyphicon glyphicon-repeat file-func-item" title="从回收站恢复"></i>'
+        operation += '<i class="glyphicon glyphicon-repeat file-func-item" onclick="recover(' + id +
+            ')" title="从回收站恢复"></i>'
     }
     return operation;
+}
+
+function recover(id) {
+    ajax_sync_post("/file/recover?id=" + id);
+    jump2Dir("dt-table-recycle", 0)
 }
 
 /**
  * 删除文件
  */
 function remove(id, isLogicRemove) {
-    ajax_post("/file/delete?id=" + id + "&isLogicRemove=" + isLogicRemove);
+    ajax_sync_post("/file/delete?id=" + id + "&isLogicRemove=" + isLogicRemove);
     jump2Dir("dt-table-normal", fetch_cur_pid())
 }
 /// <summary>
@@ -233,8 +243,8 @@ function jump2Dir(tableId, id) {
         let targetMapping = ajax_sync_get(jumpMapping[tableId][0] + id);
         parent.append(buildBarItem(tableId, id, targetMapping.fileName));
         // 表单项
-        table.ajax.url(jumpMapping[tableId][1] + id).load();
     }
+    table.ajax.url(jumpMapping[tableId][1] + id).load();
 }
 
 function buildBarItem(tableId, id, displayName, active = true) {
