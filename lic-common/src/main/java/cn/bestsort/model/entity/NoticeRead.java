@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @Table(name = "t_notice_read", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"userId", "noticeId"}, name = "uk_user_notice")
+    @UniqueConstraint(columnNames = {"userId", "noticeId"})
 })
 public class NoticeRead extends BaseEntity {
     @Column

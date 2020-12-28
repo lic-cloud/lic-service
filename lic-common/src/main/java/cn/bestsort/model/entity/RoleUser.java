@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @Table(name = "sys_role_user", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"userId", "roleId"}, name = "uk_role_user")
+    @UniqueConstraint(columnNames = {"userId", "roleId"})
 })
 public class RoleUser extends BaseEntity {
     @Column
