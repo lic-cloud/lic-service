@@ -1,27 +1,28 @@
 initMenu();
-function initMenu(){
+
+function initMenu() {
     $.ajax({
-        url:"/permissions/current",
-        type:"get",
-        async:false,
-        success:function(data){
-            if(!$.isArray(data)){
-                location.href='/login.html';
+        url: "/permissions/current",
+        type: "get",
+        async: false,
+        success: function (data) {
+            if (!$.isArray(data)) {
+                location.href = '/login.html';
                 return;
             }
             let menu = $("#menu");
-            $.each(data, function(i,item){
+            $.each(data, function (i, item) {
                 let a = $("<a href='javascript:;'></a>");
 
                 let css = item.css;
-                if(css!=null && css!=""){
-                    a.append("<i aria-hidden='true' class='fa " + css +"'></i>");
+                if (css != null && css != "") {
+                    a.append("<i aria-hidden='true' class='fa " + css + "'></i>");
                 }
-                a.append("<cite>"+item.name+"</cite>");
+                a.append("<cite>" + item.name + "</cite>");
                 a.attr("lay-id", item.id);
 
                 let href = item.href;
-                if(href != null && href != ""){
+                if (href != null && href != "") {
                     a.attr("data-url", href);
                 }
 
@@ -41,19 +42,19 @@ function initMenu(){
     });
 }
 
-function setChild(parentElement, child){
-    if(child != null && child.length > 0){
-        $.each(child, function(j,item2){
+function setChild(parentElement, child) {
+    if (child != null && child.length > 0) {
+        $.each(child, function (j, item2) {
             let ca = $("<a href='javascript:;'></a>");
             ca.attr("data-url", item2.href);
             ca.attr("lay-id", item2.id);
 
             let css2 = item2.css;
-            if(css2!=null && css2!=""){
-                ca.append("<i aria-hidden='true' class='fa " + css2 +"'></i>");
+            if (css2 != null && css2 != "") {
+                ca.append("<i aria-hidden='true' class='fa " + css2 + "'></i>");
             }
 
-            ca.append("<cite>"+item2.name+"</cite>");
+            ca.append("<cite>" + item2.name + "</cite>");
 
             let dd = $("<dd></dd>");
             dd.append(ca);
@@ -71,12 +72,13 @@ function setChild(parentElement, child){
 
 // 登陆用户头像昵称
 showLoginInfo();
-function showLoginInfo(){
+
+function showLoginInfo() {
     $.ajax({
-        type : 'get',
-        url : '/users/current',
-        async : false,
-        success : function(data) {
+        type: 'get',
+        url: '/users/current',
+        async: false,
+        success: function (data) {
             $(".admin-header-user span").text(data.nickname);
 
             let pro = window.location.protocol;
@@ -85,8 +87,8 @@ function showLoginInfo(){
 
             let sex = data.sex;
             let url = data.headImgUrl;
-            if(url == null || url == ""){
-                if(sex == 1){
+            if (url == null || url == "") {
+                if (sex == 1) {
                     url = "/img/avatars/sunny.png";
                 } else {
                     url = "/img/avatars/1.png";
@@ -103,15 +105,16 @@ function showLoginInfo(){
 }
 
 showUnreadNotice();
-function showUnreadNotice(){
+
+function showUnreadNotice() {
     $.ajax({
-        type : 'get',
-        url : '/notices/count-unread',
-        success : function(data) {
-            $("[unreadNotice]").each(function(){
-                if(data>0){
-                    $(this).html("<span class='layui-badge'>"+data+"</span>");
-                }else{
+        type: 'get',
+        url: '/notices/count-unread',
+        success: function (data) {
+            $("[unreadNotice]").each(function () {
+                if (data > 0) {
+                    $(this).html("<span class='layui-badge'>" + data + "</span>");
+                } else {
                     $(this).html("");
                 }
             });
@@ -120,89 +123,100 @@ function showUnreadNotice(){
     });
 }
 
-function logout(){
+function logout() {
     $.ajax({
-        type : 'get',
-        url : '/logout',
-        success : function(data) {
+        type: 'get',
+        url: '/logout',
+        success: function (data) {
             localStorage.removeItem("token");
-            location.href='/login.html';
+            location.href = '/login.html';
         }
     });
 }
 
 let active;
 
-layui.use(['layer', 'element'], function() {
+layui.use(['layer', 'element'], function () {
     let $ = layui.jquery,
         layer = layui.layer;
     let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-    element.on('nav(demo)', function(elem){
+    element.on('nav(demo)', function (elem) {
         //layer.msg(elem.text());
     });
 
     //触发事件
     //在这里给active绑定几项事件，后面可通过active调用这些事件
     active = {
-        tabAdd: function(obj){
+        tabAdd: function (obj) {
             let lay_id = $(this).attr("lay-id");
             let title = $(this).html() + '<i class="layui-icon" data-id="' + lay_id + '"></i>';
             //新增一个Tab项 传入三个参数，分别对应其标题，tab页面的地址，还有一个规定的id，是标签中data-id的属性值
             element.tabAdd('admin-tab', {
                 title: title,
-                content: '<iframe src="' + $(this).attr('data-url') + '"></iframe>',
+                content: '<iframe data-frameid="' + lay_id + '" src="' + $(this).attr('data-url') + '"></iframe>',
                 id: lay_id
             });
             //添加后就进行切换
             element.tabChange("admin-tab", lay_id);
         },
-        tabDelete: function(lay_id){
+        tabDelete: function (lay_id) {
             //删除指定Tab项
             element.tabDelete("admin-tab", lay_id);
         },
-        tabChange: function(lay_id){
+        tabChange: function (lay_id) {
             //切换到指定Tab项
             //根据传入的id传入到指定的tab项
             element.tabChange('admin-tab', lay_id);
+        },
+        tabRefresh: function (lay_id) {
+            //刷新页面
+            $("iframe[data-frameid='" + lay_id + "']").attr("src", $("iframe[data-frameid='" + lay_id + "']").attr("src"))
         }
     };
     //当点击有a属性的标签时，即左侧菜单栏中内容 ，触发点击事件
-    $(document).on('click','a',function(){
-        if(!$(this)[0].hasAttribute('data-url') || $(this).attr('data-url')===''){
+    $(document).on('click', 'a', function () {
+        if (!$(this)[0].hasAttribute('data-url') || $(this).attr('data-url') === '') {
             return;
         }
         let tabs = $(".layui-tab-title").children();
         let lay_id = $(this).attr("lay-id");
 
-        for(let i = 0; i < tabs.length; i++) {
-            if($(tabs).eq(i).attr("lay-id") == lay_id) {
+        for (let i = 0; i < tabs.length; i++) {
+            if ($(tabs).eq(i).attr("lay-id") == lay_id) {
                 active.tabDelete(lay_id);
             }
         }
+        //显示Tab项
         active["tabAdd"].call(this);
         resize();
     });
+    //当点击有li属性的标签时，即上部tab项 ，触发点击事件
+    $(document).on('click', 'li', function () {
+        let lay_id = $(this).attr("lay-id");
+        active.tabRefresh(lay_id);
+    });
 
     //iframe自适应
-    function resize(){
+    function resize() {
         let $content = $('.admin-nav-card .layui-tab-content');
         $content.height($(this).height() - 147);
-        $content.find('iframe').each(function() {
+        $content.find('iframe').each(function () {
             $(this).height($content.height());
         });
     }
-    $(window).on('resize', function() {
+
+    $(window).on('resize', function () {
         let $content = $('.admin-nav-card .layui-tab-content');
         $content.height($(this).height() - 147);
-        $content.find('iframe').each(function() {
+        $content.find('iframe').each(function () {
             $(this).height($content.height());
         });
     }).resize();
 
     //toggle左侧菜单
-    $('.admin-side-toggle').on('click', function() {
+    $('.admin-side-toggle').on('click', function () {
         let sideWidth = $('#admin-side').width();
-        if(sideWidth === 200) {
+        if (sideWidth === 200) {
             $('#admin-body').animate({
                 left: '0'
             });
