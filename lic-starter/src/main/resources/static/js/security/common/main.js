@@ -142,26 +142,31 @@ layui.use(['layer', 'element'], function() {
     });
 
     //触发事件
+    //在这里给active绑定几项事件，后面可通过active调用这些事件
     active = {
         tabAdd: function(obj){
             let lay_id = $(this).attr("lay-id");
             let title = $(this).html() + '<i class="layui-icon" data-id="' + lay_id + '"></i>';
-            //新增一个Tab项
+            //新增一个Tab项 传入三个参数，分别对应其标题，tab页面的地址，还有一个规定的id，是标签中data-id的属性值
             element.tabAdd('admin-tab', {
                 title: title,
                 content: '<iframe src="' + $(this).attr('data-url') + '"></iframe>',
                 id: lay_id
             });
+            //添加后就进行切换
             element.tabChange("admin-tab", lay_id);
         },
         tabDelete: function(lay_id){
+            //删除指定Tab项
             element.tabDelete("admin-tab", lay_id);
         },
         tabChange: function(lay_id){
+            //切换到指定Tab项
+            //根据传入的id传入到指定的tab项
             element.tabChange('admin-tab', lay_id);
         }
     };
-    //添加tab
+    //当点击有a属性的标签时，即左侧菜单栏中内容 ，触发点击事件
     $(document).on('click','a',function(){
         if(!$(this)[0].hasAttribute('data-url') || $(this).attr('data-url')===''){
             return;
@@ -171,8 +176,7 @@ layui.use(['layer', 'element'], function() {
 
         for(let i = 0; i < tabs.length; i++) {
             if($(tabs).eq(i).attr("lay-id") == lay_id) {
-                active.tabChange(lay_id);
-                return;
+                active.tabDelete(lay_id);
             }
         }
         active["tabAdd"].call(this);

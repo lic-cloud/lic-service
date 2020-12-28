@@ -51,9 +51,11 @@ function update(obj) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(format),
         success: function (data) {
+            $(obj).attr("disabled", false);
             layer.msg("修改成功", {shift: -1, time: 1000}, function () {
                 deleteCurrentTab();
             });
+
         },
         error: function (xhr, status, error) {
             $(obj).attr("disabled", false);

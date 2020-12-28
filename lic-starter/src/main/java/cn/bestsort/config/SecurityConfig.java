@@ -74,15 +74,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/statics/**")
             .permitAll()
             .antMatchers(HttpMethod.POST, "/users/register").permitAll()
-            .antMatchers(HttpMethod.GET, "/share/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/share.html").permitAll()
             .antMatchers(HttpMethod.GET, "/dicts").permitAll()
-            .antMatchers(HttpMethod.GET,"/install/**").permitAll()
-            .antMatchers(HttpMethod.POST,"/install/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/install/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/install/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/share/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/file/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/file/**").permitAll()
             .anyRequest().authenticated();
         //配置登录的核心代码 登录成功失败异常的处理器SecurityHandlerConfig
-        //对应html登录的时候提交表单的url
-        http.formLogin().loginProcessingUrl("/login")
+        http.formLogin().loginPage("/login.html").loginProcessingUrl("/login")
             .successHandler(authenticationSuccessHandler)
             .failureHandler(authenticationFailureHandler)
             .and()

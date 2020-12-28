@@ -1,7 +1,5 @@
 package cn.bestsort.config;
 
-import javax.servlet.http.HttpServletRequest;
-
 import cn.bestsort.model.enums.InitStep;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.service.MetaInfoService;
