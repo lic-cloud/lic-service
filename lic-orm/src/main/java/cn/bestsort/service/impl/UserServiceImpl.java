@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.bestsort.model.dto.RetrievePasswordDTO;
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.entity.RoleUser;
 import cn.bestsort.model.entity.User;
@@ -63,6 +64,17 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
         update(user, user.getId());
         saveUserRoles(userDto.getId(), userDto.getRoleIds());
         return userDto;
+    }
+
+    @Override
+    public void retrievePassword(RetrievePasswordDTO re) {
+        User user = userRepo.findByUsernameAndAndEmail(re.getUsername(), re.getEmail());
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(re.getNewPassword()));
+            update(user, user.getId());
+        } else {
+            throw new IllegalArgumentException("用户不存在");
+        }
     }
 
     private void saveUserRoles(Long userId, List<Long> roleIds) {

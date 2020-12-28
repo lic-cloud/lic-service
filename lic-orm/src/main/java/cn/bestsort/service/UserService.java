@@ -1,5 +1,6 @@
 package cn.bestsort.service;
 
+import cn.bestsort.model.dto.RetrievePasswordDTO;
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.util.page.Listable;
@@ -56,4 +57,10 @@ public interface UserService extends BaseService<User, Long>, Listable<User> {
     @Transactional(rollbackFor = Exception.class)
     User updateUser(UserDTO userDto);
 
+    /**
+     * 找回密码
+     *
+     * @param retrievePasswordDTO
+     */
+    void retrievePassword(RetrievePasswordDTO retrievePasswordDTO);
 }

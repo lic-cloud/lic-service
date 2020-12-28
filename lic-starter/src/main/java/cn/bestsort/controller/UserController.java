@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import cn.bestsort.model.dto.RetrievePasswordDTO;
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.dto.UserRegisterDTO;
 import cn.bestsort.model.entity.User;
@@ -112,6 +113,12 @@ public class UserController {
     @PreAuthorize("hasAuthority('sys:user:password')")
     public void changePassword(@PathVariable String username, String oldPassword, String newPassword) {
         userService.changePassword(username, oldPassword, newPassword);
+    }
+
+    @PostMapping("/retrievePassword")
+    @ApiOperation(value = "找回密码")
+    public void retrievePassword(@RequestBody @Valid RetrievePasswordDTO retrievePasswordDTO) {
+        userService.retrievePassword(retrievePasswordDTO);
     }
 
     @GetMapping

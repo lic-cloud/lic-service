@@ -2,7 +2,7 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <title>LIC登录</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -170,7 +170,7 @@
                        data-bv-regexp-message="字母开头，6-18位，允许字母数字下划线">
             </div>
 
-            <a href="#">忘记密码？</a>
+            <a onclick="forgetPassword()">忘记密码？</a>
             <button onclick="login(this)" style="text-align: center">登录</button>
         </form>
     </div>
@@ -197,7 +197,7 @@
 <script type="text/javascript" src="js/security/init/init.js"></script>
 <script type="text/javascript" th:inline="javascript">
     getStep();
-    let initStatus  = localStorage.getItem("initStatus");
+    let initStatus = localStorage.getItem("initStatus");
     if (top != self) {
         location.href = '/login.html';
     }
@@ -211,6 +211,7 @@
 <script type="text/javascript" src="js/security/login.js"></script>
 <script type="text/javascript" src="js/security/common/dict.js"></script>
 <script type="text/javascript" src="js/security/register.js"></script>
+<script type="text/javascript" src="js/security/user/forgetPassword.js"></script>
 <script type="text/javascript">
     $("#signUp").click(function () {
         $("#login-box").addClass('right-panel-active')

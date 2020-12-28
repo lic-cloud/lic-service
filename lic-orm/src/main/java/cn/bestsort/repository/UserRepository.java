@@ -59,4 +59,12 @@ public interface UserRepository extends BaseRepository<User, Long> {
      * @return
      */
     User findByEmail(String email);
+
+    /**
+     * 根据用户名和邮箱获取用户
+     * @param username
+     * @param email
+     * @return
+     */
+    User findByUsernameAndAndEmail(String username,String email);
 }

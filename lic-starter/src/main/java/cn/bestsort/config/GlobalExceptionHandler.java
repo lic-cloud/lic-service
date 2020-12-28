@@ -56,6 +56,7 @@ public class GlobalExceptionHandler {
                 .build()
         );
     }
+
     @ExceptionHandler(LicException.class)
     public ResponseEntity<ErrorResponse> handleCustomExceptions(LicException e) {
         log.debug("exception type: {}, http status: {}, message: {}", e.getClass(), e.getCode(), e.getMsg());
