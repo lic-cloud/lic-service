@@ -58,6 +58,7 @@ public class UserController {
         if (!"".contentEquals(message)) {
             throw new IllegalArgumentException(message + "已存在");
         }
+        userDto.setInfiniteCapacity(false);
         return userService.saveUser(userDto);
     }
 
@@ -78,6 +79,7 @@ public class UserController {
         if (InitStep.STEP_1.getKey().equals(meta)) {
             // admin无限容量
             userDto.setInfiniteCapacity(true);
+            userDto.setTotalCapacity(-1);
             list.add((long) 1);
             userDto.setRoleIds(list);
             if (!userRegisterDTO.getAddress().isEmpty()) {
@@ -87,6 +89,7 @@ public class UserController {
             }
             metaInfoService.updateMeta(LicMetaEnum.INIT_STATUS, InitStep.STEP_2.getKey());
         } else if (InitStep.FINISH.getKey().equals(meta)) {
+            userDto.setInfiniteCapacity(false);
             userDto.setTotalCapacity(1024);
             list.add((long) 2);
             userDto.setRoleIds(list);

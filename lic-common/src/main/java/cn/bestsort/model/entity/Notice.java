@@ -2,7 +2,6 @@ package cn.bestsort.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -18,9 +17,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "t_notice", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "title")
-})
+@Table(name = "t_notice")
 public class Notice extends BaseEntity {
     @NotBlank(message = "title不能为空")
     @Length(min = 3,max = 50,message = "title的长度为3-50位")

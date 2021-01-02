@@ -3,7 +3,6 @@ package cn.bestsort.model.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,9 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "t_notice_read", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"userId", "noticeId"})
-})
+@Table(name = "t_notice_read")
 public class NoticeRead extends BaseEntity {
     @Column
     Long userId;
