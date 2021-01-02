@@ -5,13 +5,14 @@ import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentityGenerator;
-
+import org.springframework.stereotype.Component;
 
 /**
  * @author bestsort
  * @version 1.0
  * @date 2020-09-04 09:02
  */
+@Component
 public class JpaIdGeneratorConfig extends IdentityGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor s, Object obj) throws HibernateException {

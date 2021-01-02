@@ -1,4 +1,4 @@
-let fileTableItem = ["类型","文件名","文件操作", "文件大小", "修改日期"];
+let fileTableItem = ["文件ID","类型","文件名","文件操作", "文件大小", "修改日期"];
 /**
  * 表单项映射， 不同table路由到不同url
  * 第一条用于面包屑渲染
@@ -18,6 +18,31 @@ let jumpMapping = {
         "/file?status=INVALID&mappingId=",
         "/file/page?status=INVALID&pid="
     ]
+}
+
+
+
+function createMoveModel(id) {
+    $('.modal-body').empty();
+    let context =
+        '<input placeholder="目标文件夹ID" type="text" id="file-dir-name" style="width: auto">';
+    $('.modal-body').append(context);
+    $('.modal-title').text("移动/复制")
+    $('.modal-footer').empty();
+    $('.modal-footer').append(
+        '<button type="button" class="btn btn-primary" onclick="moveFile(' + id + ', false)">移动</button>');
+
+    $('.modal-footer').append(
+        '<button type="button" class="btn btn-primary" onclick="moveFile(' + id + ', true)">复制</button>');
+    $('#dynamic-modal').modal('show');
+}
+
+function moveFile(id, isCopy) {
+    let targetId = $('#file-dir-name').val();
+    ajax_sync_post("/file/move?mappingId=" + id
+        + "&targetDirPid=" + targetId + "&isCopy=" + isCopy);
+    jump2Dir("dt-table-normal", targetId)
+    $('#dynamic-modal').modal('hide');
 }
 
 function createRemoveModel(id) {
@@ -71,7 +96,8 @@ function buildOperation(id, type) {
             ')" title="分享" ></i>'
         operation += '<i class="glyphicon glyphicon-edit file-func-item" onclick="createRemoveModel(' + id +
             ')" title="重命名"></i>'
-        operation += '<i class="glyphicon glyphicon-copy file-func-item" title="复制或移动"></i>'
+        operation += '<i class="glyphicon glyphicon-copy file-func-item" onclick="createMoveModel(' + id +
+            ')" title="复制或移动"></i>'
         operation += '<i class="glyphicon glyphicon-trash file-func-item" onclick="remove(' + id +
             ', true)" title="移入回收站"></i>'
     }
@@ -81,6 +107,10 @@ function buildOperation(id, type) {
     }
     return operation;
 }
+
+
+
+
 function execCoy(text) {
     const input = document.createElement('INPUT');
     input.style.opacity  = 0;
@@ -95,6 +125,8 @@ function execCoy(text) {
     document.body.removeChild(input);
     return true;
 }
+
+
 function createShare(id) {
     ajax_sync_post("/share/create?id=" + id, null, function (response) {
         execCoy(response);
@@ -168,6 +200,15 @@ function initTable(url, fileType){
                 "width": "5%",
                 "orderable": false,
                 "render": function (data, type, row) {
+                    return row['id'];
+                }
+            },
+            {
+                "data": "",
+                "defaultContent":"",
+                "width": "5%",
+                "orderable": false,
+                "render": function (data, type, row) {
                     return getFileTypeBySuffix(row['fileName'], row['isDir']);
                 }
             },
@@ -187,7 +228,7 @@ function initTable(url, fileType){
                 }
             },
             {
-                "width": "20%",
+                "width": "15%",
                 "data": "",
                 "defaultContent": "操作栏",
                 "oderable": false,
@@ -196,7 +237,6 @@ function initTable(url, fileType){
                 }
             },
             {
-                "width": "10%",
                 "data": "size",
                 "defaultContent": "文件大小",
                 "orderable": false,

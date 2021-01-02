@@ -17,6 +17,7 @@ import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.UserService;
 import cn.bestsort.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -104,7 +105,11 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         FileMapping mapping = getById(mappingId);
         mustIsDir(targetDirPid, true);
         if (isCopy) {
-            mapping.setId(null);
+            // 新创建一个对象，jpa应该是有缓存机制，原来的对象id为null不会新生成记录
+            FileMapping buffer = new FileMapping();
+            BeanUtils.copyProperties(mapping, buffer);
+            buffer.setId(null);
+            mapping = buffer;
         }
         mapping.setPid(targetDirPid);
         save(mapping);
@@ -144,7 +149,7 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         }
         FileMapping mapping = getById(pid);
         if (!mapping.getIsDir()) {
-            throw ExceptionConstant.NOT_FOUND_SUCH_FILE;
+            throw ExceptionConstant.MUST_BE_DIR;
         }
         if (mustBeOwner) {
             UserUtil.checkIsOwner(mapping.getOwnerId());

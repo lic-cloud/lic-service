@@ -120,7 +120,7 @@ public class FileController {
         return ResponseEntity.ok(mapping);
     }
     @ApiOperation("文件/文件夹的移动、复制")
-    @PostMapping
+    @PostMapping("/move")
     public ResponseEntity<Boolean> move(@RequestParam(defaultValue = "false") Boolean isCopy,
                                         @RequestParam Long mappingId,
                                         @RequestParam Long targetDirPid) {
