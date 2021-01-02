@@ -28,7 +28,7 @@ public interface UserRepository extends BaseRepository<User, Long> {
      * @param status
      * @return
      */
-    @Query(value = "select count(*) from sys_user t where if(?1!='',t.username like concat('%',?1,'%'),1=1)  and if(?2!='',t.nickname like concat('%',?2,'%'),1=1) and if(IFNULL(?3,'') !='',t.status=?3,1=1)", nativeQuery = true)
+    @Query(value = "select count(*) from user t where if(?1!='',t.username like concat('%',?1,'%'),1=1)  and if(?2!='',t.nickname like concat('%',?2,'%'),1=1) and if(IFNULL(?3,'') !='',t.status=?3,1=1)", nativeQuery = true)
     int count(String username, String nickname, Integer status);
 
     /**

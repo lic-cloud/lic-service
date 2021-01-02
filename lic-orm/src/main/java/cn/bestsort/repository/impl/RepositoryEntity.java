@@ -23,16 +23,16 @@ import org.springframework.stereotype.Repository;
 public class RepositoryEntity {
 
     private static final String PAGE_SQL = " %s limit %s,%s";
-    private static final String LIST_USER_WITHOUT_STATUS_SQL = "select * from sys_user t where " +
+    private static final String LIST_USER_WITHOUT_STATUS_SQL = "select * from user t where " +
         "(t.username like '%s' or '%s'='') and (t.nickname like '%s' or '%s'='')";
-    private static final String LIST_USER_WITH_STATUS_SQL = "select * from sys_user t where (t.username like '%s' or '%s'='') and " +
+    private static final String LIST_USER_WITH_STATUS_SQL = "select * from user t where (t.username like '%s' or '%s'='') and " +
         "(t.nickname like '%s' or '%s'='') and " + "t.status = %s";
-    private static final String LIST_ROLE_SQL = "select * from sys_role t where (t.name like '%s' or '%s'='') ";
-    private static final String LIST_DICT_SQL = "select * from t_dict t where (t.type like '%s' or '%s'='') ";
-    private static final String LIST_NOTICE_WITHOUT_STATUS_SQL = "select * from t_notice t where (t.title like '%s' or '%s'='')";
-    private static final String LIST_NOTICE_SQL = "select * from t_notice t where (t.title like '%s' or '%s'='') and t.status = '%s'";
-    private static final String LIST_READ_USERS = "select  u.* from t_notice_read r inner join sys_user u on u.id = r.user_id where r.notice_id = '%s' order by r.create_at desc";
-    private static final String LIST_NOTICE = "select t.*,r.user_id from t_notice t left join t_notice_read r on r.notice_id = t.id and r.user_id = '%s' where t.status = 1 and (t.title like '%s' or '%s'='') ";
+    private static final String LIST_ROLE_SQL = "select * from role t where (t.name like '%s' or '%s'='') ";
+    private static final String LIST_DICT_SQL = "select * from dict t where (t.type like '%s' or '%s'='') ";
+    private static final String LIST_NOTICE_WITHOUT_STATUS_SQL = "select * from notice t where (t.title like '%s' or '%s'='')";
+    private static final String LIST_NOTICE_SQL = "select * from notice t where (t.title like '%s' or '%s'='') and t.status = '%s'";
+    private static final String LIST_READ_USERS = "select  u.* from notice_read r inner join user u on u.id = r.user_id where r.notice_id = '%s' order by r.create_at desc";
+    private static final String LIST_NOTICE = "select t.*,r.user_id from notice t left join notice_read r on r.notice_id = t.id and r.user_id = '%s' where t.status = 1 and (t.title like '%s' or '%s'='') ";
     /*
      *  and IF('%s' = null and '%s' = '','',IF('%s'=0,r.create_at is null , r.create_at is not null ))
      *

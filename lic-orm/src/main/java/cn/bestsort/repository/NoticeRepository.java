@@ -17,7 +17,7 @@ public interface NoticeRepository extends BaseRepository<Notice, Long> {
      * @param status
      * @return
      */
-    @Query(value = "select count(*) from t_notice t where if(?1!='',t.title like concat('%',?1,'%'),1=1) and if(IFNULL(?2,'')!='',t.status=?2,1=1) ", nativeQuery = true)
+    @Query(value = "select count(*) from notice t where if(?1!='',t.title like concat('%',?1,'%'),1=1) and if(IFNULL(?2,'')!='',t.status=?2,1=1) ", nativeQuery = true)
     int count(String title, Integer status);
     /**
      * 依据id查询获得通知实例

@@ -41,7 +41,7 @@ public interface NoticeReadRepository extends BaseRepository<NoticeRead, Long> {
      * @param userId
      * @return
      */
-    @Query(value = "select count(1) from t_notice t left join t_notice_read r on r.notice_id = t.id and r.user_id = ?1 where t.status = 1 and r.user_id is null ", nativeQuery = true)
+    @Query(value = "select count(1) from notice t left join notice_read r on r.notice_id = t.id and r.user_id = ?1 where t.status = 1 and r.user_id is null ", nativeQuery = true)
     int countUnread(Long userId);
 
     /**
@@ -52,6 +52,6 @@ public interface NoticeReadRepository extends BaseRepository<NoticeRead, Long> {
      * @param isRead
      * @return
      */
-    @Query(value = "select count(1) from t_notice t left join t_notice_read r on r.notice_id = t.id and r.user_id = ?1 where t.status = 1 and (t.title like ?2 or ?2='') and if(?3=0,r.create_at is null,1=1) and if(?3=1,r.create_at is not null,1=1)", nativeQuery = true)
+    @Query(value = "select count(1) from notice t left join notice_read r on r.notice_id = t.id and r.user_id = ?1 where t.status = 1 and (t.title like ?2 or ?2='') and if(?3=0,r.create_at is null,1=1) and if(?3=1,r.create_at is not null,1=1)", nativeQuery = true)
     int count(Integer userId, String title, Integer isRead);
 }

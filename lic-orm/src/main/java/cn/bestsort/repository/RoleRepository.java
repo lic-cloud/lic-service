@@ -23,7 +23,7 @@ public interface RoleRepository extends BaseRepository<Role, Long> {
      * @param name
      * @return
      */
-    @Query(value = "select count(*) from sys_role t where if(?1!='',t.name like concat('%',?1,'%'),1=1)", nativeQuery = true)
+    @Query(value = "select count(*) from role t where if(?1!='',t.name like concat('%',?1,'%'),1=1)", nativeQuery = true)
     int count(String name);
 
     /**
