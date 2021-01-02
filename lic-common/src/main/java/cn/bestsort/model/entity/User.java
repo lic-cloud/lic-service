@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.*;
 import javax.validation.constraints.NotBlank;
 
@@ -21,12 +20,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "sys_user", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "username"),
-    @UniqueConstraint(columnNames = "phone"),
-    @UniqueConstraint(columnNames = "email"),
-    @UniqueConstraint(columnNames = "telephone")
-})
+@Table(name = "sys_user")
 public class User extends BaseEntity {
     @NotBlank(message = "用户名不能为空")
     @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]{4,15}$", message = "字母开头，5-16位，允许字母数字下划线")

@@ -30,8 +30,8 @@ INSERT INTO `sys_permission` VALUES (41, '2020-10-11 12:10:24', '2020-10-11 12:1
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '2020-10-24 15:24:36', '2020-10-24 15:24:32', '管理员', 'ADMIN');
-INSERT INTO `sys_role` VALUES (2, '2020-10-24 15:24:37', '2020-10-24 15:24:35', '', 'USER');
+INSERT INTO `sys_role` VALUES (1, '2020-10-24 15:24:36', '2020-10-24 15:24:32', '管理员所拥有的权限', 'ADMIN');
+INSERT INTO `sys_role` VALUES (2, '2020-10-24 15:24:37', '2020-10-24 15:24:35', '用户所拥有的权限', 'USER');
 
 -- ----------------------------
 -- Records of sys_role_permission
