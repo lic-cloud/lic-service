@@ -13,7 +13,7 @@ function initData() {
                     $("#title").text(notice.title);
                     $("#status").val(notice.status);
                     $("#demo").text(notice.content);
-                    $("#updateTime").text(notice.updateTime);
+                    $("#updateTime").text(notice.updateAt);
                 }
 
                 let users = data.users;
