@@ -1,10 +1,10 @@
 package cn.bestsort.service;
 
-import java.util.List;
-
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.param.ShareParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author bestsort
@@ -28,7 +28,11 @@ public interface ShareManager {
      * @param pid 当为NULL时返回被分享文件夹/文件
      * @return 文件列表
      */
-    List<FileMapping> listFilesByShare(String url, Long pid);
+    Page<FileMapping> listFilesByShare(String url, Long pid, Pageable pageable);
+
+    FileMapping getMapping(Long id, String url);
+
+    Long count(String url, Long pid);
 
     /**
      * 取消文件分享

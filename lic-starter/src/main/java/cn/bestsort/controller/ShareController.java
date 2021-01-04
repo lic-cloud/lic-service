@@ -1,7 +1,6 @@
 package cn.bestsort.controller;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.LicMetaEnum;
@@ -9,18 +8,23 @@ import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.service.LicFileManager;
 import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.service.ShareManager;
+import cn.bestsort.util.PageUtil;
 import cn.bestsort.util.UserUtil;
+import cn.bestsort.util.page.PageTableResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author bestsort
@@ -29,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @Api(tags = "分享")
-@Controller
+@RestController
 @RequestMapping("/share")
 public class ShareController {
     @Autowired
@@ -40,13 +44,22 @@ public class ShareController {
     @Autowired
     MetaInfoService metaInfoService;
 
-    @ApiOperation("获取分享的文件列表(pid为空则返回当前分享文件夹的根目录)")
+
+    @ApiOperation("获取文件列表(返回PageTableResponse, 用于表格渲染)")
     @GetMapping("/{url}")
-    public ResponseEntity<List<FileMapping>> listShare(@PathVariable String url,
-                                       @RequestParam(required = false) Long pid) {
-        return ResponseEntity.ok(shareManager.listFilesByShare(url, pid));
+    public PageTableResponse list(@RequestParam(defaultValue = "-1") Long pid,
+                                  @PathVariable String url,
+                                  @ApiIgnore @PageableDefault(size = 20) Pageable pageable) {
+        return PageUtil.toPageTable(
+            shareManager.listFilesByShare(url, pid, pageable),
+            shareManager.count(url, pid));
     }
 
+    @GetMapping("/mapping/{url}")
+    public ResponseEntity<FileMapping> getShare(@RequestParam Long id,
+                                                @PathVariable String url) {
+        return ResponseEntity.ok(shareManager.getMapping(id, url));
+    }
 
     @ApiOperation("新建/更新文件分享")
     @PostMapping("/create")

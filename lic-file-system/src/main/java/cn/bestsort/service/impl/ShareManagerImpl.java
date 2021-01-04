@@ -1,13 +1,13 @@
 package cn.bestsort.service.impl;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.entity.FileShare;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.enums.LicMetaEnum;
+import cn.bestsort.model.enums.Status;
 import cn.bestsort.model.param.ShareParam;
 import cn.bestsort.service.FileInfoService;
 import cn.bestsort.service.FileManagerHandler;
@@ -16,9 +16,13 @@ import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.service.ShareManager;
 import cn.bestsort.util.TimeUtil;
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,19 +39,14 @@ public class ShareManagerImpl implements ShareManager {
     final FileMappingService mappingService;
     final FileShareService   fileShareImpl;
     final MetaInfoService    metaInfoService;
-    @Override
-    public List<FileMapping> listFilesByShare(String url, Long pid) {
-        FileShare fileShare = fileShareImpl.getByUrl(url)
-            .orElseThrow(() -> ExceptionConstant.NOT_FOUND_ITEM);
-        Timestamp expire = fileShare.getExpire();
-        if (!expire.equals(metaInfoService.getMetaObj(Timestamp.class, LicMetaEnum.TIME_ZERO)) &&
-            fileShare.getExpire().before(TimeUtil.now())) {
-            throw ExceptionConstant.EXPIRED;
+    public Page<FileMapping> listFilesByShare(String url, Long pid, Pageable pageable) {
+        FileMapping fileMapping = fetchMappingByUrl(url);
+        if (!fileMapping.getIsDir()) {
+            return new PageImpl<>(ImmutableList.of(fileMapping), pageable, 1L);
         }
-        FileMapping fileMapping = mappingService.getById(fileShare.getMappingId());
         // pid 为null表示用户刚进入查看分享的界面，此时不会传pid进来
-        if (pid == null) {
-            return List.of(fileMapping);
+        if (pid == -1) {
+            pid = fileMapping.getPid();
         }
         // 查看分享的文件夹的子目录
         // 向上查询检查当前子目录是否是当前分享的文件夹内的文件
@@ -56,9 +55,38 @@ public class ShareManagerImpl implements ShareManager {
             fileMapping = mappingService.getById(fileMapping.getPid());
         }
         if (pid.equals(fileMapping.getId())) {
-            return mappingService.listFiles(pid);
+            return mappingService.listUserFiles(pageable,fileMapping.getOwnerId(), pid, Status.VALID, false);
         }
         throw ExceptionConstant.PARAM_ILLEGAL;
+    }
+
+    @Override
+    public FileMapping getMapping(Long id, String url) {
+        FileMapping res = mappingService.getMapping(id, Status.VALID, true);
+        Page<FileMapping> page = listFilesByShare(url, res.getPid(), Pageable.unpaged());
+        for (FileMapping mapping : page.getContent()) {
+            if (mapping.getId().equals(id)) {
+                return mapping;
+            }
+        }
+        throw ExceptionConstant.NOT_FOUND_ITEM;
+    }
+
+    @Override
+    public Long count(String url, Long pid) {
+        return 1L;
+    }
+
+
+    private FileMapping fetchMappingByUrl(String url) {
+        FileShare fileShare = fileShareImpl.getByUrl(url)
+            .orElseThrow(() -> ExceptionConstant.NOT_FOUND_ITEM);
+        Timestamp expire = fileShare.getExpire();
+        if (!expire.equals(metaInfoService.getMetaObj(Timestamp.class, LicMetaEnum.TIME_ZERO)) &&
+            fileShare.getExpire().before(TimeUtil.now())) {
+            throw ExceptionConstant.EXPIRED;
+        }
+        return mappingService.getById(fileShare.getMappingId());
     }
 
     @Override

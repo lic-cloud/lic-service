@@ -5,19 +5,23 @@ let fileTableItem = ["文件ID","类型","文件名","文件操作", "文件大�
  * 第二条用于table渲染
  * @type {{"dt-table-normal": [string, string]}}
  */
-let jumpMapping = {
-    "dt-table-share" : [
-        ""
-        ,"/list?pid="
-    ],
-    "dt-table-normal" : [
-        "/file?mappingId=",
-        "/file/page?pid="
-    ],
-    "dt-table-recycle" : [
-        "/file?status=INVALID&mappingId=",
-        "/file/page?status=INVALID&pid="
-    ]
+function route(tableType, order) {
+
+    let jumpMapping = {
+        "dt-table-share" : [
+            "/share/mapping/"+ localStorage.getItem("shareKey") + "?id="
+            ,"/share/" + localStorage.getItem("shareKey") + "?pid="
+        ],
+        "dt-table-normal" : [
+            "/file?mappingId=",
+            "/file/page?pid="
+        ],
+        "dt-table-recycle" : [
+            "/file?status=INVALID&mappingId=",
+            "/file/page?status=INVALID&pid="
+        ]
+    }
+    return jumpMapping[tableType][order];
 }
 
 
@@ -248,7 +252,8 @@ function initTable(url, fileType){
         ],
         "order": [[0, "asc"]]
     });
-    jump2Dir(tableId, 0);
+
+    jump2Dir(tableId, fileType == "share" ? -1 : 0);
 
 }
 
@@ -301,11 +306,11 @@ function jump2Dir(tableId, id) {
             }
         }
         // 面包屑
-        let targetMapping = ajax_sync_get(jumpMapping[tableId][0] + id);
+        let targetMapping = ajax_sync_get(route(tableId, 0) + id);
         parent.append(buildBarItem(tableId, id, targetMapping.fileName));
         // 表单项
     }
-    table.ajax.url(jumpMapping[tableId][1] + id).load();
+    table.ajax.url(route(tableId, 1) + id).load();
 }
 
 function buildBarItem(tableId, id, displayName, active = true) {

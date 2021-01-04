@@ -53,13 +53,19 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
 
     @Override
     public Page<FileMapping> listUserFiles(Pageable page, Long pid, Status status, Boolean onlyDir) {
+        return listUserFiles(page,UserUtil.getLoginUserId(), pid, status, onlyDir);
+    }
+
+
+    @Override
+    public Page<FileMapping> listUserFiles(Pageable page, Long userId, Long pid, Status status, Boolean onlyDir) {
         if (onlyDir) {
-            return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, UserUtil.getLoginUserId(), status, true);
+            return repo.findAllByPidAndOwnerIdAndStatusAndIsDir(page, pid, userId, status, true);
         }
         if (Status.VALID.equals(status)) {
-            return repo.findAllByPidAndOwnerIdAndStatus(page, pid, UserUtil.getLoginUserId(), status);
+            return repo.findAllByPidAndOwnerIdAndStatus(page, pid, userId, status);
         } else {
-            return repo.findAllByOwnerIdAndStatus(page, UserUtil.getLoginUserId(), status);
+            return repo.findAllByOwnerIdAndStatus(page, userId, status);
         }
     }
 
@@ -74,13 +80,19 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
     }
 
     @Override
-    public FileMapping getMapping(Long mappingId, Status status) {
+    public FileMapping getMapping(Long mappingId, Status status, boolean isShare) {
         FileMapping mapping = getById(mappingId);
         if (status.equals(mapping.getStatus())) {
-            UserUtil.checkIsOwner(mapping.getOwnerId());
+            if (!isShare) {
+                UserUtil.checkIsOwner(mapping.getOwnerId());
+            }
             return mapping;
         }
         throw ExceptionConstant.NOT_FOUND_ITEM;
+    }
+
+    private FileMapping getMapping(Long mappingId, Status status) {
+        return getMapping(mappingId, status, false);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class FileController {
     @GetMapping("/detail")
     public ResponseEntity<FileDetailVO> getFileDetail(@RequestParam Long mappingId) {
         FileDetailVO vo = new FileDetailVO();
-        vo.setMapping(mappingService.getMapping(mappingId, Status.VALID));
+        vo.setMapping(mappingService.getMapping(mappingId, Status.VALID, false));
         //TODO share
         return ResponseEntity.ok(vo);
     }
@@ -106,7 +106,7 @@ public class FileController {
         if (mappingId == 0) {
             return ResponseEntity.ok(ROOT_PATH_MAPPING);
         }
-        return ResponseEntity.ok(mappingService.getMapping(mappingId, status));
+        return ResponseEntity.ok(mappingService.getMapping(mappingId, status, false));
     }
 
     @ApiOperation("创建mapping, 用于文件夹创建")

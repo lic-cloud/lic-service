@@ -28,7 +28,6 @@ INSERT INTO `permission` VALUES (40, NULL, NULL, '', '', '删除', 37, 'dict:del
 insert into lic.permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (41, '2020-10-11 12:10:24', '2020-12-20 02:05:18', 'fa-file', 'pages/file/file-list.html', '文件系统', 0, '', 100, 1);
 insert into lic.permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (43, '2020-12-20 02:07:15', '2020-12-20 02:07:15', 'fa-share-alt', 'pages/file/share.html', '我的分享', 0, '', 100, 1);
 insert into lic.permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (44, '2020-12-21 13:48:43', '2020-12-21 13:48:54', 'fa-archive', 'pages/file/recycle.html', '文件回收站', 0, '', 99, 1);
-insert into lic.permission (id, create_at, update_at, css, href, name, parent_id, permission, sort, type) values (45, '2020-12-21 13:48:43', '2020-12-21 13:48:43', null, 'share.html', '分享', 0, null, 15, 1);
 
 -- ----------------------------
 -- Records of role
@@ -86,7 +85,6 @@ INSERT INTO `role_permission` VALUES (68, '2020-10-11 12:10:30', '2020-10-11 12:
 INSERT INTO `role_permission` VALUES (69, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 41, 1);
 insert into lic.role_permission (id, create_at, update_at, permission_id, role_id) values (73, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 43, 1);
 insert into lic.role_permission (id, create_at, update_at, permission_id, role_id) values (74, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 44, 1);
-insert into lic.role_permission (id, create_at, update_at, permission_id, role_id) values (75, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 45, 1);
 
 -- ----------------------------
 -- Records of dict
