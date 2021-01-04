@@ -68,7 +68,7 @@ public class ShareController {
         param.setExpire(metaInfoService.getMetaObj(Timestamp.class, LicMetaEnum.TIME_ZERO));
         param.setMappingId(id);
         String res = shareManager.createShareLink(param, UserUtil.mustGetLoginUser());
-        return ResponseEntity.ok(metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/share/" + res);
+        return ResponseEntity.ok(metaInfoService.getMetaOrDefaultStr(LicMetaEnum.HOST) + "/redictShare.html/?key=" + res);
     }
 
 
