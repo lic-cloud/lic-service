@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.Range;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "sys_permission")
+@Table(name = "permission")
 public class Permission extends BaseEntity {
     @NotNull(message = "parentId不能为空")
     private Long parentId;

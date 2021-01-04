@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 
 @Data
 @Entity
-@Table(name = "t_dict")
+@Table(name = "dict")
 @EqualsAndHashCode(callSuper = true)
 public class Dict extends BaseEntity {
 

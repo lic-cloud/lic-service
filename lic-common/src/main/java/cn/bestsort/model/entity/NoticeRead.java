@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "t_notice_read")
+@Table(name = "notice_read")
 public class NoticeRead extends BaseEntity {
     @Column
     Long userId;

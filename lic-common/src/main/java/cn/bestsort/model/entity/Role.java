@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "sys_role")
+@Table(name = "role")
 public class Role extends BaseEntity {
     @NotBlank(message = "角色名不能为空")
     @Length(min = 3, max = 20, message = "角色的长度为3-20位")

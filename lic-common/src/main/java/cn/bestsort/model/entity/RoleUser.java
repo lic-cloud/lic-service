@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "sys_role_user")
+@Table(name = "role_user")
 public class RoleUser extends BaseEntity {
     @Column
     Long userId;

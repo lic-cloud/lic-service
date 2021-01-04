@@ -34,6 +34,6 @@ public interface DictRepository extends BaseRepository<Dict, Long> {
      * @param type
      * @return
      */
-    @Query(value = "select count(*) from t_dict t where if(?1!='',t.type like concat('%',?1,'%'),1=1)", nativeQuery = true)
+    @Query(value = "select count(*) from dict t where if(?1!='',t.type like concat('%',?1,'%'),1=1)", nativeQuery = true)
     int count(String type);
 }

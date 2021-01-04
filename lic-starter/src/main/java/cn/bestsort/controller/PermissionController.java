@@ -189,7 +189,11 @@ public class PermissionController {
     @ApiOperation(value = "保存菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void save(@RequestBody @Valid Permission permission) {
-        permissionService.save(permission);
+        if (permissionService.findByName(permission.getName()) != null) {
+            throw new IllegalArgumentException(permission.getName() + "已存在");
+        } else {
+            permissionService.save(permission);
+        }
     }
 
     @GetMapping("/{id}")
