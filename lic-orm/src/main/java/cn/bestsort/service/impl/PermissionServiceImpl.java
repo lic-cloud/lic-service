@@ -40,6 +40,11 @@ public class PermissionServiceImpl extends AbstractBaseService<Permission, Long>
         log.debug("删除菜单id:{}", id);
     }
 
+    @Override
+    public Permission findByName(String name) {
+        return permissionRepo.findByName(name);
+    }
+
     protected PermissionServiceImpl(
         PermissionRepository repository) {
         super(repository);

@@ -24,4 +24,11 @@ public interface PermissionRepository extends BaseRepository<Permission, Long> {
      * @param id
      */
     void deleteByParentId(Long id);
+
+    /**
+     * 依据name查询获得权限
+     * @param name
+     * @return
+     */
+    Permission findByName(String name);
 }

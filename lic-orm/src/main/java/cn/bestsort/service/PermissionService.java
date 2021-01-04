@@ -24,4 +24,11 @@ public interface PermissionService extends BaseService<Permission, Long> {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 依据name获取权限集合
+     * @param name
+     * @return
+     */
+    Permission findByName(String name);
 }
