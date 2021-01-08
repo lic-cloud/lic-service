@@ -1,9 +1,8 @@
 initMenu();
 
-function  updatePermissionList()
+/*function  updatePermissionList()
 {
-
-}
+}*/
 
 function initMenu() {
     $.ajax({
