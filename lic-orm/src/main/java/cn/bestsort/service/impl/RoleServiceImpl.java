@@ -64,7 +64,6 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
             }
             rolePermissionService.saveAll(lst);
         }
-        log.debug("新增角色{}", role.getName());
     }
 
     private void updateRole(Role role, List<Long> permissionIds) {
@@ -81,7 +80,6 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
             }
             rolePermissionService.saveAll(lst);
         }
-        log.debug("修改角色{}", role.getName());
     }
 
     @Override
@@ -90,7 +88,6 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
         rolePermissionRepository.deleteAllByRoleId(id);
         roleUserRepository.deleteAllByRoleId(id);
         roleRepo.deleteAllById(id);
-        log.debug("删除角色id:{}", id);
     }
 
     @Override

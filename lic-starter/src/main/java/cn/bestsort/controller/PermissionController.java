@@ -64,7 +64,6 @@ public class PermissionController {
         firstLevel.parallelStream().forEach(p -> {
             setChild(p, permissionDTOS);
         });
-
         return firstLevel;
     }
 

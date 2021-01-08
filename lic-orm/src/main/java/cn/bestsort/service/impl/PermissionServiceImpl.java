@@ -37,7 +37,6 @@ public class PermissionServiceImpl extends AbstractBaseService<Permission, Long>
         rolePermission.deleteByPermissionId(id);
         permissionRepo.deleteById(id);
         permissionRepo.deleteByParentId(id);
-        log.debug("删除菜单id:{}", id);
     }
 
     @Override

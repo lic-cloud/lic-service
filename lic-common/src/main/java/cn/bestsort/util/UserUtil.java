@@ -19,15 +19,16 @@ public class UserUtil {
             throw ExceptionConstant.UNAUTHORIZED;
         }
     }
+
     public static Long getLoginUserId() {
         return mustGetLoginUser().getId();
     }
+
     public static LoginUserVO getLoginUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             if (authentication instanceof AnonymousAuthenticationToken) {
                 return null;
-
             }
             if (authentication instanceof UsernamePasswordAuthenticationToken) {
                 return (LoginUserVO) authentication.getPrincipal();
