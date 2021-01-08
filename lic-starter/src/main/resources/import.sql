@@ -36,51 +36,32 @@ INSERT INTO `role` VALUES (2, '2020-10-24 15:24:37', '2020-10-24 15:24:35', '用
 -- ----------------------------
 -- Records of role_permission
 -- ----------------------------
-INSERT INTO `role_permission` VALUES (25, NULL, NULL, 1, 2);
-INSERT INTO `role_permission` VALUES (26, NULL, NULL, 2, 2);
-INSERT INTO `role_permission` VALUES (27, NULL, NULL, 3, 2);
-INSERT INTO `role_permission` VALUES (28, NULL, NULL, 4, 2);
-INSERT INTO `role_permission` VALUES (29, NULL, NULL, 6, 2);
-INSERT INTO `role_permission` VALUES (30, NULL, NULL, 7, 2);
-INSERT INTO `role_permission` VALUES (31, NULL, NULL, 8, 2);
-INSERT INTO `role_permission` VALUES (32, NULL, NULL, 9, 2);
-INSERT INTO `role_permission` VALUES (33, NULL, NULL, 10, 2);
-INSERT INTO `role_permission` VALUES (34, NULL, NULL, 11, 2);
-INSERT INTO `role_permission` VALUES (35, NULL, NULL, 12, 2);
-INSERT INTO `role_permission` VALUES (36, NULL, NULL, 13, 2);
-INSERT INTO `role_permission` VALUES (37, NULL, NULL, 14, 2);
-INSERT INTO `role_permission` VALUES (38, NULL, NULL, 15, 2);
-INSERT INTO `role_permission` VALUES (39, NULL, NULL, 19, 2);
-INSERT INTO `role_permission` VALUES (40, NULL, NULL, 20, 2);
-INSERT INTO `role_permission` VALUES (41, NULL, NULL, 22, 2);
-INSERT INTO `role_permission` VALUES (42, NULL, NULL, 23, 2);
-INSERT INTO `role_permission` VALUES (43, NULL, NULL, 24, 2);
-INSERT INTO `role_permission` VALUES (44, NULL, NULL, 25, 2);
-INSERT INTO `role_permission` VALUES (45, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 1, 1);
-INSERT INTO `role_permission` VALUES (46, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 2, 1);
-INSERT INTO `role_permission` VALUES (47, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 3, 1);
-INSERT INTO `role_permission` VALUES (48, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 4, 1);
-INSERT INTO `role_permission` VALUES (49, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 6, 1);
-INSERT INTO `role_permission` VALUES (50, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 7, 1);
-INSERT INTO `role_permission` VALUES (51, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 8, 1);
-INSERT INTO `role_permission` VALUES (52, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 9, 1);
-INSERT INTO `role_permission` VALUES (53, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 10, 1);
-INSERT INTO `role_permission` VALUES (54, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 11, 1);
-INSERT INTO `role_permission` VALUES (55, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 12, 1);
-INSERT INTO `role_permission` VALUES (56, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 13, 1);
-INSERT INTO `role_permission` VALUES (57, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 14, 1);
-INSERT INTO `role_permission` VALUES (58, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 15, 1);
-INSERT INTO `role_permission` VALUES (59, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 19, 1);
-INSERT INTO `role_permission` VALUES (60, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 20, 1);
-INSERT INTO `role_permission` VALUES (61, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 22, 1);
-INSERT INTO `role_permission` VALUES (62, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 23, 1);
-INSERT INTO `role_permission` VALUES (63, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 24, 1);
-INSERT INTO `role_permission` VALUES (64, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 25, 1);
-INSERT INTO `role_permission` VALUES (65, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 37, 1);
-INSERT INTO `role_permission` VALUES (66, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 38, 1);
-INSERT INTO `role_permission` VALUES (67, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 39, 1);
-INSERT INTO `role_permission` VALUES (68, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 40, 1);
-INSERT INTO `role_permission` VALUES (69, '2020-10-11 12:10:30', '2020-10-11 12:10:30', 41, 1);
+INSERT INTO `role_permission` VALUES (70, '2021-01-08 12:37:55', '2021-01-08 12:37:55', 41, 2);
+INSERT INTO `role_permission` VALUES (71, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 1, 1);
+INSERT INTO `role_permission` VALUES (72, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 2, 1);
+INSERT INTO `role_permission` VALUES (73, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 3, 1);
+INSERT INTO `role_permission` VALUES (74, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 4, 1);
+INSERT INTO `role_permission` VALUES (75, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 6, 1);
+INSERT INTO `role_permission` VALUES (76, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 7, 1);
+INSERT INTO `role_permission` VALUES (77, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 8, 1);
+INSERT INTO `role_permission` VALUES (78, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 9, 1);
+INSERT INTO `role_permission` VALUES (79, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 10, 1);
+INSERT INTO `role_permission` VALUES (80, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 11, 1);
+INSERT INTO `role_permission` VALUES (81, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 12, 1);
+INSERT INTO `role_permission` VALUES (82, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 13, 1);
+INSERT INTO `role_permission` VALUES (83, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 14, 1);
+INSERT INTO `role_permission` VALUES (84, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 15, 1);
+INSERT INTO `role_permission` VALUES (85, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 19, 1);
+INSERT INTO `role_permission` VALUES (86, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 20, 1);
+INSERT INTO `role_permission` VALUES (87, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 22, 1);
+INSERT INTO `role_permission` VALUES (88, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 23, 1);
+INSERT INTO `role_permission` VALUES (89, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 24, 1);
+INSERT INTO `role_permission` VALUES (90, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 25, 1);
+INSERT INTO `role_permission` VALUES (91, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 37, 1);
+INSERT INTO `role_permission` VALUES (92, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 38, 1);
+INSERT INTO `role_permission` VALUES (93, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 39, 1);
+INSERT INTO `role_permission` VALUES (94, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 40, 1);
+INSERT INTO `role_permission` VALUES (95, '2021-01-08 12:38:01', '2021-01-08 12:38:01', 41, 1);
 
 -- ----------------------------
 -- Records of dict
@@ -98,9 +79,5 @@ INSERT INTO `dict` VALUES (9, '2017-11-17 16:26:06', '2017-11-17 16:26:09', '1',
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
-INSERT INTO `notice` VALUES (2, '2020-10-24 07:52:09', '2020-10-24 07:52:09', '123123', 1, '123123');
+INSERT INTO `notice` VALUES (2, '2020-10-24 07:52:09', '2020-10-24 07:52:09', '通知示例', 1, '通知示例');
 
--- ----------------------------
--- Records of notice_read
--- ----------------------------
-INSERT INTO `notice_read` VALUES (3, '2020-10-24 07:53:28', '2020-10-24 07:53:28', 2, 1);
