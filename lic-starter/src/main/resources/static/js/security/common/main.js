@@ -1,5 +1,10 @@
 initMenu();
 
+function  updatePermissionList()
+{
+
+}
+
 function initMenu() {
     $.ajax({
         url: "/permissions/current",

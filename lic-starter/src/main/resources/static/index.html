@@ -13,6 +13,33 @@
     <link rel="stylesheet" href="layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="css/global.css" media="all"/>
     <link rel="stylesheet" href="css/font-awesome/css/font-awesome.css" media="all"/>
+    <style>
+        .btn-primary2 {
+            color: #fff;
+            background-color: #1AA094;
+            border-color: #1AA094;
+        }
+        .btn2 {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            padding: 6px 12px;
+            font-size: 13px;
+            line-height: 1.42857143;
+            border-radius: 2px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +48,7 @@
     <div class="layui-header header header-demo">
         <div class="layui-main">
             <div class="admin-login-box">
-                <a class="logo" style="left: 0;" href="/">
+                <a class="logo" style="left: 0;">
                     <span style="font-size: 22px;">LIC系统</span>
                 </a>
                 <div class="admin-side-toggle">
@@ -33,6 +60,9 @@
                 <li class="layui-nav-item">
                     <a href='javascript:;' lay-id="-997" data-url="pages/notice/noticePubList.html"><i
                             class="fa fa-envelope-o" aria-hidden="true" title="公告" unreadNotice></i></a>
+                </li>
+                <li class="layui-nav-item">
+                    <button type="button" class="btn2 btn-primary2" onclick="updatePermissionList()">更新列表</button>
                 </li>
                 <!--头像的位置-->
                 <li class="layui-nav-item" pc>
@@ -85,7 +115,7 @@
     </div>
     <div class="layui-footer footer footer-demo" id="admin-footer">
         <div>
-            <p>&copy;lic系统</p>
+            <p>LIC系统</p>
         </div>
     </div>
     <!--缩小左下角-->
