@@ -36,4 +36,12 @@ public interface DictRepository extends BaseRepository<Dict, Long> {
      */
     @Query(value = "select count(*) from dict t where if(?1!='',t.type like concat('%',?1,'%'),1=1)", nativeQuery = true)
     int count(String type);
+
+    /**
+     * 依据id获得Dict实例集合
+     * @param id
+     * @return
+     */
+    Dict findAllById(Long id);
+
 }

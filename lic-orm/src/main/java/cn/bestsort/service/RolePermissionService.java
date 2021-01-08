@@ -29,9 +29,9 @@ public interface RolePermissionService extends BaseService<RolePermission, Long>
 
     /**
      * 依据权限id获取RolePermission实例集合
-     *
      * @param permissionId
      * @return
      */
     List<RolePermission> listByPermissionId(Long permissionId);
+
 }

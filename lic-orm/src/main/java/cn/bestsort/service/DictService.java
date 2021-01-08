@@ -28,4 +28,10 @@ public interface DictService extends BaseService<Dict, Long>, Listable<Dict> {
      */
     List<Dict> findAllByType(String type);
 
+    /**
+     * 依据id获取字典
+     * @param id
+     * @return
+     */
+    Dict findAllById(Long id);
 }

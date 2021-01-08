@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.dto.RetrievePasswordDTO;
 import cn.bestsort.model.dto.UserDTO;
 import cn.bestsort.model.entity.RoleUser;
@@ -73,7 +74,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
             user.setPassword(passwordEncoder.encode(re.getNewPassword()));
             update(user, user.getId());
         } else {
-            throw new IllegalArgumentException("用户不存在");
+            throw ExceptionConstant.USER_NOT_EXIT;
         }
     }
 
@@ -117,10 +118,10 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     public void changePassword(String username, String oldPassword, String newPassword) {
         User u = userRepo.findByUsername(username);
         if (u == null) {
-            throw new IllegalArgumentException("用户不存在");
+            throw ExceptionConstant.USER_NOT_EXIT;
         }
         if (!passwordEncoder.matches(oldPassword, u.getPassword())) {
-            throw new IllegalArgumentException("旧密码错误");
+            throw ExceptionConstant.OLD_PASSWORD_NOT_EXIT;
         }
         u.setPassword(passwordEncoder.encode(newPassword));
         update(u, u.getId());

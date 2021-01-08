@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
     implements NoticeService {
-
-    NoticeRepository repo;
+    @Autowired
+    private NoticeRepository repo;
     @Autowired
     private RepositoryEntity rre;
 
@@ -50,5 +50,15 @@ public class NoticeServiceImpl extends AbstractBaseService<Notice, Long>
         }
         return rre.listNotice(title, Integer.valueOf(status), orderBy, offset, limit);
 
+    }
+
+    @Override
+    public Notice findAllById(Long id) {
+        return repo.findAllById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        repo.deleteById(id);
     }
 }

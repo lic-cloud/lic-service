@@ -20,12 +20,10 @@ public interface RoleUserRepository extends BaseRepository<RoleUser, Long> {
 
     /**
      * 依据角色id获得RoleUser集合
-     *
      * @param id
      * @return
      */
     List<RoleUser> findAllByRoleId(Long id);
-
     /**
      * 依据用户id删除用户-角色
      *

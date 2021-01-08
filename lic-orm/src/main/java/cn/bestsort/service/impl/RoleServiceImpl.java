@@ -29,7 +29,8 @@ import org.springframework.util.CollectionUtils;
 @Service
 public class RoleServiceImpl extends AbstractBaseService<Role, Long>
     implements RoleService {
-
+    @Autowired
+    private RepositoryEntity rre;
     @Autowired
     private RoleRepository roleRepo;
     @Autowired
@@ -97,9 +98,6 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
         String name = (String) params.get("name");
         return roleRepo.count(name);
     }
-
-    @Autowired
-    private RepositoryEntity rre;
 
     @Override
     public List<Role> list(Map<String, Object> params, int offset, int limit) {

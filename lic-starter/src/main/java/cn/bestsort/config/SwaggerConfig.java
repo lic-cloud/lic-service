@@ -21,7 +21,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableKnife4j
 public class SwaggerConfig {
-    //TODO 网页控制台报错 未解决
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

@@ -13,11 +13,26 @@ import cn.bestsort.util.page.Listable;
  */
 public interface NoticeReadService extends BaseService<NoticeRead, Long>, Listable<NoticeReadVO> {
     /**
-     * 依据通知id获取已读通知集合
+     * 依据通知id删除通知
      *
      * @param id
+     */
+    void deleteAllByNoticeId(Long id);
+
+    /**
+     * 依据通知id,用户id获得NoticeRead实例集合
+     *
+     * @param userId
+     * @param noticeId
      * @return
      */
-    List<NoticeRead> findAllByNoticeId(Long id);
+    List<NoticeRead> findAllByUserIdAndNoticeId(Long userId, Long noticeId);
 
+    /**
+     * 统计符合条件的列表数据未读个数
+     *
+     * @param userId
+     * @return
+     */
+    int countUnread(Long userId);
 }

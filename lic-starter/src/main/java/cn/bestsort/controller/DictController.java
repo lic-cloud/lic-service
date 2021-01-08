@@ -2,8 +2,11 @@ package cn.bestsort.controller;
 
 import java.util.List;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.Dict;
 import cn.bestsort.service.DictService;
+import cn.bestsort.service.NoticeService;
+import cn.bestsort.service.UserService;
 import cn.bestsort.util.page.PageTableHandler;
 import cn.bestsort.util.page.PageTableRequest;
 import cn.bestsort.util.page.PageTableResponse;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
+ * 字典相关处理
+ *
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
@@ -36,6 +41,10 @@ public class DictController {
 
     @Autowired
     private DictService dictService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private NoticeService noticeService;
 
     @PreAuthorize("hasAuthority('dict:add')")
     @PostMapping
@@ -43,7 +52,7 @@ public class DictController {
     public Dict save(@RequestBody @Valid Dict dict) {
         Dict d = dictService.findByTypeAndKey(dict.getType(), dict.getK());
         if (d != null) {
-            throw new IllegalArgumentException("类型和key已存在");
+            throw ExceptionConstant.TYPE_AND_KEY_EXIT;
         }
         dictService.save(dict);
         return dict;
@@ -74,7 +83,20 @@ public class DictController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除")
     public void delete(@PathVariable Long id) {
-        dictService.removeById(id);
+        String type = dictService.findAllById(id).getType();
+        if ("sex".equals(type) || "userStatus".equals(type)) {
+            if (userService.listAll() != null) {
+                throw ExceptionConstant.DICTIONARY_IN_USE;
+            }
+        } else if ("noticeStatus".equals(type)) {
+            if (noticeService.listAll() != null) {
+                throw ExceptionConstant.DICTIONARY_IN_USE;
+            }
+        } else if ("isRead".equals(type)) {
+            throw ExceptionConstant.DICTIONARY_IN_USE;
+        } else {
+            dictService.removeById(id);
+        }
     }
 
     @GetMapping(params = "type")

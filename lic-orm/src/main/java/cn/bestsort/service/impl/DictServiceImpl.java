@@ -34,6 +34,11 @@ public class DictServiceImpl extends AbstractBaseService<Dict, Long> implements 
     }
 
     @Override
+    public Dict findAllById(Long id) {
+        return repo.findAllById(id);
+    }
+
+    @Override
     public int count(Map<String, Object> params) {
         String type = (String) params.get("type");
         return repo.count(type);

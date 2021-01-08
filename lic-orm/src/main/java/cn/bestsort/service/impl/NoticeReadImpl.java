@@ -25,8 +25,18 @@ public class NoticeReadImpl extends AbstractBaseService<NoticeRead, Long> implem
     private RepositoryEntity rre;
 
     @Override
-    public List<NoticeRead> findAllByNoticeId(Long id) {
-        return repo.findAllByNoticeId(id);
+    public void deleteAllByNoticeId(Long id) {
+        repo.deleteAllByNoticeId(id);
+    }
+
+    @Override
+    public List<NoticeRead> findAllByUserIdAndNoticeId(Long userId, Long noticeId) {
+        return repo.findAllByUserIdAndNoticeId(userId,noticeId);
+    }
+
+    @Override
+    public int countUnread(Long userId) {
+        return repo.countUnread(userId);
     }
 
 

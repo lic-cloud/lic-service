@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PermissionServiceImpl extends AbstractBaseService<Permission, Long>
     implements PermissionService {
-
+    @Autowired
     private PermissionRepository permissionRepo;
     @Autowired
     private RolePermissionRepository rolePermission;

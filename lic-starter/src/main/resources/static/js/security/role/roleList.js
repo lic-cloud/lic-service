@@ -79,6 +79,9 @@ function del(id) {
             success: function (data) {
                 example.ajax.reload();
                 layer.msg("删除成功");
+            },
+            error(xhr, status, error){
+                layer.msg(xhr.responseText, {shift: -1, time: 4000});
             }
         });
 

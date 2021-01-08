@@ -21,12 +21,10 @@ public interface RolePermissionRepository extends BaseRepository<RolePermission,
 
     /**
      * 依据权限id获得RolePermission实例集合
-     *
      * @param permissionId
      * @return
      */
     List<RolePermission> findAllByPermissionId(Long permissionId);
-
     /**
      * 依据角色id集合获得RolePermission实例集合
      *

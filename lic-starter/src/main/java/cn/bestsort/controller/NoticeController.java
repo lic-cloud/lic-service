@@ -2,13 +2,12 @@ package cn.bestsort.controller;
 
 import java.util.List;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.entity.Notice;
 import cn.bestsort.model.entity.Notice.Status;
 import cn.bestsort.model.entity.NoticeRead;
 import cn.bestsort.model.entity.User;
 import cn.bestsort.model.vo.NoticeVO;
-import cn.bestsort.repository.NoticeReadRepository;
-import cn.bestsort.repository.NoticeRepository;
 import cn.bestsort.repository.impl.RepositoryEntity;
 import cn.bestsort.service.NoticeReadService;
 import cn.bestsort.service.NoticeService;
@@ -47,10 +46,6 @@ public class NoticeController {
     @Autowired
     private NoticeReadService noticeReadService;
     @Autowired
-    private NoticeRepository repository;
-    @Autowired
-    private NoticeReadRepository noticeReadRepository;
-    @Autowired
     RepositoryEntity rep;
 
     @PostMapping
@@ -64,20 +59,20 @@ public class NoticeController {
     @ApiOperation(value = "根据id获取公告")
     @PreAuthorize("hasAuthority('notice:query')")
     public Notice get(@PathVariable Long id) {
-        return repository.findAllById(id);
+        return noticeService.findAllById(id);
     }
 
 
     @GetMapping(params = "id")
     public NoticeVO readNotice(Long id) {
         NoticeVO vo = new NoticeVO();
-        Notice notice = repository.findAllById(id);
+        Notice notice = noticeService.findAllById(id);
         if (notice == null || notice.getStatus() == Status.DRAFT) {
             return vo;
         }
         vo.setNotice(notice);
         Long aLong = UserUtil.mustGetLoginUser().getId();
-        List<NoticeRead> all = noticeReadRepository.findAllByUserIdAndNoticeId(aLong, notice.getId());
+        List<NoticeRead> all = noticeReadService.findAllByUserIdAndNoticeId(aLong, notice.getId());
         if (all.isEmpty()) {
             noticeReadService.save(NoticeRead.of(aLong, notice.getId()));
         }
@@ -92,7 +87,7 @@ public class NoticeController {
     public Notice updateNotice(@RequestBody @Valid Notice notice) {
         Notice no = noticeService.getById(notice.getId());
         if (no.getStatus() == Status.PUBLISH) {
-            throw new IllegalArgumentException("发布状态的不能修改");
+            throw ExceptionConstant.CAN_NOT_MODIFY;
         }
         noticeService.update(notice, notice.getId());
         return notice;
@@ -103,8 +98,9 @@ public class NoticeController {
     @ApiOperation(value = "删除公告")
     @PreAuthorize("hasAuthority('notice:del')")
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
-        noticeReadRepository.deleteAllByNoticeId(id);
+        
+        noticeService.deleteById(id);
+        noticeReadService.deleteAllByNoticeId(id);
     }
 
     @ApiOperation(value = "未读公告数")
@@ -112,10 +108,10 @@ public class NoticeController {
     public Integer countUnread() {
         User user = UserUtil.getLoginUser();
         assert user != null;
-        return noticeReadRepository.countUnread(user.getId());
+        return noticeReadService.countUnread(user.getId());
     }
 
-    //TODO: 2020/10/24  按时间区域搜索未实现
+
     @GetMapping
     @ApiOperation(value = "公告管理列表")
     @PreAuthorize("hasAuthority('notice:query')")
@@ -123,7 +119,7 @@ public class NoticeController {
         return PageTableHandler.handlePage(request, noticeService);
     }
 
-    //TODO: 2020/10/24  按时间区域搜索未实现
+
     @GetMapping("/published")
     @ApiOperation(value = "公告列表")
     public PageTableResponse listNoticeReadVO(PageTableRequest request) {

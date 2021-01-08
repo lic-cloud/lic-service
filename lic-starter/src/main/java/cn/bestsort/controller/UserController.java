@@ -148,12 +148,8 @@ public class UserController {
         return userVO;
     }
 
-    /**
-     * TODO  未实现使用
-     *
-     * @param headImgUrl
-     */
-    @PutMapping(params = "headImgUrl")
+
+    /*@PutMapping(params = "headImgUrl")
     @ApiOperation(value = "修改头像")
     public void updateHeadImgUrl(String headImgUrl) {
         User user = UserUtil.getLoginUser();
@@ -163,5 +159,5 @@ public class UserController {
 
         userService.updateUser(userDto);
         log.debug("{}修改了头像", user.getUsername());
-    }
+    }*/
 }

@@ -7,6 +7,7 @@ import cn.bestsort.model.entity.RolePermission;
 import cn.bestsort.repository.RolePermissionRepository;
 import cn.bestsort.service.AbstractBaseService;
 import cn.bestsort.service.RolePermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RolePermissionImpl extends AbstractBaseService<RolePermission, Long>
     implements RolePermissionService {
-
+    @Autowired
     RolePermissionRepository repo;
 
     @Override
@@ -34,6 +35,7 @@ public class RolePermissionImpl extends AbstractBaseService<RolePermission, Long
     public List<RolePermission> listByPermissionId(Long permissionId) {
         return repo.findAllByPermissionId(permissionId);
     }
+
 
     protected RolePermissionImpl(
         RolePermissionRepository repository) {

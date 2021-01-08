@@ -10,13 +10,6 @@ import cn.bestsort.model.entity.RoleUser;
  * @date 2020-09-17 15:06
  */
 public interface RoleUserService extends BaseService<RoleUser, Long> {
-    /**
-     * 通过角色id获取RoleUser集合
-     *
-     * @param id
-     * @return
-     */
-    List<RoleUser> listByRoleId(Long id);
 
     /**
      * 通过用户id获取RoleUser集合
@@ -25,4 +18,11 @@ public interface RoleUserService extends BaseService<RoleUser, Long> {
      * @return
      */
     List<RoleUser> listByUserId(Long id);
+
+    /**
+     * 通过角色id获取RoleUser集合
+     * @param id
+     * @return
+     */
+    List<RoleUser> listByRoleId(Long id);
 }

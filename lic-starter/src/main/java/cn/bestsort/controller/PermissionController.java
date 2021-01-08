@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import cn.bestsort.constant.ExceptionConstant;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -233,6 +234,9 @@ public class PermissionController {
     @ApiOperation(value = "删除菜单")
     @PreAuthorize("hasAuthority('sys:menu:del')")
     public void delete(@PathVariable Long id) {
+        if (iRolePermission.listByPermissionId(id) != null) {
+            throw ExceptionConstant.DICTIONARY_IN_USE;
+        }
         permissionService.delete(id);
     }
 }

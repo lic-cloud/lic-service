@@ -19,13 +19,13 @@ public class RoleUserImpl extends AbstractBaseService<RoleUser, Long> implements
     RoleUserRepository repo;
 
     @Override
-    public List<RoleUser> listByRoleId(Long id) {
-        return repo.findAllByRoleId(id);
+    public List<RoleUser> listByUserId(Long id) {
+        return repo.findAllByUserId(id);
     }
 
     @Override
-    public List<RoleUser> listByUserId(Long id) {
-        return repo.findAllByUserId(id);
+    public List<RoleUser> listByRoleId(Long id) {
+        return repo.findAllByRoleId(id);
     }
 
     protected RoleUserImpl(

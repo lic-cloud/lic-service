@@ -86,10 +86,4 @@ public class GlobalExceptionHandler {
     public ResponseInfo badRequestException(Exception exception) {
         return ResponseInfo.of(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
-
-    @ExceptionHandler(Throwable.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseInfo exception(Throwable throwable) {
-        return ResponseInfo.of(HttpStatus.INTERNAL_SERVER_ERROR, throwable.getMessage());
-    }
 }

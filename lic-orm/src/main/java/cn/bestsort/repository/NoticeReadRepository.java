@@ -11,13 +11,7 @@ import java.util.List;
  * @date 2020-09-17 19:44
  */
 public interface NoticeReadRepository extends BaseRepository<NoticeRead, Long> {
-    /**
-     * 依据通知id获得NoticeRead实例集合
-     *
-     * @param id
-     * @return
-     */
-    List<NoticeRead> findAllByNoticeId(Long id);
+
 
     /**
      * 依据通知id,用户id获得NoticeRead实例集合
