@@ -188,13 +188,10 @@
                         </div>
                         <div class="form-group">
                             <input type="text" id="address" name="address" placeholder="请输入主页网址,默认localhost:8080"
-                                   class="form-control">
-                            <!--todo-->
-                            <!--
-                            data-bv-notempty="true"
-                             data-bv-notempty-message="主页网址不能为空"data-bv-regexp="true"
-                            data-bv-regexp-regexp="^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+$"
-                            data-bv-regexp-message="主页网址格式错误"-->
+                                   class="form-control"
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+$"
+                                   data-bv-regexp-message="主页网址格式错误" >
                         </div>
                     </form>
                 </div>
@@ -221,11 +218,15 @@
                         <p class="panel__subheading">系统初始化为不可逆过程! <span style="color: red">[WARNING]</span>表示强烈建议不做改动
                         </p>
                     </header>
-                    <form method="post" name="form3" id="form3" onsubmit="return false;">
+                    <form method="post" name="form3" id="form3" onsubmit="return false;" >
                         <div class="form-group">
                             <p>静态资源存储目录 <span style="color: red">[WARNING]</span></p>
-                            <input type="text" id="dir" name="dir" placeholder="可以为空" class="form-control">
+                            <input type="text" id="dir" name="dir" placeholder="可以为空" class="form-control"
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="^[a-zA-Z]:(\\[\w ]+)+$"
+                                   data-bv-regexp-message="目录格式错误">
                         </div>
+                        <br>
                         <div class="form-group">
                             <p>静态资源文件夹名称长度 <span style="color: red">[WARNING]</span></p>
                             <select class="form-control" name="length" id="length">

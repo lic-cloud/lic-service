@@ -178,7 +178,13 @@ class Wizard {
     //校验是否可以进行下一步
     validateMovement(movement) {
         let bootstrapValidator = $("#form").data('bootstrapValidator');
+        let bootstrapValidator2 = $("#form3").data('bootstrapValidator');
         bootstrapValidator.validate();
+        bootstrapValidator2.validate();
+        if (!bootstrapValidator2.isValid())
+        {
+            return false;
+        }
         if (!bootstrapValidator.isValid() && this.currentStep === 0) {
             return false;
         } else {

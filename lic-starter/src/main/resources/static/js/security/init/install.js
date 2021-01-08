@@ -10,7 +10,7 @@ layui.use(['layer', 'laydate'], function () {
 });
 
 $('#form').bootstrapValidator();
-
+$('#form3').bootstrapValidator();
 function add() {
     let format = $("#form").serializeObject();
     let date = new Date(format.birthday);
