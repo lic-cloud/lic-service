@@ -40,7 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenFilter tokenFilter;
 
-
+    /**
+     * 用户密码的加密，校验
+     * @return
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -104,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 配置查询用户的实现
+     * 根据用户名查询用户：提供了实现UserDetailsServiceImpl
      *
      * @param auth
      * @throws Exception

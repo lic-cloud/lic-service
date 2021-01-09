@@ -25,6 +25,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 /**
  * spring security处理器
+ *
  * @author GoodTime0313
  * @version 1.0
  * @date 2020/9/15 8:59
@@ -42,7 +43,7 @@ public class SecurityHandlerConfig {
     @Bean
     public AuthenticationSuccessHandler loginSuccessHandler() {
         return (request, response, authentication) -> {
-            //当前登录用户
+            //获取当前登录用户
             LoginUserVO loginUser = (LoginUserVO) authentication.getPrincipal();
             //用LoginUserVO去生成token
             TokenDTO token = tokenService.saveToken(loginUser);
