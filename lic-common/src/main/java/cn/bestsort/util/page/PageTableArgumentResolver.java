@@ -21,7 +21,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @date 2020/9/15 8:59
  */
 public class PageTableArgumentResolver implements HandlerMethodArgumentResolver {
-
+    /**
+     * 如果请求接收的参数为PageTableRequest就进入到resolveArgument这个方法。
+     * 将HttpServletRequest转化为PageTableRequest。
+     * 再加一个配置。
+     * @param parameter
+     * @return
+     */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().isAssignableFrom(PageTableRequest.class);
