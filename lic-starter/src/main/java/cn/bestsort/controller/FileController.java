@@ -8,7 +8,6 @@ import java.util.Optional;
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.model.entity.FileMapping;
 import cn.bestsort.model.enums.Status;
-import cn.bestsort.model.vo.FileDetailVO;
 import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
@@ -56,7 +55,6 @@ public class FileController {
         "根目录", null, null, null, null, true, false, Status.VALID);
 
 
-
     @ApiOperation("文件恢复")
     @PostMapping("/recover")
     public ResponseEntity<Boolean> recover(@RequestParam Long id) {
@@ -92,8 +90,8 @@ public class FileController {
     @ApiOperation("获取文件列表(返回List)")
     @GetMapping("/list")
     public ResponseEntity<List<FileMapping>> list(@RequestParam(defaultValue = "VALID") Status status,
-                                  @RequestParam(defaultValue = "0") Long pid,
-                                  @RequestParam(defaultValue = "false") Boolean onlyDir) {
+                                                  @RequestParam(defaultValue = "0") Long pid,
+                                                  @RequestParam(defaultValue = "false") Boolean onlyDir) {
         return ResponseEntity.ok(
             mappingService.listUserFilesWithoutPage(pid, status, onlyDir)
         );
@@ -119,6 +117,7 @@ public class FileController {
         fileManager.createMapping(mapping);
         return ResponseEntity.ok(mapping);
     }
+
     @ApiOperation("文件/文件夹的移动、复制")
     @PostMapping("/move")
     public ResponseEntity<Boolean> move(@RequestParam(defaultValue = "false") Boolean isCopy,
@@ -145,9 +144,9 @@ public class FileController {
         result.put("文件ID", mapping.getId());
         result.put("文件名", mapping.getFileName());
         result.put("文件大小", mapping.getSize() + " KB");
-        result.put("分享状态", mapping.getShare() ? "已分享":"未分享");
+        result.put("分享状态", mapping.getShare() ? "已分享" : "未分享");
         result.put("所属用户", userService.getById(mapping.getOwnerId()).getNickname());
-        result.put("所处位置", Status.INVALID.equals(mapping.getStatus()) ? "回收站":"文件系统");
+        result.put("所处位置", Status.INVALID.equals(mapping.getStatus()) ? "回收站" : "文件系统");
         return ResponseEntity.of(Optional.of(result));
     }
 }

@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 用户密码的加密，校验
+     *
      * @return
      */
     @Bean
@@ -80,8 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, "/users/retrievePassword").permitAll()
             .antMatchers(HttpMethod.GET, "/dicts").permitAll()
             .antMatchers("/install/**").permitAll()
-            .antMatchers( "/share/**").permitAll()
-            .antMatchers( "/share.html/**").permitAll()
+            .antMatchers("/share/**").permitAll()
+            .antMatchers("/share.html/**").permitAll()
             .antMatchers("/redictShare.html/**").permitAll()
             .antMatchers("/file/**").permitAll()
             .anyRequest().authenticated();

@@ -52,7 +52,7 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
             throw new IllegalArgumentException(message + "已存在");
         }*/
         List<User> all = userRepo.findAllByUsernameOrPhoneOrTelephoneOrEmail(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
-        if (all != null) {
+        if (!all.isEmpty()) {
             throw ExceptionConstant.USER_EXIT;
         }
         User user = new User();
