@@ -1,10 +1,13 @@
 package cn.bestsort.service.impl;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.exception.LicException;
 import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
@@ -12,8 +15,10 @@ import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.model.vo.UploadTokenVO;
+import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.util.FileUtil;
 import cn.bestsort.util.UrlUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,9 +26,9 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  * @date 2020-08-24 17:58
  */
-
+@Slf4j
 @Service
-public class EmptyFileManagerImpl extends AbstractFileManager {
+public class LocalFileManagerImpl extends AbstractFileManager {
 
     @Override
     public String downloadLink(String path, Long expire) {
@@ -40,23 +45,36 @@ public class EmptyFileManagerImpl extends AbstractFileManager {
     }
 
     @Override
-    public void move(FileDTO fileDTO, Long targetDirId) throws LicException {
-
-    }
-
-    @Override
     public UploadTokenVO generatorUploadVO(Map<String, String> config) {
         return null;
     }
 
     @Override
-    public void rename(FileDTO fileDTO, String targetName) {
+    public void delEntity(List<FileInfo> fileDTO) {
+        for (FileInfo fileInfo : fileDTO) {
 
-    }
-
-    @Override
-    public void del(List<FileInfo> fileDTO) {
-
+            String fullPath = FileUtil.unionPath(
+                metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.ROOT_PATH),
+                metaInfoService.getMetaOrDefaultStr(LocalHostMetaEnum.DATA_DIR),
+                fileInfo.getPath(),
+                fileInfo.getFileName()
+            );
+            File file = new File(fullPath);
+            int cnt = 3;
+            while (!file.delete()) {
+                try {
+                    Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                cnt--;
+                if (cnt == 0) {
+                    log.error("{} entity delete failed, full path: {}", fileInfo.getFileName(), fullPath);
+                    throw ExceptionConstant.DELETE_FAILED;
+                }
+                log.info("file: {} delete failed, retry after 3S", fileInfo.getFileName());
+            }
+        }
     }
 
     @Override

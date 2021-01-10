@@ -27,32 +27,17 @@ public interface FileManager {
     String downloadLink(String path, Long expire);
 
     /**
-     * 当目标路径已存在对应文件的时候抛出{@link cn.bestsort.constant.ExceptionConstant#TARGET_EXIST}异常
-     * @param fileDTO           文件入参
-     * @param targetDirId       目标路径
-     * @throws LicException     文件/文件名冲突
-     */
-    void move(FileDTO fileDTO, Long targetDirId) throws LicException;
-
-    /**
      * 根据参数生成不同的host和extConfig(不同实现支持的参数不同, 故采用Map)
      * @param config 参数配置
      * @return VO
      */
     UploadTokenVO generatorUploadVO(Map<String, String> config);
-    /**
-     * 当目标文件名已存在时抛出TargetExistException异常
-     * TODO
-     * @param  fileDTO      文件入参
-     * @param targetName    文件出参
-     */
-    void rename(FileDTO fileDTO, String targetName);
 
     /**
      * 实体删除的文件列表
      * @param fileDTO 文件入参
      */
-    void del(List<FileInfo> fileDTO);
+    void delEntity(List<FileInfo> fileDTO);
 
 
     boolean match(FileNamespace namespace);

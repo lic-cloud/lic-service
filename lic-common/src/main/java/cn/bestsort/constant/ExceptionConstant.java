@@ -1,7 +1,7 @@
 package cn.bestsort.constant;
 
 import cn.bestsort.exception.LicException;
-
+import cn.bestsort.model.enums.LicMetaEnum;
 
 /**
  * @author bestsort
@@ -24,9 +24,7 @@ public interface ExceptionConstant {
     LicException MUST_BE_NOT_DIR = new LicException("目标必须是非文件夹", 4009);
     LicException MUST_BE_DIR = new LicException("目标必须是文件夹", 4010);
     LicException PARAM_ILLEGAL = new LicException("参数不合法，请检查", 4011);
-    /**
-     * 5XXX为系统错误
-     */
+
     LicException NOT_FOUND_FILE_SYS = new LicException("未找到对应的文件系统实现", 5001);
     LicException NOT_FOUND_ITEM = new LicException("目标未找到", 4004);
     LicException NOT_FOUND_SUCH_FILE = new LicException("该文件实体不存在", 4005);
@@ -40,4 +38,9 @@ public interface ExceptionConstant {
     LicException USER_EXIT = new LicException("用户已存在", 4017);
     LicException ROLE_EXIT = new LicException("角色已存在", 4018);
     LicException PERMISSION_EXIT = new LicException("权限已存在", 4019);
+    /**
+     * 5XXX为系统错误
+     */
+    LicException DELETE_FAILED = new LicException("文件删除失败", 5001);
+
 }
