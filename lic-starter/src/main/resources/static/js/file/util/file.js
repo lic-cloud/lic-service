@@ -130,7 +130,9 @@ function buildOperation(id, type) {
     }
     if (type == "recycle") {
         operation += '<i class="glyphicon glyphicon-repeat file-func-item" onclick="recover(' + id +
-            ')" title="从回收站恢复"></i>'
+            ')" title="从回收站恢复"></i>';
+        operation += '<i class="glyphicon glyphicon-trash file-func-item" onclick="remove(' + id +
+            ', false)" title="永久删除"></i>';
     }
     return operation;
 }
@@ -170,7 +172,8 @@ function recover(id) {
  */
 function remove(id, isLogicRemove) {
     ajax_sync_post("/file/delete?id=" + id + "&isLogicRemove=" + isLogicRemove);
-    jump2Dir("dt-table-normal", fetch_cur_pid())
+    jump2Dir(isLogicRemove ? "dt-table-normal" : "dt-table-recycle",
+        isLogicRemove ?fetch_cur_pid() : 0)
 }
 /// <summary>
 /// 格式化文件大小的JS方法
