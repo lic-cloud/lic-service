@@ -49,6 +49,28 @@ function moveFile(id, isCopy) {
     $('#dynamic-modal').modal('hide');
 }
 
+
+function detail(id) {
+    ajax_sync_get("/file/detail?id=" + id, null, function (response) {
+        $('.modal-body').empty();
+        let context = '';
+        for (let key in response)
+        {
+           context += "<span>" + key + ":  " + response[key] + " </span><br>"
+        }
+        $('.modal-body').append(context);
+        $('.modal-title').text("文件详情")
+        $('.modal-footer').empty();
+        $('.modal-footer').append(
+            '<button type="button" class="btn btn-primary" onclick="closeModel()">确定</button>');
+        $('#dynamic-modal').modal('show');
+    });
+}
+
+function closeModel() {
+    $('#dynamic-modal').modal('hide');
+}
+
 function createRemoveModel(id) {
     $('.modal-body').empty();
     let context =
@@ -94,7 +116,8 @@ function createDir() {
 function buildOperation(id, type) {
     // 默认按钮组， 文件的增改善查等
     let operation = "";
-    operation += '<i class="glyphicon glyphicon-info-sign file-func-item" title="详情"></i>'
+    operation += '<i class="glyphicon glyphicon-info-sign file-func-item" onclick="detail(' + id +
+        ')"  title="详情"></i>'
     if (type == "normal") {
         operation += '<i class="glyphicon glyphicon-share file-func-item" onclick="createShare(' + id +
             ')" title="分享" ></i>'
@@ -111,7 +134,6 @@ function buildOperation(id, type) {
     }
     return operation;
 }
-
 
 
 

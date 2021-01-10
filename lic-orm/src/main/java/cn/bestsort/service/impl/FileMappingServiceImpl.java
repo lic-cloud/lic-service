@@ -82,7 +82,7 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
     @Override
     public FileMapping getMapping(Long mappingId, Status status, boolean isShare) {
         FileMapping mapping = getById(mappingId);
-        if (status.equals(mapping.getStatus())) {
+        if (status == null || status.equals(mapping.getStatus())) {
             if (!isShare) {
                 UserUtil.checkIsOwner(mapping.getOwnerId());
             }
