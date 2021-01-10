@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.dto.RoleDTO;
 import cn.bestsort.model.entity.Role;
 import cn.bestsort.model.entity.RolePermission;
@@ -12,7 +13,6 @@ import cn.bestsort.repository.RoleRepository;
 import cn.bestsort.repository.RoleUserRepository;
 import cn.bestsort.repository.impl.RepositoryEntity;
 import cn.bestsort.service.AbstractBaseService;
-import cn.bestsort.service.RolePermissionService;
 import cn.bestsort.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,6 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
     private RolePermissionRepository rolePermissionRepository;
     @Autowired
     private RoleUserRepository roleUserRepository;
-    private final RolePermissionService rolePermissionService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -54,7 +53,8 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
     private void saveRole(Role role, List<Long> permissionIds) {
         Role r = roleRepo.findFirstByName(role.getName());
         if (r != null) {
-            throw new IllegalArgumentException(role.getName() + "已存在");
+            throw ExceptionConstant.ROLE_EXIT;
+            /*throw new IllegalArgumentException(role.getName() + "已存在");*/
         }
         save(role);
         if (!CollectionUtils.isEmpty(permissionIds)) {
@@ -62,14 +62,17 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
             for (int i = 0; i < permissionIds.size(); i++) {
                 lst.add(RolePermission.of(permissionIds.get(i), role.getId()));
             }
-            rolePermissionService.saveAll(lst);
+            rolePermissionRepository.saveAll(lst);
         }
     }
 
     private void updateRole(Role role, List<Long> permissionIds) {
         Role r = roleRepo.findFirstByName(role.getName());
+        //由角色名查询出来的角色id是否与传入的角色id相同  相同更新
+        //不同 即已存在相同名称的角色
         if (r != null && !r.getId().equals(role.getId())) {
-            throw new IllegalArgumentException(role.getName() + "已存在");
+            throw ExceptionConstant.ROLE_EXIT;
+            //throw new IllegalArgumentException(role.getName() + "已存在");
         }
         update(role, role.getId());
         rolePermissionRepository.deleteAllByRoleId(role.getId());
@@ -78,13 +81,16 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
             for (int i = 0; i < permissionIds.size(); i++) {
                 lst.add(RolePermission.of(permissionIds.get(i), role.getId()));
             }
-            rolePermissionService.saveAll(lst);
+            rolePermissionRepository.saveAll(lst);
         }
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteRole(Long id) {
+        if (roleUserRepository.findAllByRoleId(id) != null) {
+            throw ExceptionConstant.DICTIONARY_IN_USE;
+        }
         rolePermissionRepository.deleteAllByRoleId(id);
         roleUserRepository.deleteAllByRoleId(id);
         roleRepo.deleteAllById(id);
@@ -104,10 +110,9 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
     }
 
     protected RoleServiceImpl(
-        RoleRepository repository, RolePermissionService rolePermissionService) {
+        RoleRepository repository) {
         super(repository);
         roleRepo = repository;
-        this.rolePermissionService = rolePermissionService;
     }
 
 }

@@ -37,4 +37,7 @@ public interface ExceptionConstant {
     LicException USER_NOT_EXIT = new LicException("用户不存在", 4014);
     LicException OLD_PASSWORD_NOT_EXIT = new LicException("旧密码错误", 4015);
     LicException DICTIONARY_IN_USE = new LicException("使用中，无法删除", 4016);
+    LicException USER_EXIT = new LicException("用户已存在", 4017);
+    LicException ROLE_EXIT = new LicException("角色已存在", 4018);
+    LicException PERMISSION_EXIT = new LicException("权限已存在", 4019);
 }

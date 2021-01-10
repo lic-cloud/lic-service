@@ -2,8 +2,6 @@ package cn.bestsort.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import cn.bestsort.constant.ExceptionConstant;
 import cn.bestsort.model.dto.RoleDTO;
 import cn.bestsort.model.entity.Role;
 import cn.bestsort.model.entity.RoleUser;
@@ -86,9 +84,6 @@ public class RoleController {
     @ApiOperation(value = "删除角色")
     @PreAuthorize("hasAuthority('sys:role:del')")
     public void delete(@PathVariable Long id) {
-        if (roleUserService.listByRoleId(id) != null) {
-            throw ExceptionConstant.DICTIONARY_IN_USE;
-        }
         roleService.deleteRole(id);
     }
 }

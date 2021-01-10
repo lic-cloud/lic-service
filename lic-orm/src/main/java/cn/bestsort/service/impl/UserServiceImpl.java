@@ -47,6 +47,14 @@ public class UserServiceImpl extends AbstractBaseService<User, Long> implements 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public User saveUser(UserDTO userDto) {
+       /* StringBuffer message = getUsers(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
+        if (!"".contentEquals(message)) {
+            throw new IllegalArgumentException(message + "已存在");
+        }*/
+        List<User> all = userRepo.findAllByUsernameOrPhoneOrTelephoneOrEmail(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
+        if (all != null) {
+            throw ExceptionConstant.USER_EXIT;
+        }
         User user = new User();
         SpringUtil.cloneWithoutNullVal(userDto, user);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));

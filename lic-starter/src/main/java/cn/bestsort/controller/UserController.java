@@ -54,10 +54,6 @@ public class UserController {
     @ApiOperation(value = "保存用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
     public User saveUser(@RequestBody @Valid UserDTO userDto) {
-        StringBuffer message = userService.getUsers(userDto.getUsername(), userDto.getPhone(), userDto.getTelephone(), userDto.getEmail());
-        if (!"".contentEquals(message)) {
-            throw new IllegalArgumentException(message + "已存在");
-        }
         userDto.setInfiniteCapacity(false);
         return userService.saveUser(userDto);
     }
@@ -70,10 +66,6 @@ public class UserController {
         List<Long> list = new ArrayList<>();
         User user = new User();
         BeanUtils.copyProperties(userRegisterDTO, user);
-        StringBuffer message = userService.getUsers(user.getUsername(), user.getPhone(), user.getTelephone(), user.getEmail());
-        if (!"".contentEquals(message)) {
-            throw new IllegalArgumentException(message + "已存在");
-        }
         BeanUtils.copyProperties(user, userDto);
         String meta = metaInfoService.getMeta(LicMetaEnum.INIT_STATUS);
         if (InitStep.STEP_1.getKey().equals(meta)) {

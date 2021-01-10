@@ -190,7 +190,8 @@ public class PermissionController {
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void save(@RequestBody @Valid Permission permission) {
         if (permissionService.findByName(permission.getName()) != null) {
-            throw new IllegalArgumentException(permission.getName() + "已存在");
+            throw ExceptionConstant.PERMISSION_EXIT;
+            /*throw new IllegalArgumentException(permission.getName() + "已存在");*/
         } else {
             permissionService.save(permission);
         }

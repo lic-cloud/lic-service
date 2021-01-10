@@ -3,6 +3,8 @@ package cn.bestsort.repository;
 import cn.bestsort.model.entity.User;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 
 /**
  * @author GoodTime0313
@@ -57,4 +59,14 @@ public interface UserRepository extends BaseRepository<User, Long> {
      * @return
      */
     User findByUsernameAndAndEmail(String username,String email);
+
+    /**
+     * 查询满足任意条件的用户集合
+     * @param username
+     * @param phone
+     * @param telephone
+     * @param email
+     * @return
+     */
+    List<User> findAllByUsernameOrPhoneOrTelephoneOrEmail(String username, String phone, String telephone, String email);
 }
