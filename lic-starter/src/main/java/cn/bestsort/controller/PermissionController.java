@@ -209,6 +209,9 @@ public class PermissionController {
     @ApiOperation(value = "修改菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void update(@RequestBody @Valid Permission permission) {
+        if (!permissionService.findByName(permission.getName()).getId().equals(permission.getId())) {
+            throw ExceptionConstant.PERMISSION_EXIT;
+        }
         permissionService.update(permission, permission.getId());
     }
 

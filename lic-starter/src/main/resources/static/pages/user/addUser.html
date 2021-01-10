@@ -119,10 +119,12 @@
                 <div class="col-md-10">
                     <input class="form-control" placeholder="总容量(MB)" type="text" value="1024"
                            name="totalCapacity" id="totalCapacity"
-                           data-bv-stringlength="true"
-                           data-bv-stringlength-min="1"
-                           data-bv-stringlength-max="50"
-                           data-bv-stringlength-message="长度为1-50位">
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="总容量不能为空"
+
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="^\d{1,50}$"
+                           data-bv-regexp-message="长度为1-50位的数字">
                 </div>
             </div>
             <div class="form-actions">
