@@ -79,13 +79,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, "/users/register").permitAll()
             .antMatchers(HttpMethod.POST, "/users/retrievePassword").permitAll()
             .antMatchers(HttpMethod.GET, "/dicts").permitAll()
-            .antMatchers(HttpMethod.GET, "/install/**").permitAll()
-            .antMatchers(HttpMethod.POST, "/install/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/share/**").permitAll()
-            .antMatchers(HttpMethod.POST, "/share/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/share.html/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/file/**").permitAll()
-            .antMatchers(HttpMethod.POST, "/file/**").permitAll()
+            .antMatchers("/install/**").permitAll()
+            .antMatchers( "/share/**").permitAll()
+            .antMatchers( "/share.html/**").permitAll()
+            .antMatchers("/redictShare.html/**").permitAll()
+            .antMatchers("/file/**").permitAll()
             .anyRequest().authenticated();
         //配置登录的核心代码 登录成功失败异常的处理器SecurityHandlerConfig
         http.formLogin().loginPage("/login.html").loginProcessingUrl("/login")

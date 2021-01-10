@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://192.168.246.128:3306/lic?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://172.17.48.218:3306/lic?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: hejianglll
     type: com.alibaba.druid.pool.DruidDataSource

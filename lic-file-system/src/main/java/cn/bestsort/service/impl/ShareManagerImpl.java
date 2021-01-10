@@ -41,23 +41,15 @@ public class ShareManagerImpl implements ShareManager {
     final MetaInfoService    metaInfoService;
     public Page<FileMapping> listFilesByShare(String url, Long pid, Pageable pageable) {
         FileMapping fileMapping = fetchMappingByUrl(url);
+        // 分享的是文件
         if (!fileMapping.getIsDir()) {
             return new PageImpl<>(ImmutableList.of(fileMapping), pageable, 1L);
         }
-        // pid 为null表示用户刚进入查看分享的界面，此时不会传pid进来
+        // pid 为 -1 表示用户刚进入查看分享的界面，此时不会传pid进来
         if (pid == -1) {
-            pid = fileMapping.getPid();
+            pid = fileMapping.getId();
         }
-        // 查看分享的文件夹的子目录
-        // 向上查询检查当前子目录是否是当前分享的文件夹内的文件
-        // 根目录不可能被分享
-        while (!pid.equals(fileMapping.getId()) && fileMapping.getPid() != 0L) {
-            fileMapping = mappingService.getById(fileMapping.getPid());
-        }
-        if (pid.equals(fileMapping.getId())) {
-            return mappingService.listUserFiles(pageable,fileMapping.getOwnerId(), pid, Status.VALID, false);
-        }
-        throw ExceptionConstant.PARAM_ILLEGAL;
+        return mappingService.listUserFiles(pageable,fileMapping.getOwnerId(), pid, Status.VALID, false);
     }
 
     @Override
@@ -74,7 +66,7 @@ public class ShareManagerImpl implements ShareManager {
 
     @Override
     public Long count(String url, Long pid) {
-        return 1L;
+        return fileShareImpl.count();
     }
 
 

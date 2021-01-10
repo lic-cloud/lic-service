@@ -1,6 +1,9 @@
 package cn.bestsort.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import cn.bestsort.cache.CacheHandler;
 import cn.bestsort.model.entity.FileMapping;
@@ -10,6 +13,7 @@ import cn.bestsort.service.FileManagerHandler;
 import cn.bestsort.service.FileMappingService;
 import cn.bestsort.service.FileShareService;
 import cn.bestsort.service.LicFileManager;
+import cn.bestsort.service.UserService;
 import cn.bestsort.util.PageUtil;
 import cn.bestsort.util.UserUtil;
 import cn.bestsort.util.page.PageTableResponse;
@@ -41,6 +45,8 @@ public class FileController {
     @Autowired
     FileMappingService mappingService;
     @Autowired
+    UserService userService;
+    @Autowired
     FileShareService fileShareService;
     @Autowired
     FileManagerHandler handler;
@@ -49,14 +55,7 @@ public class FileController {
     private static final FileMapping ROOT_PATH_MAPPING = new FileMapping(
         "根目录", null, null, null, null, true, false, Status.VALID);
 
-    @ApiOperation("获取文件详情")
-    @GetMapping("/detail")
-    public ResponseEntity<FileDetailVO> getFileDetail(@RequestParam Long mappingId) {
-        FileDetailVO vo = new FileDetailVO();
-        vo.setMapping(mappingService.getMapping(mappingId, Status.VALID, false));
-        //TODO share
-        return ResponseEntity.ok(vo);
-    }
+
 
     @ApiOperation("文件恢复")
     @PostMapping("/recover")
@@ -77,6 +76,7 @@ public class FileController {
         mappingService.rename(name, id);
         return ResponseEntity.ok(true);
     }
+
 
     @ApiOperation("获取文件列表(返回PageTableResponse, 用于表格渲染)")
     @GetMapping("/page")
@@ -135,5 +135,19 @@ public class FileController {
                                           @RequestParam Boolean isLogicRemove) {
         fileManager.deleteFile(id, isLogicRemove);
         return ResponseEntity.ok(true);
+    }
+
+    @ApiOperation("详情")
+    @GetMapping("/detail")
+    public ResponseEntity<Map<String, Object>> detail(@RequestParam Long id) {
+        Map<String, Object> result = new HashMap<>();
+        FileMapping mapping = mappingService.getMapping(id, null, true);
+        result.put("文件ID", mapping.getId());
+        result.put("文件名", mapping.getFileName());
+        result.put("文件大小", mapping.getSize() + " KB");
+        result.put("分享状态", mapping.getShare() ? "已分享":"未分享");
+        result.put("所属用户", userService.getById(mapping.getOwnerId()).getNickname());
+        result.put("所处位置", Status.INVALID.equals(mapping.getStatus()) ? "回收站":"文件系统");
+        return ResponseEntity.of(Optional.of(result));
     }
 }
