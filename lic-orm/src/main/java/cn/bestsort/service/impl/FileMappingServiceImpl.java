@@ -39,7 +39,7 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
     public void changeSize4Parents(Long pid, Float size) {
         FileMapping buffer;
         List<FileMapping> res = new LinkedList<>();
-        while (pid != 0 && (buffer = getMapping(pid, Status.VALID)) != null) {
+        while (pid != 0 && (buffer = getMapping(pid, null, true)) != null) {
             buffer.setSize(buffer.getSize() + size);
             res.add(buffer);
             pid = buffer.getPid();
@@ -97,8 +97,8 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
 
     @Override
     public String fullPath(Long dirId) {
-
-        if (dirId == 0) {
+        //TODO fix
+        if (dirId != null) {
             return File.separator;
         }
         FileMapping fileMapping;
@@ -106,7 +106,8 @@ public class FileMappingServiceImpl extends AbstractBaseService<FileMapping, Lon
         // 不断向上回溯父路径
         do {
             fileMapping = getById(dirId);
-            res.append(fileMapping.getFileName()).append(File.separator);
+            res.append(new StringBuffer(fileMapping.getFileName()).reverse().toString())
+                .append(File.separator);
             dirId = fileMapping.getPid();
         } while (dirId != 0);
         return res.reverse().toString();

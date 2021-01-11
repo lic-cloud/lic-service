@@ -111,6 +111,9 @@ public class ShareManagerImpl implements ShareManager {
             fileShare = new FileShare(param.getMappingId(), user.getUsername(),
                           user.getId(), param.getPassword(), url, param.getExpire());
         }
+        FileMapping mapping = mappingService.getById(param.getMappingId());
+        mapping.setShare(true);
+        mappingService.save(mapping);
         return fileShareImpl.save(fileShare).getUrl();
     }
 
