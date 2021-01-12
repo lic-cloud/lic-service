@@ -23,7 +23,7 @@ function add(obj) {
         },
         error: function (xhr, status, error) {
             $(obj).attr("disabled", false);
-            layer.msg(xhr.responseText, {shift: -1, time: 4000});
+            layer.msg(xhr.responseJSON.errors, {shift: -1, time: 4000});
         }
     });
 }

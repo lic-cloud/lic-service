@@ -88,7 +88,7 @@ public class RoleServiceImpl extends AbstractBaseService<Role, Long>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteRole(Long id) {
-        if (roleUserRepository.findAllByRoleId(id) != null) {
+        if (!roleUserRepository.findAllByRoleId(id).isEmpty()) {
             throw ExceptionConstant.DICTIONARY_IN_USE;
         }
         rolePermissionRepository.deleteAllByRoleId(id);

@@ -5,17 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import cn.bestsort.constant.ExceptionConstant;
-import cn.bestsort.exception.LicException;
-import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.enums.LicMetaEnum;
 import cn.bestsort.model.enums.file.LocalHostMetaEnum;
 import cn.bestsort.model.vo.UploadTokenVO;
-import cn.bestsort.service.MetaInfoService;
 import cn.bestsort.util.FileUtil;
 import cn.bestsort.util.UrlUtil;
 import lombok.extern.slf4j.Slf4j;

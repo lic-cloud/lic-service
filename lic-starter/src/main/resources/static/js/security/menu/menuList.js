@@ -66,10 +66,11 @@ function del(id) {
             type: 'delete',
             url: '/permissions/' + id,
             success: function (data) {
+                layer.msg("删除权限信息成功", {shift: -1, time: 4000});
                 location.reload();
             },
             error: function (xhr, status, error) {
-                layer.msg(xhr.responseText, {shift: -1, time: 4000});
+                layer.msg(xhr.responseJSON.errors, {shift: -1, time: 4000});
             }
         });
     });

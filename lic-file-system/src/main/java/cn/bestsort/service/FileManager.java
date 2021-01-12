@@ -3,8 +3,6 @@ package cn.bestsort.service;
 import java.util.List;
 import java.util.Map;
 
-import cn.bestsort.exception.LicException;
-import cn.bestsort.model.dto.FileDTO;
 import cn.bestsort.model.entity.FileInfo;
 import cn.bestsort.model.enums.FileNamespace;
 import cn.bestsort.model.vo.UploadTokenVO;

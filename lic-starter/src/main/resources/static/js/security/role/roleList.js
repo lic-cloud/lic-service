@@ -78,10 +78,10 @@ function del(id) {
             url: '/roles/' + id,
             success: function (data) {
                 example.ajax.reload();
-                layer.msg("删除成功");
+                layer.msg("删除角色信息成功");
             },
             error(xhr, status, error){
-                layer.msg(xhr.responseText, {shift: -1, time: 4000});
+                layer.msg(xhr.responseJSON.errors, {shift: -1, time: 4000});
             }
         });
 

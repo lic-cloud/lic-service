@@ -46,13 +46,13 @@ function add(obj) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(format),
         success: function (data) {
-            layer.msg("成功", {shift: -1, time: 1000}, function () {
+            layer.msg("角色添加成功", {shift: -1, time: 1000}, function () {
                 location.href = "roleList.html";
             });
         },
         error: function (xhr, status, error) {
             $(obj).attr("disabled", false);
-            layer.msg(xhr.responseText, {shift: -1, time: 4000});
+            layer.msg(xhr.responseJSON.errors, {shift: -1, time: 4000});
         }
     });
 }

@@ -1,7 +1,6 @@
 package cn.bestsort.constant;
 
 import cn.bestsort.exception.LicException;
-import cn.bestsort.model.enums.LicMetaEnum;
 
 /**
  * @author bestsort

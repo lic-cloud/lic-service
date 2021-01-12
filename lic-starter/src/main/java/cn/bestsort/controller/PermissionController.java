@@ -209,7 +209,8 @@ public class PermissionController {
     @ApiOperation(value = "修改菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void update(@RequestBody @Valid Permission permission) {
-        if (!permissionService.findByName(permission.getName()).getId().equals(permission.getId())) {
+        boolean equals = permissionService.findByName(permission.getName()).getId().equals(permission.getId());
+        if (!equals) {
             throw ExceptionConstant.PERMISSION_EXIT;
         }
         permissionService.update(permission, permission.getId());
@@ -237,7 +238,7 @@ public class PermissionController {
     @ApiOperation(value = "删除菜单")
     @PreAuthorize("hasAuthority('sys:menu:del')")
     public void delete(@PathVariable Long id) {
-        if (iRolePermission.listByPermissionId(id) != null) {
+        if (!iRolePermission.listByPermissionId(id).isEmpty()) {
             throw ExceptionConstant.DICTIONARY_IN_USE;
         }
         permissionService.delete(id);
