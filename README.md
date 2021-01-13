@@ -1,4 +1,17 @@
 # lic-service
-## 1.实现热部署
-默认无配置，已添加依赖。  
-配置方式：[点击我](https://www.liuzhi.org.cn/springboot/springboot%e5%ae%9e%e7%8e%b0%e7%83%ad%e9%83%a8%e7%bd%b2.html)
+## 系统运行前设置
+1.使用的JDK版本为11
+2.创建名为lic的本地数据库 无需运行sql文件 
+  系统运行自动初始化数据：lic-starter/src/main/resources/import.sql
+3.修改config文件夹下application.yml里面的配置
+datasource:
+    url: xxx
+    username:xxx
+    password:xxx
+jpa:
+    hibernate:
+    ddl-auto: create或是none
+    #create：重新运行程序会初始化数据库
+    #none：保留数据库的数据不做操作
+4.运行本地redis
+5.运行系统 lic-starter/src/main/java/cn/bestsort/Main.java
