@@ -26,6 +26,7 @@ INSERT INTO `permission` VALUES (38, NULL, NULL, '', '', '查询', 37, 'dict:que
 INSERT INTO `permission` VALUES (39, NULL, NULL, '', '', '新增', 37, 'dict:add', 100, 2);
 INSERT INTO `permission` VALUES (40, NULL, NULL, '', '', '删除', 37, 'dict:del', 100, 2);
 INSERT INTO `permission` VALUES (41, '2020-10-11 12:10:24', '2020-10-11 12:11:05', 'fa-file', 'pages/file/file-list.html	', '文件列表', 0, '', 100, 1);
+INSERT INTO `permission` VALUES (42, '2020-10-11 12:10:24', '2020-10-11 12:11:05', 'fa-file', 'pages/file/recycle.html	', '回收站', 0, '', 100, 1);
 
 -- ----------------------------
 -- Records of role
